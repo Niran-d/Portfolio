@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.classList.add('reveal-ready');</script>
+  <title>Process · Niran D.</title>
+  <meta name="description" content="How Niran D. works: an AI-first design process that moves a problem from fuzzy to shipped in five stages." />
+  <meta property="og:title" content="Process · Niran D." />
+  <meta property="og:type" content="profile" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4a6b'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="site.css" />
+  <style>
+    /* ============================================================
+       Process — a "working manual" / field-guide treatment.
+       Annotated technical schematics (.dgm) over subtle graph paper,
+       in the site's Playfair Display + Source Sans 3 system.
+       ============================================================ */
+    .proc {
+      --paper: #fcfcfb;
+      --grid: rgba(0,0,0,.05);
+      --grid-strong: rgba(0,0,0,.09);
+      --diag-ink: rgba(0,0,0,.74);
+      --diag-soft: rgba(0,0,0,.34);
+      --crop: rgba(0,0,0,.30);
+    }
+    .mono { font-family: var(--sans); font-variant-numeric: tabular-nums lining-nums; letter-spacing: 0.02em; }
+
+    /* ---------- cover / masthead ---------- */
+    .proc-cover { padding-top: clamp(2.5rem, 6vw, 4.25rem); }
+    .proc-kicker {
+      display: flex; align-items: center; gap: 0.7rem;
+      font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em;
+      color: var(--faint);
+    }
+    .proc-kicker::before { content: ""; width: 26px; height: 1px; background: var(--accent); }
+    .proc-statement {
+      font-family: var(--display); font-weight: 500; color: var(--ink); margin-top: 1.2rem;
+      font-size: clamp(1.95rem, 1.05rem + 3.2vw, 2.85rem); line-height: 1.12; letter-spacing: -0.026em; max-width: 18ch;
+    }
+    .proc-intro { margin-top: 1.4rem; max-width: 56ch; font-size: 1.0625rem; color: var(--body); line-height: 1.72; }
+
+    /* edition meta strip */
+    .proc-meta {
+      display: flex; flex-wrap: wrap; gap: 0.6rem 2.4rem; margin-top: 2rem;
+      padding-top: 1.1rem; border-top: 1px solid var(--line);
+    }
+    .proc-meta div { display: flex; flex-direction: column; gap: 0.18rem; }
+    .proc-meta dt { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--faint); }
+    .proc-meta dd { font-size: 0.92rem; color: var(--ink); letter-spacing: -0.01em; }
+
+    /* cover overview figure (FIG.00) */
+    .cover-fig {
+      margin-top: 2.4rem; max-width: 760px; position: relative; border: 1px solid var(--line); border-radius: 16px;
+      background: var(--paper);
+      background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 24px 24px; background-position: center;
+      padding: clamp(1.1rem, 2.6vw, 1.9rem) clamp(1.1rem, 2.6vw, 2.1rem) clamp(0.7rem, 1.8vw, 1.1rem);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.05); overflow: hidden;
+      --accent-step: var(--accent);
+    }
+    .cover-fig .crop { position: absolute; width: 12px; height: 12px; border: 1px solid var(--crop); border-radius: 1px; }
+    .cover-fig .crop.tl { top: 9px; left: 9px; border-right: 0; border-bottom: 0; }
+    .cover-fig .crop.tr { top: 9px; right: 9px; border-left: 0; border-bottom: 0; }
+    .cover-fig .crop.bl { bottom: 9px; left: 9px; border-right: 0; border-top: 0; }
+    .cover-fig .crop.br { bottom: 9px; right: 9px; border-left: 0; border-top: 0; }
+    .cover-cap {
+      display: flex; flex-wrap: wrap; gap: 0.5rem 0.8rem; align-items: baseline; margin-top: 0.4rem;
+      font-size: 0.68rem; color: var(--faint); letter-spacing: 0.04em;
+    }
+    .cover-cap .fig-id { font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
+    .cover-cap em { font-style: normal; color: var(--muted); }
+
+    /* ---------- contents ---------- */
+    .proc-contents { margin-top: clamp(3rem, 6vw, 4.5rem); }
+    .contents-label {
+      font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: var(--faint);
+      display: flex; align-items: center; gap: 0.7rem;
+    }
+    .contents-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    .contents-list { list-style: none; margin-top: 0.4rem; }
+    .contents-list li { border-bottom: 1px solid var(--line-soft); }
+    .contents-list a {
+      display: grid; grid-template-columns: 3.2rem minmax(0,1fr) auto; align-items: baseline; gap: 0.9rem;
+      padding: 0.85rem 0.3rem; text-decoration: none; color: var(--ink);
+      transition: background var(--dur) var(--ease), padding var(--dur) var(--ease);
+    }
+    .contents-list a:hover { background: var(--surface); padding-left: 0.7rem; padding-right: 0.7rem; border-radius: 8px; }
+    .contents-list .c-num { font-size: 0.78rem; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; }
+    .contents-list .c-title { font-family: var(--display); font-weight: 500; font-size: 1.02rem; letter-spacing: -0.012em; }
+    .contents-list .c-tag { font-size: 0.74rem; color: var(--muted); text-align: right; }
+
+    /* ---------- the five methods ---------- */
+    .process { list-style: none; margin-top: clamp(2.6rem, 5vw, 3.8rem); max-width: 1000px; }
+    .pstep {
+      position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr);
+      gap: clamp(0.9rem, 2.4vw, 1.8rem); padding-bottom: clamp(3rem, 6vw, 5rem); scroll-margin-top: 104px;
+      --accent-step: var(--accent); --tint: var(--surface); --tint2: var(--line); --ring: rgba(0,0,0,.05);
+    }
+    .pstep:last-child { padding-bottom: 0; }
+    .pstep::before {
+      content: ""; position: absolute; left: 27px; top: 54px; bottom: 0; width: 2px;
+      background: linear-gradient(var(--accent-step), var(--line) 88%);
+      transform: scaleY(0); transform-origin: top; border-radius: 2px;
+    }
+    .pstep:last-child::before { display: none; }
+    .pstep-rail { display: flex; justify-content: center; }
+    .pstep-num {
+      width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+      font-family: var(--display); font-weight: 500; font-size: 1rem; color: var(--accent-step);
+      background: #fff; border: 1.5px solid var(--accent-step); box-shadow: 0 0 0 5px var(--ring);
+    }
+    .pstep-body { display: grid; grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr); gap: clamp(1.3rem, 3.2vw, 2.8rem); align-items: center; }
+    .pstep-title { font-family: var(--display); font-weight: 500; font-size: clamp(1.3rem, 2.4vw, 1.62rem); letter-spacing: -0.015em; color: var(--ink); line-height: 1.16; }
+    .pstep-lead { color: var(--accent-step); font-weight: 500; font-size: 0.92rem; margin-top: 0.35rem; }
+    .pstep-desc { color: var(--body); margin-top: 0.85rem; line-height: 1.66; max-width: 46ch; }
+    .pstep-focus { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.05rem; }
+    .pstep-focus li { font-size: 0.72rem; color: var(--muted); border: 1px solid var(--tint2); background: var(--tint); padding: 0.32rem 0.62rem; border-radius: 999px; }
+    .pstep-out { margin-top: 1.1rem; font-size: 0.88rem; color: var(--ink); line-height: 1.55; display: flex; gap: 0.55rem; align-items: baseline; max-width: 46ch; }
+    .pstep-out b { font-family: var(--sans); font-weight: 600; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-step); flex: 0 0 auto; padding-top: 0.14em; }
+
+    /* ---------- figure (annotated schematic) ---------- */
+    .pstep-visual { margin: 0; display: flex; flex-direction: column; gap: 0.55rem; }
+    .fig-cap-top {
+      display: flex; align-items: baseline; gap: 0.55rem;
+      font-size: 0.66rem; letter-spacing: 0.08em; color: var(--faint);
+    }
+    .fig-cap-top .fig-id { font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-step); }
+    .fig-cap-top .fig-tag { color: var(--muted); }
+    .fig-cap-top .fig-tag::before { content: "[ "; color: var(--faint); }
+    .fig-cap-top .fig-tag::after { content: " ]"; color: var(--faint); }
+    .fig-cap-top .fig-idx { margin-left: auto; color: var(--faint); letter-spacing: 0.06em; }
+
+    .pfig-frame {
+      position: relative; border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+      background: var(--paper);
+      background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 22px 22px; background-position: center;
+      padding: clamp(0.9rem, 2.4vw, 1.5rem); box-shadow: 0 16px 44px rgba(0,0,0,0.045);
+    }
+    .pfig-frame .crop { position: absolute; width: 11px; height: 11px; border: 1px solid var(--crop); }
+    .pfig-frame .crop.tl { top: 8px; left: 8px; border-right: 0; border-bottom: 0; }
+    .pfig-frame .crop.tr { top: 8px; right: 8px; border-left: 0; border-bottom: 0; }
+    .pfig-frame .crop.bl { bottom: 8px; left: 8px; border-right: 0; border-top: 0; }
+    .pfig-frame .crop.br { bottom: 8px; right: 8px; border-left: 0; border-top: 0; }
+    .fig-cap { font-size: 0.76rem; color: var(--muted); line-height: 1.5; max-width: 48ch; }
+    .fig-cap b { color: var(--ink); font-weight: 550; }
+
+    /* diagram primitives — fine ink line-art with a single slate accent */
+    .dgm { display: block; width: 100%; height: auto; overflow: visible; color: var(--diag-ink); }
+    .dgm .ink { fill: none; stroke: var(--diag-ink); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+    .dgm .soft { fill: none; stroke: var(--diag-soft); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+    .dgm .acc { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .dgm .lead { fill: none; stroke: var(--diag-soft); stroke-width: 0.9; stroke-dasharray: 1 3.2; stroke-linecap: round; }
+    .dgm .guide { fill: none; stroke: var(--diag-soft); stroke-width: 0.9; stroke-dasharray: 3.5 3.5; }
+    .dgm .panel { fill: #fff; stroke: var(--diag-ink); stroke-width: 1.1; }
+    .dgm .panel-acc { fill: color-mix(in srgb, var(--accent) 8%, #fff); stroke: var(--accent); stroke-width: 1.3; }
+    .dgm .fill-ink { fill: var(--diag-ink); stroke: none; }
+    .dgm .fill-soft { fill: var(--diag-soft); stroke: none; }
+    .dgm .fill-acc { fill: var(--accent); stroke: none; }
+    .dgm .bar { fill: color-mix(in srgb, var(--accent) 14%, #fff); stroke: var(--accent); stroke-width: 1.2; }
+    .dgm .bar-mute { fill: #fff; stroke: var(--diag-soft); stroke-width: 1; }
+    .dgm text { font-family: var(--sans); fill: var(--muted); font-size: 8.5px; letter-spacing: 0.01em; }
+    .dgm .lbl { text-transform: uppercase; font-size: 6.6px; letter-spacing: 0.13em; font-weight: 600; fill: var(--faint); }
+    .dgm .val { fill: var(--accent); font-weight: 600; font-size: 8.8px; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
+    .dgm .node-t { fill: var(--ink); font-weight: 550; font-size: 8px; }
+
+    /* ---------- draw-in animation (gated; static otherwise) ---------- */
+    @media (prefers-reduced-motion: no-preference) {
+      html.reveal-ready .pstep::before { transition: transform 0.85s var(--ease) 0.1s; }
+      html.reveal-ready .pstep.is-revealed::before { transform: scaleY(1); }
+
+      html.reveal-ready .dgm .draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.05s var(--ease) var(--dd, 0.25s); }
+      html.reveal-ready .is-revealed .dgm .draw { stroke-dashoffset: 0; }
+
+      html.reveal-ready .dgm .pop { opacity: 0; transform: scale(0.7); transform-box: fill-box; transform-origin: center; transition: opacity 0.5s var(--ease) var(--dd, 0.55s), transform 0.5s var(--ease) var(--dd, 0.55s); }
+      html.reveal-ready .is-revealed .dgm .pop { opacity: 1; transform: none; }
+
+      html.reveal-ready .dgm .fade { opacity: 0; transition: opacity 0.6s var(--ease) var(--dd, 0.6s); }
+      html.reveal-ready .is-revealed .dgm .fade { opacity: 1; }
+
+      html.reveal-ready .dgm .grow { transform: scaleY(0); transform-box: fill-box; transform-origin: bottom; transition: transform 0.8s var(--ease) var(--dd, 0.3s); }
+      html.reveal-ready .is-revealed .dgm .grow { transform: none; }
+    }
+    /* reduced motion: keep the spine drawn (it's not re-shown by the motion path above) */
+    @media (prefers-reduced-motion: reduce) { .pstep::before { transform: scaleY(1); } }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 860px) {
+      .pstep-body { grid-template-columns: 1fr; gap: 1.2rem; }
+      .pstep-visual { order: 2; }
+    }
+    @media (max-width: 760px) {
+      .pstep { grid-template-columns: 40px 1fr; gap: 0.95rem; }
+      .pstep-num { width: 38px; height: 38px; font-size: 0.95rem; box-shadow: 0 0 0 4px var(--ring); }
+      .pstep::before { left: 23px; top: 42px; }
+      .contents-list a { grid-template-columns: 2.6rem 1fr; }
+      .contents-list .c-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+
+  <header class="nav" data-nav>
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark">Niran D.</a>
+      <button class="nav-toggle" data-nav-toggle type="button" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link is-active" href="process.html">Process</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Work
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu" role="menu">
+            <a class="menu-item" role="menuitem" href="kayak-ai.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5.1a3 3 0 0 0 1.9 1.9L20.7 12l-5.1 1.7a3 3 0 0 0-1.9 1.9L12 20.7l-1.7-5.1a3 3 0 0 0-1.9-1.9L3.3 12l5.1-1.7a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK.ai</span><span class="menu-sub">Standalone AI travel assistant</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-ai-chat.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.2V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK AI Chat</span><span class="menu-sub">Embedded conversational search</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-search-overview.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16M4 12h16M4 17.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK Search Overview</span><span class="menu-sub">AI guidance on flight results</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="highradius-collections.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V9.5M9.3 19.5V5.5M14.7 19.5V12M20 19.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Autonomous Collections</span><span class="menu-sub">AI-assisted receivables, HighRadius</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="come-touch-grass.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4M12 18c0-2.5 2-4 4.5-4s4 1.4 4 3.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Come touch grass</span><span class="menu-sub">A real-time crowd for live talks</span></span>
+            </a>
+          </div>
+        </div>
+        <a class="nav-link" href="play.html">Play</a>
+        <a class="nav-link" href="photos.html">Photos</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Contact
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu menu-right" role="menu">
+            <button class="menu-item" role="menuitem" type="button" data-copy-email>
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Email</span><span class="menu-sub" data-copy-label>Copy my address</span></span>
+            </button>
+            <a class="menu-item" role="menuitem" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">LinkedIn</span><span class="menu-sub">Let's connect</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="#" data-resume-link target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Resume</span><span class="menu-sub">Download PDF</span></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="mainContent" class="proc">
+    <section class="proc-cover">
+      <div class="shell">
+        <p class="proc-kicker">A working manual · field notes on shipping</p>
+        <h1 class="proc-statement">An AI-first design process, from fuzzy problem to shipped product.</h1>
+        <p class="proc-intro">I work <mark class="hl hl-blue">AI-first</mark>. I use language models to compress the slow parts of design, understanding, synthesis, and exploration, so my time goes to judgment and craft. What follows is the five-stage method every project runs through, drawn as figures.</p>
+
+        <dl class="proc-meta">
+          <div><dt>Edition</dt><dd class="mono">v1.0 · 2026</dd></div>
+          <div><dt>Methods</dt><dd class="mono">5 stages</dd></div>
+          <div><dt>Reads as</dt><dd>Fuzzy → shipped</dd></div>
+          <div><dt>Posture</dt><dd>AI-first, craft-led</dd></div>
+        </dl>
+
+        <div class="cover-fig" data-reveal>
+          <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+          <svg class="dgm" viewBox="0 0 640 112" role="img" aria-label="Process overview: a fuzzy problem moves left to right through five numbered methods to become a shipped product.">
+            <path class="ink draw" pathLength="1" d="M92 60 H548" />
+            <!-- input cap -->
+            <path class="lead" d="M44 60 H78" />
+            <path class="fill-ink pop" style="--dd:.25s" d="M79 60 l-7 -3 v6 z" />
+            <text class="fade" x="74" y="44" text-anchor="end">fuzzy problem</text>
+            <!-- output cap (single accent: the destination) -->
+            <path class="acc draw" pathLength="1" style="--dd:1.05s" d="M561 60 H596" />
+            <path class="fill-acc pop" style="--dd:1.15s" d="M598 60 l-7 -3 v6 z" />
+            <text class="val fade" x="566" y="44" text-anchor="start">shipped product</text>
+            <!-- nodes -->
+            <g class="pop" style="--dd:.45s"><circle class="panel" cx="92" cy="60" r="13" /><text class="node-t" x="92" y="63" text-anchor="middle">01</text><text class="lbl fade" x="92" y="90" text-anchor="middle">Frame</text></g>
+            <g class="pop" style="--dd:.6s"><circle class="panel" cx="206" cy="60" r="13" /><text class="node-t" x="206" y="63" text-anchor="middle">02</text><text class="lbl fade" x="206" y="90" text-anchor="middle">Validate</text></g>
+            <g class="pop" style="--dd:.75s"><circle class="panel" cx="320" cy="60" r="13" /><text class="node-t" x="320" y="63" text-anchor="middle">03</text><text class="lbl fade" x="320" y="90" text-anchor="middle">Prototype</text></g>
+            <g class="pop" style="--dd:.9s"><circle class="panel" cx="434" cy="60" r="13" /><text class="node-t" x="434" y="63" text-anchor="middle">04</text><text class="lbl fade" x="434" y="90" text-anchor="middle">Systemize</text></g>
+            <g class="pop" style="--dd:1.05s"><circle class="panel-acc" cx="548" cy="60" r="13" /><text class="node-t" x="548" y="63" text-anchor="middle" style="fill:var(--accent)">05</text><text class="lbl fade" x="548" y="90" text-anchor="middle">Iterate</text></g>
+          </svg>
+          <p class="cover-cap"><span class="fig-id">Fig. 00</span> <em>The method, end to end. Each stage is detailed in the figures that follow.</em></p>
+        </div>
+
+        <nav class="proc-contents" aria-label="Contents">
+          <p class="contents-label">Contents</p>
+          <ol class="contents-list">
+            <li><a href="#fig-01"><span class="c-num mono">01</span><span class="c-title">Start with an LLM</span><span class="c-tag">problem framing</span></a></li>
+            <li><a href="#fig-02"><span class="c-num mono">02</span><span class="c-title">Validate assumptions</span><span class="c-tag">evidence</span></a></li>
+            <li><a href="#fig-03"><span class="c-num mono">03</span><span class="c-title">Prototype with AI tools</span><span class="c-tag">behavior &amp; states</span></a></li>
+            <li><a href="#fig-04"><span class="c-num mono">04</span><span class="c-title">Bring it into Figma</span><span class="c-tag">the system</span></a></li>
+            <li><a href="#fig-05"><span class="c-num mono">05</span><span class="c-title">Iterate with users</span><span class="c-tag">the loop</span></a></li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+    <section class="proc-top">
+      <div class="shell">
+        <ol class="process">
+          <li class="pstep" id="fig-01" data-reveal>
+            <div class="pstep-rail"><span class="pstep-num">01</span></div>
+            <div class="pstep-body">
+              <div class="pstep-content">
+                <h2 class="pstep-title">Start with an LLM</h2>
+                <p class="pstep-lead">Understand before designing.</p>
+                <p class="pstep-desc">I get fluent in the problem before I open a design tool, pressure-testing intent, synthesizing research, and mapping edge cases in minutes instead of days.</p>
+                <ul class="pstep-focus"><li>Clarify user intent</li><li>Synthesize research</li><li>Map edge cases</li><li>Sketch patterns</li></ul>
+                <p class="pstep-out"><b>Outcome</b><span>A sharp read on the user, the constraints, and where the real leverage is.</span></p>
+              </div>
+              <figure class="pstep-visual">
+                <figcaption class="fig-cap-top"><span class="fig-id">Fig. 01</span><span class="fig-tag">problem framing</span><span class="fig-idx mono">01 / 05</span></figcaption>
+                <div class="pfig-frame">
+                  <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+                  <svg class="dgm" viewBox="0 0 420 244" role="img" aria-label="A noisy intent signal passes through a language model and leaves as a framed, structured brief.">
+                    <!-- input: noisy waveform on a measured axis -->
+                    <path class="soft" d="M34 168 H156" />
+                    <path class="soft" d="M34 164 V172 M75 164 V172 M116 164 V172 M156 164 V172" />
+                    <path class="ink draw" pathLength="1" d="M34 112 L48 92 L60 134 L74 88 L86 128 L100 92 L112 132 L126 96 L140 118 L156 110" />
+                    <text class="lbl fade" x="95" y="192" text-anchor="middle">raw intent</text>
+                    <!-- arrow into node -->
+                    <path class="ink draw" pathLength="1" style="--dd:.5s" d="M164 112 H190" />
+                    <path class="fill-ink pop" style="--dd:.95s" d="M192 112 l-8 -3.5 v7 z" />
+                    <!-- LLM node (single accent: the transformation) -->
+                    <g class="pop" style="--dd:.6s">
+                      <circle class="panel-acc" cx="224" cy="112" r="30" />
+                      <text class="val" x="224" y="110" text-anchor="middle">LLM</text>
+                      <text class="lbl" x="224" y="123" text-anchor="middle">synthesis</text>
+                    </g>
+                    <text class="lbl fade" x="224" y="62" text-anchor="middle">pressure-test</text>
+                    <path class="soft" d="M224 68 V80" />
+                    <!-- arrow into doc -->
+                    <path class="ink draw" pathLength="1" style="--dd:.7s" d="M258 112 H300" />
+                    <path class="fill-ink pop" style="--dd:1.1s" d="M302 112 l-8 -3.5 v7 z" />
+                    <!-- framed problem: structured brief -->
+                    <g class="pop" style="--dd:.85s">
+                      <rect class="panel" x="310" y="78" width="84" height="70" rx="7" />
+                      <rect class="fill-acc" x="320" y="89" width="40" height="5" rx="2.5" />
+                      <rect class="fill-soft" x="320" y="102" width="64" height="3.5" rx="1.75" />
+                      <rect class="fill-soft" x="320" y="112" width="64" height="3.5" rx="1.75" />
+                      <rect class="fill-soft" x="320" y="122" width="48" height="3.5" rx="1.75" />
+                      <rect class="fill-soft" x="320" y="132" width="58" height="3.5" rx="1.75" />
+                    </g>
+                    <text class="lbl fade" x="352" y="192" text-anchor="middle">framed problem</text>
+                  </svg>
+                </div>
+                <figcaption class="fig-cap"><b>Noise reduced to signal.</b> Raw intent enters the model and leaves as a structured brief: the user, the constraints, and the real leverage.</figcaption>
+              </figure>
+            </div>
+          </li>
+
+          <li class="pstep" id="fig-02" data-reveal>
+            <div class="pstep-rail"><span class="pstep-num">02</span></div>
+            <div class="pstep-body">
+              <div class="pstep-content">
+                <h2 class="pstep-title">Validate assumptions</h2>
+                <p class="pstep-lead">Talk to people before committing.</p>
+                <p class="pstep-desc">I go to users early, through interviews, support tickets, and behavioral data, to replace opinions with evidence about what they're trying to do and where they get stuck.</p>
+                <ul class="pstep-focus"><li>Customer interviews</li><li>Usability sessions</li><li>Ticket mining</li><li>Behavioral data</li></ul>
+                <p class="pstep-out"><b>Outcome</b><span>Evidence replaces assumptions, so the riskiest ideas fail cheaply.</span></p>
+              </div>
+              <figure class="pstep-visual">
+                <figcaption class="fig-cap-top"><span class="fig-id">Fig. 02</span><span class="fig-tag">evidence</span><span class="fig-idx mono">02 / 05</span></figcaption>
+                <div class="pfig-frame">
+                  <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+                  <svg class="dgm" viewBox="0 0 420 244" role="img" aria-label="Friction themes ranked by frequency from interviews, tickets and behavioral data, with the top theme highlighted.">
+                    <!-- source caption -->
+                    <text class="lbl fade" x="58" y="30">n = interviews · tickets · behavior</text>
+                    <!-- axes -->
+                    <path class="ink draw" pathLength="1" d="M58 50 V190 H392" />
+                    <path class="soft" d="M54 62 H58 M54 126 H58 M54 190 H58" />
+                    <text class="lbl" x="50" y="65" text-anchor="end">100</text>
+                    <text class="lbl" x="50" y="129" text-anchor="end">50</text>
+                    <text class="lbl" x="50" y="193" text-anchor="end">0</text>
+                    <!-- bars (value = % of sessions citing the theme) -->
+                    <rect class="bar grow" style="--dd:.35s" x="80" y="78" width="46" height="112" rx="2.5" />
+                    <rect class="bar-mute grow" style="--dd:.45s" x="150" y="100" width="46" height="90" rx="2.5" />
+                    <rect class="bar-mute grow" style="--dd:.55s" x="220" y="124" width="46" height="66" rx="2.5" />
+                    <rect class="bar-mute grow" style="--dd:.65s" x="290" y="143" width="46" height="47" rx="2.5" />
+                    <!-- leading-theme callout, stacked clear of the bars -->
+                    <text class="lbl fade" x="103" y="60" text-anchor="middle">primary friction</text>
+                    <text class="val fade" x="103" y="73" text-anchor="middle">88%</text>
+                    <!-- category labels -->
+                    <text class="lbl fade" x="103" y="206" text-anchor="middle">Compare</text>
+                    <text class="lbl fade" x="173" y="206" text-anchor="middle">Filters</text>
+                    <text class="lbl fade" x="243" y="206" text-anchor="middle">Pricing</text>
+                    <text class="lbl fade" x="313" y="206" text-anchor="middle">Trust</text>
+                  </svg>
+                </div>
+                <figcaption class="fig-cap"><b>Opinions, ranked into evidence.</b> Interviews, tickets, and behavioral data converge on the same leading friction, so the riskiest bets fail cheaply.</figcaption>
+              </figure>
+            </div>
+          </li>
+
+          <li class="pstep" id="fig-03" data-reveal>
+            <div class="pstep-rail"><span class="pstep-num">03</span></div>
+            <div class="pstep-body">
+              <div class="pstep-content">
+                <h2 class="pstep-title">Prototype with AI tools</h2>
+                <p class="pstep-lead">Design the behavior, not the screen.</p>
+                <p class="pstep-desc">I build runnable prototypes so teams can feel the interaction, its states, transitions, and failure modes, and decide on behavior before anyone invests in polish.</p>
+                <ul class="pstep-focus"><li>Interaction design</li><li>User flows</li><li>State handling</li><li>Motion &amp; feedback</li></ul>
+                <p class="pstep-out"><b>Outcome</b><span>Decisions get tested in something real, before significant build cost.</span></p>
+              </div>
+              <figure class="pstep-visual">
+                <figcaption class="fig-cap-top"><span class="fig-id">Fig. 03</span><span class="fig-tag">behavior &amp; states</span><span class="fig-idx mono">03 / 05</span></figcaption>
+                <div class="pfig-frame">
+                  <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+                  <svg class="dgm" viewBox="0 0 420 244" role="img" aria-label="A state diagram: three states connected by transitions, a bezier-curved transition with a parameter, a failure branch, and a retry loop.">
+                    <!-- transitions -->
+                    <path class="ink draw" pathLength="1" style="--dd:.5s" d="M100 92 C130 66 156 66 182 92" />
+                    <path class="fill-ink pop" style="--dd:.95s" d="M182 92 l-8 -3 v7 z" />
+                    <path class="ink draw" pathLength="1" style="--dd:.6s" d="M238 92 C268 66 294 66 320 92" />
+                    <path class="fill-ink pop" style="--dd:1.05s" d="M320 92 l-8 -3 v7 z" />
+                    <!-- bezier control handle annotation (single accent) -->
+                    <path class="acc" d="M141 72 V56" />
+                    <circle class="fill-acc pop" style="--dd:1.1s" cx="141" cy="54" r="2.6" />
+                    <text class="val fade" x="149" y="52">t = 0.12</text>
+                    <!-- failure branch -->
+                    <path class="guide" d="M210 116 V170" />
+                    <path class="fill-ink pop" style="--dd:1.15s" d="M210 172 l-3.5 -8 h7 z" />
+                    <text class="lbl fade" x="220" y="148">failure mode</text>
+                    <!-- retry self-loop on state C -->
+                    <path class="soft draw" pathLength="1" style="--dd:.9s" d="M362 74 C386 54 398 76 378 90" />
+                    <path class="fill-soft pop" style="--dd:1.2s" d="M378 90 l1.5 -8 l5 4.5 z" />
+                    <text class="lbl fade" x="396" y="60" text-anchor="end">retry</text>
+                    <!-- states -->
+                    <g class="pop" style="--dd:.4s"><rect class="panel" x="44" y="72" width="54" height="40" rx="6" /><rect class="fill-soft" x="52" y="80" width="26" height="4" rx="2" /><rect class="fill-soft" x="52" y="90" width="38" height="3" rx="1.5" /><rect class="fill-soft" x="52" y="98" width="30" height="3" rx="1.5" /><text class="lbl" x="71" y="128" text-anchor="middle">state</text></g>
+                    <g class="pop" style="--dd:.55s"><rect class="panel-acc" x="183" y="72" width="54" height="40" rx="6" /><rect class="fill-acc" x="191" y="80" width="26" height="4" rx="2" /><rect class="fill-soft" x="191" y="90" width="38" height="3" rx="1.5" /><rect class="fill-soft" x="191" y="98" width="30" height="3" rx="1.5" /><text class="val" x="210" y="128" text-anchor="middle">active</text></g>
+                    <g class="pop" style="--dd:.7s"><rect class="panel" x="322" y="72" width="54" height="40" rx="6" /><rect class="fill-soft" x="330" y="80" width="26" height="4" rx="2" /><rect class="fill-soft" x="330" y="90" width="38" height="3" rx="1.5" /><rect class="fill-soft" x="330" y="98" width="30" height="3" rx="1.5" /><text class="lbl" x="349" y="128" text-anchor="middle">state</text></g>
+                    <!-- failure state -->
+                    <g class="pop" style="--dd:1.1s"><rect x="183" y="172" width="54" height="34" rx="6" fill="#fff" stroke="var(--diag-soft)" stroke-width="1.1" stroke-dasharray="4 3.5" /><path class="soft" d="M201 181 l18 16 M219 181 l-18 16" /></g>
+                  </svg>
+                </div>
+                <figcaption class="fig-cap"><b>The interaction as a machine.</b> States, transitions, and failure paths get felt in something runnable, so behavior is decided before build cost.</figcaption>
+              </figure>
+            </div>
+          </li>
+
+          <li class="pstep" id="fig-04" data-reveal>
+            <div class="pstep-rail"><span class="pstep-num">04</span></div>
+            <div class="pstep-body">
+              <div class="pstep-content">
+                <h2 class="pstep-title">Bring it into Figma</h2>
+                <p class="pstep-lead">Make it scalable and consistent.</p>
+                <p class="pstep-desc">Validated concepts become systems: clear hierarchy, reusable components, accessible defaults, and specs engineering can ship without guesswork.</p>
+                <ul class="pstep-focus"><li>Visual hierarchy</li><li>Components</li><li>Accessibility</li><li>Production specs</li></ul>
+                <p class="pstep-out"><b>Outcome</b><span>A cohesive, scalable experience, refined in Figma, not invented there.</span></p>
+              </div>
+              <figure class="pstep-visual">
+                <figcaption class="fig-cap-top"><span class="fig-id">Fig. 04</span><span class="fig-tag">the system</span><span class="fig-idx mono">04 / 05</span></figcaption>
+                <div class="pfig-frame">
+                  <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+                  <svg class="dgm" viewBox="0 0 420 244" role="img" aria-label="An exploded view of the design system: four stacked layers, from tokens up to pages, with the components layer highlighted.">
+                    <text class="lbl fade" x="68" y="30">exploded view · system layers</text>
+                    <!-- exploded alignment guides -->
+                    <path class="lead" d="M68 60 V210" />
+                    <path class="lead" d="M232 60 V210" />
+                    <path class="lead" d="M150 38 V188" />
+                    <!-- layers (isometric tiles), bottom to top -->
+                    <path class="panel draw" pathLength="1" style="--dd:.4s" d="M150 188 L232 210 L150 232 L68 210 Z" />
+                    <path class="panel draw" pathLength="1" style="--dd:.5s" d="M150 138 L232 160 L150 182 L68 160 Z" />
+                    <path class="panel-acc draw" pathLength="1" style="--dd:.6s" d="M150 88 L232 110 L150 132 L68 110 Z" />
+                    <path class="panel draw" pathLength="1" style="--dd:.7s" d="M150 38 L232 60 L150 82 L68 60 Z" />
+                    <!-- leaders to labels -->
+                    <path class="lead" d="M232 60 H272" /><text class="fade" x="278" y="63">Pages</text>
+                    <path class="lead" d="M232 110 H272" /><text class="val fade" x="278" y="113">Components</text>
+                    <path class="lead" d="M232 160 H272" /><text class="fade" x="278" y="163">Patterns</text>
+                    <path class="lead" d="M232 210 H272" /><text class="fade" x="278" y="213">Tokens</text>
+                  </svg>
+                </div>
+                <figcaption class="fig-cap"><b>Refined, not invented, in Figma.</b> Validated concepts resolve into layers, from tokens up to pages, that engineering can ship without guesswork.</figcaption>
+              </figure>
+            </div>
+          </li>
+
+          <li class="pstep" id="fig-05" data-reveal>
+            <div class="pstep-rail"><span class="pstep-num">05</span></div>
+            <div class="pstep-body">
+              <div class="pstep-content">
+                <h2 class="pstep-title">Iterate with users</h2>
+                <p class="pstep-lead">Shipping is the start, not the finish.</p>
+                <p class="pstep-desc">After launch I watch real behavior, analytics, session recordings, adoption, and friction, and feed what I learn straight back into the next round.</p>
+                <ul class="pstep-focus"><li>Usability testing</li><li>Product analytics</li><li>Session recordings</li><li>Friction analysis</li></ul>
+                <p class="pstep-out"><b>Outcome</b><span>Continuous improvement driven by behavior, not opinions.</span></p>
+              </div>
+              <figure class="pstep-visual">
+                <figcaption class="fig-cap-top"><span class="fig-id">Fig. 05</span><span class="fig-tag">the loop</span><span class="fig-idx mono">05 / 05</span></figcaption>
+                <div class="pfig-frame">
+                  <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+                  <svg class="dgm" viewBox="0 0 420 244" role="img" aria-label="A feedback loop of ship, measure, learn and refine, alongside an adoption curve rising to plus 123 percent.">
+                    <!-- feedback loop (single accent) -->
+                    <path class="acc draw" pathLength="1" style="--dd:.4s" d="M126 70 A52 52 0 0 1 126 174" />
+                    <path class="fill-acc pop" style="--dd:1s" d="M118 174 l8 -3.5 v7 z" />
+                    <path class="acc draw" pathLength="1" style="--dd:.6s" d="M126 174 A52 52 0 0 1 126 70" />
+                    <path class="fill-acc pop" style="--dd:1.1s" d="M134 70 l-8 -3.5 v7 z" />
+                    <text class="lbl" x="126" y="126" text-anchor="middle">loop</text>
+                    <!-- loop nodes -->
+                    <g class="pop" style="--dd:.6s"><circle class="panel" cx="126" cy="70" r="13" /><circle class="fill-soft" cx="126" cy="70" r="2.8" /><text class="lbl fade" x="126" y="48" text-anchor="middle">Ship</text></g>
+                    <g class="pop" style="--dd:.7s"><circle class="panel" cx="178" cy="122" r="13" /><circle class="fill-soft" cx="178" cy="122" r="2.8" /><text class="lbl fade" x="196" y="125">Measure</text></g>
+                    <g class="pop" style="--dd:.8s"><circle class="panel" cx="126" cy="174" r="13" /><circle class="fill-soft" cx="126" cy="174" r="2.8" /><text class="lbl fade" x="126" y="200" text-anchor="middle">Learn</text></g>
+                    <g class="pop" style="--dd:.9s"><circle class="panel" cx="74" cy="122" r="13" /><circle class="fill-soft" cx="74" cy="122" r="2.8" /><text class="lbl fade" x="56" y="125" text-anchor="end">Refine</text></g>
+                    <!-- adoption inset -->
+                    <path class="ink draw" pathLength="1" style="--dd:.7s" d="M270 70 V188 H402" />
+                    <path class="fade" style="--dd:1.1s" fill="color-mix(in srgb, var(--accent) 10%, transparent)" d="M276 176 L300 166 L324 146 L350 116 L382 88 L382 188 L276 188 Z" />
+                    <path class="acc draw" pathLength="1" style="--dd:.85s" d="M276 176 L300 166 L324 146 L350 116 L382 88" />
+                    <circle class="fill-acc pop" style="--dd:1.25s" cx="382" cy="88" r="3.2" />
+                    <text class="val fade" x="402" y="74" text-anchor="end">+123%</text>
+                    <text class="lbl fade" x="270" y="58">adoption ↑</text>
+                    <text class="lbl fade" x="338" y="206" text-anchor="middle">time after launch</text>
+                  </svg>
+                </div>
+                <figcaption class="fig-cap"><b>Shipping starts the loop.</b> Real behavior, ship, measure, learn, refine, feeds the next round; here, +123% engagement and +14% booking revenue.</figcaption>
+              </figure>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html#work">Work</a>
+        <a href="about.html">About</a>
+        <button class="nav-link" data-copy-email type="button" style="padding:0;background:none;color:var(--muted);font-size:0.8125rem;">Email</button>
+        <a href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="footer-meta">© 2026 Niran D. · How I work</p>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+</body>
+</html>

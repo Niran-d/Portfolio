@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.classList.add('reveal-ready');</script>
+  <title>About · Niran D.</title>
+  <meta name="description" content="About Niran D., a senior product designer focused on AI-native experiences across travel and enterprise SaaS." />
+  <meta property="og:title" content="About · Niran D." />
+  <meta property="og:type" content="profile" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4a6b'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="site.css" />
+  <style>
+    .about-top { padding-top: clamp(2.75rem, 7vw, 4.5rem); }
+    .about-grid {
+      display: grid; grid-template-columns: minmax(0, 1fr) clamp(240px, 32%, 340px);
+      gap: clamp(1.75rem, 5vw, 4rem); align-items: start;
+      max-width: 1020px;
+    }
+    .about-statement {
+      font-family: var(--display); font-weight: 500; color: var(--ink);
+      font-size: clamp(1.7rem, 1.1rem + 2.3vw, 2.4rem);
+      line-height: 1.18; letter-spacing: -0.02em; max-width: 18ch;
+    }
+    .about-portrait { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; background: var(--surface); display: block; }
+    .prose { margin-top: clamp(2.25rem, 5vw, 3.25rem); max-width: var(--read); }
+    .prose p { color: var(--body); font-size: 1.0625rem; line-height: 1.7; }
+    .prose p + p { margin-top: 1.1rem; }
+    .prose .placeholder { color: var(--muted); }
+    .prose em.note { display: block; margin-top: 0.4rem; font-size: 0.8125rem; color: var(--faint); font-style: normal; }
+
+    .block { margin-top: clamp(2.5rem, 6vw, 4rem); max-width: var(--read); }
+    .block-title { font-size: 0.8125rem; font-weight: 550; color: var(--ink); margin-bottom: 0.9rem; }
+    .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .chip { border: 1px solid var(--line); padding: 0.4rem 0.75rem; border-radius: 999px; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.02em; }
+
+    .exp-list { list-style: none; }
+    .exp-item { display: grid; grid-template-columns: 120px 1fr; gap: 1rem; padding: 1.1rem 0; border-top: 1px solid var(--line-soft); }
+    .exp-item:last-child { border-bottom: 1px solid var(--line-soft); }
+    .exp-period { font-size: 0.75rem; color: var(--faint); padding-top: 0.2rem; }
+    .exp-role { font-size: 0.9375rem; font-weight: 500; color: var(--ink); }
+    .exp-company { font-size: 0.8125rem; color: var(--muted); margin-top: 0.1rem; }
+    .exp-desc { font-size: 0.8125rem; color: var(--muted); line-height: 1.6; margin-top: 0.45rem; max-width: 58ch; }
+
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.9rem; max-width: 1040px; }
+    .gallery figure { margin: 0; }
+    .ph {
+      width: 100%; aspect-ratio: 4 / 3; border-radius: 6px; overflow: hidden;
+      background: var(--surface); display: grid; place-items: center;
+      color: var(--faint); font-size: 0.78rem; border: 1px dashed var(--line);
+    }
+    .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    @media (max-width: 720px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-portrait { max-width: 280px; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.25rem; }
+      .exp-period { padding-top: 0; }
+      .gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+
+  <header class="nav" data-nav>
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark">Niran D.</a>
+      <button class="nav-toggle" data-nav-toggle type="button" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link is-active" href="about.html">About</a>
+        <a class="nav-link" href="process.html">Process</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Work
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu" role="menu">
+            <a class="menu-item" role="menuitem" href="kayak-ai.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5.1a3 3 0 0 0 1.9 1.9L20.7 12l-5.1 1.7a3 3 0 0 0-1.9 1.9L12 20.7l-1.7-5.1a3 3 0 0 0-1.9-1.9L3.3 12l5.1-1.7a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK.ai</span><span class="menu-sub">Standalone AI travel assistant</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-ai-chat.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.2V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK AI Chat</span><span class="menu-sub">Embedded conversational search</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-search-overview.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16M4 12h16M4 17.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK Search Overview</span><span class="menu-sub">AI guidance on flight results</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="highradius-collections.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V9.5M9.3 19.5V5.5M14.7 19.5V12M20 19.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Autonomous Collections</span><span class="menu-sub">AI-assisted receivables, HighRadius</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="come-touch-grass.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4M12 18c0-2.5 2-4 4.5-4s4 1.4 4 3.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Come touch grass</span><span class="menu-sub">A real-time crowd for live talks</span></span>
+            </a>
+          </div>
+        </div>
+        <a class="nav-link" href="play.html">Play</a>
+        <a class="nav-link" href="photos.html">Photos</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Contact
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu menu-right" role="menu">
+            <button class="menu-item" role="menuitem" type="button" data-copy-email>
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Email</span><span class="menu-sub" data-copy-label>Copy my address</span></span>
+            </button>
+            <a class="menu-item" role="menuitem" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">LinkedIn</span><span class="menu-sub">Let's connect</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="#" data-resume-link target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Resume</span><span class="menu-sub">Download PDF</span></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <section class="about-top">
+      <div class="shell">
+        <div class="about-grid">
+          <h1 class="about-statement">I help teams turn complex, AI-driven systems into products people can actually trust.</h1>
+          <img class="about-portrait" src="img/niran-portrait.png" alt="Portrait of Niran D." />
+        </div>
+
+        <div class="prose">
+          <p>I care a lot about clarity, not just visual clarity, but conceptual clarity. What's actually happening, what the model is doing, and what the person should do next.</p>
+          <p>My craft sits between interaction design and system behavior. I define what a model should return, how confidently it should return it, and what the interface should do next so people can decide without guessing. I work closely with engineering and data science, prototype behavior early, and design for recovery first: confidence cues, clean state transitions, and practical actions that map back to the product's core controls.</p>
+          <p class="placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.
+            <em class="note">Placeholder, swap in your personal story here.</em></p>
+        </div>
+
+        <div class="block">
+          <p class="block-title">I've worked with</p>
+          <ul class="chips">
+            <li class="chip">KAYAK</li>
+            <li class="chip">HighRadius</li>
+            <li class="chip">ivy</li>
+            <li class="chip">PartyPoker</li>
+            <li class="chip">MAQ</li>
+            <li class="chip">HelloFello</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <p class="block-title">Experience</p>
+          <ul class="exp-list">
+            <li class="exp-item">
+              <span class="exp-period">2022–Present</span>
+              <div>
+                <p class="exp-role">Senior Product Designer, AI</p>
+                <p class="exp-company">KAYAK</p>
+                <p class="exp-desc">Leading AI-native product surfaces end to end. Shipped KAYAK.ai, AI Chat, and Search Overview with a focus on response structure, intent handling, and cost-aware generation.</p>
+              </div>
+            </li>
+            <li class="exp-item">
+              <span class="exp-period">2020–2021</span>
+              <div>
+                <p class="exp-role">Senior UX Designer</p>
+                <p class="exp-company">HighRadius</p>
+                <p class="exp-desc">Designed an AI-driven autonomous receivables platform from 0 to 1 and built Trifecta, a unified design system that cut enterprise feature time to market by about 14 days.</p>
+              </div>
+            </li>
+            <li class="exp-item">
+              <span class="exp-period">2018–2020</span>
+              <div>
+                <p class="exp-role">UX Designer</p>
+                <p class="exp-company">ivy (Ivy Comptech)</p>
+                <p class="exp-desc">Led PartyPoker across Android, iOS, web, and desktop, onboarding 50,000 users in month one and driving a 20% engagement increase.</p>
+              </div>
+            </li>
+            <li class="exp-item">
+              <span class="exp-period">2017–2018</span>
+              <div>
+                <p class="exp-role">UI/UX Designer</p>
+                <p class="exp-company">MAQ Software</p>
+                <p class="exp-desc">Designed responsive interfaces and interaction prototypes for data visualization and business intelligence products.</p>
+              </div>
+            </li>
+            <li class="exp-item">
+              <span class="exp-period">2018</span>
+              <div>
+                <p class="exp-role">Product Designer (Freelance)</p>
+                <p class="exp-company">HelloFello</p>
+                <p class="exp-desc">Delivered research, UI, and prototyping support for an early-stage product while working full-time.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="margin-top: clamp(3.5rem, 8vw, 6rem);">
+      <div class="sec-head">
+        <span class="eyebrow">More About Me</span>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+      <div class="shell">
+        <div class="gallery">
+          <figure><div class="ph">Add a photo</div></figure>
+          <figure><div class="ph">Add a photo</div></figure>
+          <figure><div class="ph">Add a photo</div></figure>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html">Work</a>
+        <button class="nav-link" data-copy-email type="button" style="padding:0;background:none;color:var(--muted);font-size:0.8125rem;">Email</button>
+        <a href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#" data-resume-link target="_blank" rel="noopener">Resume</a>
+      </div>
+      <p class="footer-meta">© 2026 Niran D. · Designed and built from scratch.</p>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+</body>
+</html>

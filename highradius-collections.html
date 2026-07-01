@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.classList.add('reveal-ready');</script>
+  <title>Autonomous Collections (HighRadius) — Niran D.</title>
+  <meta name="description" content="Case study: rebuilding HighRadius's decade-old collections product into CLS 2.0, an AI-assisted, voice and touch workspace for receivables teams. Lead designer: Niran D." />
+  <meta property="og:title" content="Autonomous Collections (HighRadius) — Niran D." />
+  <meta property="og:description" content="A ground-up redesign of an enterprise collections platform: research, IA, a 10-screen product, a design system, and Freeda, a voice and touch assistant." />
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="img/highradius/hr-cover.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4a6b'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..700;1,300..700&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="site.css" />
+  <link rel="stylesheet" href="case.css" />
+  <style>
+    /* ---------- page-specific: HighRadius case study ---------- */
+    .domain-tag { display: inline-block; font-size: 0.7rem; font-weight: 550; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 0.3rem 0.7rem; margin-bottom: 0.95rem; }
+
+    /* principle pills (Assist, Enable, ...) */
+    .principles { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.4rem 0 0; }
+    .principle { font-family: var(--display); font-size: 0.95rem; font-weight: 500; letter-spacing: -0.01em; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 0.5rem 1.05rem; background: var(--surface); transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+    .principle b { color: var(--accent); font-weight: 600; }
+    @media (hover: hover) and (pointer: fine) { .principle:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.07); border-color: rgba(0,0,0,0.16); } }
+
+    /* personas */
+    .personas { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin-top: 1.8rem; }
+    .persona { border: 1px solid var(--line-soft); border-radius: 14px; padding: 1.35rem 1.4rem; background: #fff; }
+    .persona-top { display: flex; align-items: baseline; gap: 0.55rem; }
+    .persona-name { font-family: var(--display); font-weight: 500; font-size: 1.12rem; letter-spacing: -0.01em; color: var(--ink); }
+    .persona-age { font-size: 0.78rem; color: var(--faint); }
+    .persona-role { font-size: 0.72rem; color: var(--accent); background: var(--accent-soft); padding: 0.26rem 0.62rem; border-radius: 999px; display: inline-block; margin: 0.55rem 0 0.75rem; }
+    .persona-bio { font-size: 0.875rem; color: var(--muted); line-height: 1.62; }
+    @media (max-width: 560px) { .personas { grid-template-columns: 1fr; } }
+
+    /* screen gallery */
+    .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin: 1.8rem 0 0; }
+    .shot { margin: 0; }
+    .shot img { width: 100%; height: auto; display: block; border-radius: 7px; border: 1px solid var(--line-soft); background: #151c25; box-shadow: 0 10px 30px rgba(0,0,0,0.09); }
+    .shot-cap { font-size: 0.78rem; color: var(--faint); margin-top: 0.6rem; line-height: 1.5; }
+    .shot-cap b { color: var(--muted); font-weight: 550; }
+    .shot.wide { grid-column: 1 / -1; }
+    @media (max-width: 640px) { .shots { grid-template-columns: 1fr; } }
+
+    .shot-group-label { font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); font-weight: 550; margin: 2.4rem 0 0; }
+
+    /* pull quote */
+    .pull { margin: clamp(2.4rem, 5vw, 3.4rem) 0; padding-left: 1.4rem; border-left: 2px solid var(--accent); }
+    .pull q { font-family: var(--display); font-weight: 500; font-size: clamp(1.25rem, 0.9rem + 1.4vw, 1.55rem); line-height: 1.3; letter-spacing: -0.015em; color: var(--ink); font-style: normal; }
+    .pull q::before, .pull q::after { content: ""; }
+    .pull cite { display: block; margin-top: 0.8rem; font-style: normal; font-size: 0.8125rem; color: var(--faint); }
+
+    /* visual system: color swatches + type */
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(116px, 1fr)); gap: 0.8rem; margin: 1.6rem 0 0; }
+    .sw { border: 1px solid var(--line-soft); border-radius: 11px; overflow: hidden; background: #fff; }
+    .sw-chip { height: 62px; }
+    .sw-meta { padding: 0.55rem 0.65rem 0.6rem; }
+    .sw-name { font-size: 0.72rem; color: var(--ink); font-weight: 550; display: block; line-height: 1.3; }
+    .sw-hex { font-size: 0.7rem; color: var(--faint); letter-spacing: 0.03em; }
+    .typespec { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 1.8rem; border: 1px solid var(--line-soft); border-radius: 14px; padding: 1.35rem 1.5rem; background: var(--surface); margin-top: 1.2rem; }
+    .typespec .tf-sample { font-family: 'Ubuntu', var(--sans); color: var(--ink); line-height: 1.05; }
+    .typespec .tf-aa { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.01em; }
+    .typespec .tf-set { font-size: 1rem; font-weight: 400; color: var(--muted); }
+    .typespec .tf-meta { font-size: 0.8125rem; color: var(--faint); }
+    .typespec .tf-meta b { color: var(--ink); font-weight: 550; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+
+  <header class="nav" data-nav>
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark">Niran D.</a>
+      <button class="nav-toggle" data-nav-toggle type="button" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="process.html">Process</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger is-active" type="button" aria-haspopup="true" aria-expanded="false">Work
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu" role="menu">
+            <a class="menu-item" role="menuitem" href="kayak-ai.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5.1a3 3 0 0 0 1.9 1.9L20.7 12l-5.1 1.7a3 3 0 0 0-1.9 1.9L12 20.7l-1.7-5.1a3 3 0 0 0-1.9-1.9L3.3 12l5.1-1.7a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK.ai</span><span class="menu-sub">Standalone AI travel assistant</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-ai-chat.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.2V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK AI Chat</span><span class="menu-sub">Embedded conversational search</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-search-overview.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16M4 12h16M4 17.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK Search Overview</span><span class="menu-sub">AI guidance on flight results</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="highradius-collections.html" aria-current="page">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V9.5M9.3 19.5V5.5M14.7 19.5V12M20 19.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Autonomous Collections</span><span class="menu-sub">AI-assisted receivables, HighRadius</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="come-touch-grass.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4M12 18c0-2.5 2-4 4.5-4s4 1.4 4 3.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Come touch grass</span><span class="menu-sub">A real-time crowd for live talks</span></span>
+            </a>
+          </div>
+        </div>
+        <a class="nav-link" href="play.html">Play</a>
+        <a class="nav-link" href="photos.html">Photos</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Contact
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu menu-right" role="menu">
+            <button class="menu-item" role="menuitem" type="button" data-copy-email>
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Email</span><span class="menu-sub" data-copy-label>Copy my address</span></span>
+            </button>
+            <a class="menu-item" role="menuitem" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">LinkedIn</span><span class="menu-sub">Let's connect</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="#" data-resume-link target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Resume</span><span class="menu-sub">Download PDF</span></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="case-wrap">
+    <aside class="case-nav" aria-label="On this page">
+      <a class="cn-back" href="index.html#misc">← Work</a>
+      <p class="cn-title">On this page</p>
+      <ol>
+        <li><a href="#problem">The problem</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#principles">The redesign principles</a></li>
+        <li><a href="#architecture">Information architecture</a></li>
+        <li><a href="#designs">The product, screen by screen</a></li>
+        <li><a href="#freeda">Freeda, voice &amp; touch</a></li>
+        <li><a href="#craft">Craft decisions</a></li>
+        <li><a href="#system">Visual system</a></li>
+        <li><a href="#outcome">Outcome</a></li>
+      </ol>
+    </aside>
+
+    <main class="case-main" id="mainContent">
+      <span class="domain-tag">Finance · accounts receivable</span>
+      <p class="eyebrow">HighRadius · 2021 · Enterprise SaaS for collections teams</p>
+      <h1>Autonomous Collections</h1>
+      <p class="lede">HighRadius's collections product was capable but nearly a decade old: dense, dated, and hard to scan. As lead designer I rebuilt it from the ground up as CLS 2.0, an AI-assisted workspace that turns raw receivables data into a clear next action, by voice, touch, or click.</p>
+      <dl class="context">
+        <div><dt class="ctx-k">Role</dt><dd class="ctx-v">Lead designer (research, concept, visual design)</dd></div>
+        <div><dt class="ctx-k">Team</dt><dd class="ctx-v">Two-person design team, with product and engineering</dd></div>
+        <div><dt class="ctx-k">Timeline</dt><dd class="ctx-v">2021</dd></div>
+        <div><dt class="ctx-k">Domain</dt><dd class="ctx-v">Fintech, order-to-cash and accounts receivable</dd></div>
+      </dl>
+
+      <figure class="hero-media">
+        <div class="fig-img"><img src="img/highradius/hr-cover.png" alt="The redesigned Autonomous Collections dashboard, a dark UI with floating cards for cash collected and account summaries" /></div>
+        <figcaption><b>CLS 2.0.</b> A dark-first collections workspace that pulls the day's portfolio, risk, and recommended calls into one view.</figcaption>
+      </figure>
+
+      <p class="metrics-head" data-reveal>Why it mattered</p>
+      <div class="metrics">
+        <div class="metric" data-reveal style="--d:0s"><div class="num">75%</div><div class="lbl">Faster receivables recovery reported after rollout, per a 2021 HighRadius survey</div></div>
+        <div class="metric" data-reveal style="--d:.08s"><div class="num">10</div><div class="lbl">Core screens reimagined, from the morning workboard to the AI assistant</div></div>
+        <div class="metric" data-reveal style="--d:.16s"><div class="num">4.5:1</div><div class="lbl">Minimum text contrast held across a dark UI, meeting WCAG AA</div></div>
+      </div>
+
+      <section id="problem">
+        <p class="label">The problem</p>
+        <h2>A decade-old product fighting its own users</h2>
+        <p class="body">Collections analysts chase overdue invoices all day: find who owes, work the risky accounts first, make the calls, and log every promise to pay. The tool meant to help was designed almost ten years earlier. It was <mark class="hl hl-amber">precise with numbers but blind to insight</mark>, cluttered with flashy elements, and built on an aging Ext JS stack that capped what the experience could become. So I treated this as a fresh product, not a reskin, and named it CLS 2.0.</p>
+      </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/highradius/hr-old-product.jpg" alt="The original HighRadius collections screen from 2018, a busy light-blue interface dense with charts and tables" loading="lazy" /></div>
+        <figcaption><b>The starting point.</b> The legacy customer screen: information-dense, visually noisy, and hard to scan under a target-based workload.</figcaption>
+      </figure>
+
+      <section id="research">
+        <p class="label">Research</p>
+        <h2>Listening before redrawing</h2>
+        <p class="body">I started where the friction lived. I ran user interviews and contextual inquiries, read product analytics, and studied competitors to separate real needs from assumptions. The principle we held onto: <mark class="hl hl-blue">design for the user, not for ourselves</mark>. A few findings set the direction.</p>
+        <ul class="highlights">
+          <li>
+            <p class="hl-term">Outdated and flashy</p>
+            <p class="hl-desc">Almost everyone described the look and feel as dated and poorly structured, with type and elements that felt too loud for all-day use.</p>
+          </li>
+          <li>
+            <p class="hl-term">89% wanted more at a glance</p>
+            <p class="hl-desc">Nearly nine in ten asked for more of the data points they need to finish daily tasks, surfaced up front instead of dug out.</p>
+          </li>
+          <li>
+            <p class="hl-term">76% wanted to work in place</p>
+            <p class="hl-desc">Three in four wanted lightweight tools, like notes, inside the product rather than scattered across sticky notes and calendars.</p>
+          </li>
+          <li>
+            <p class="hl-term">An aging platform</p>
+            <p class="hl-desc">The legacy stack limited performance and interaction, which made a ground-up rebuild the honest answer.</p>
+          </li>
+        </ul>
+      </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/highradius/hr-competitors.jpg" alt="A collage of competing collections and accounting tools studied during competitive analysis" loading="lazy" /></div>
+        <figcaption><b>Competitive scan.</b> Mapping what peer products offered, and where they fell short, to find the gaps worth owning.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="fig-img"><img src="img/highradius/hr-affinity.jpg" alt="An affinity and empathy mapping board of color-coded sticky notes grouping user motivations, app experience, and technical flaws" loading="lazy" /></div>
+        <figcaption><b>Sense-making.</b> Interview signals clustered into themes, motivations, app experience, and technical flaws, to validate assumptions before design.</figcaption>
+      </figure>
+
+      <p class="body">Synthesis pointed at two people the product had to serve well. I wrote them up as personas to keep the team anchored to real goals and constraints.</p>
+      <div class="personas">
+        <div class="persona">
+          <div class="persona-top"><span class="persona-name">Mitra Singh</span><span class="persona-age">42 · married</span></div>
+          <span class="persona-role">Senior Collection Analyst</span>
+          <p class="persona-bio">Works smart and fast against daily targets, then heads home to family. Dense numeric dashboards strain his eyes, so scanning quickly matters as much as the numbers themselves.</p>
+        </div>
+        <div class="persona">
+          <div class="persona-top"><span class="persona-name">Maitri Singh</span><span class="persona-age">28 · single</span></div>
+          <span class="persona-role">Associate Collection Analyst</span>
+          <p class="persona-bio">Career-oriented and tech-forward. She embraces automation that makes her day easier and values clear feedback and recognition for the work she puts in.</p>
+        </div>
+      </div>
+
+      <section id="principles">
+        <p class="label">The redesign principles</p>
+        <h2>Assist, enable, motivate, manage, measure</h2>
+        <p class="body">From the opportunities we mapped, the product made a single promise: take the busywork off the analyst so they can focus on the conversation that actually recovers cash. AI reads the raw data and surfaces it thoughtfully, the interface stays calm and predictable, and progress is always visible. Those goals became five design principles the whole system answers to.</p>
+        <div class="principles" data-reveal>
+          <span class="principle"><b>Assist</b> with smart technology</span>
+          <span class="principle"><b>Enable</b> a prepared worklist</span>
+          <span class="principle"><b>Motivate</b> with progress</span>
+          <span class="principle"><b>Manage</b> work, automatically</span>
+          <span class="principle"><b>Measure</b> behavior and outcomes</span>
+        </div>
+      </section>
+
+      <section id="architecture">
+        <p class="label">Information architecture</p>
+        <h2>One spine for the whole journey</h2>
+        <p class="body">Before any pixels, I stitched the flow together so navigation stayed obvious from login to wrap-up. A workboard opens the day, a worklist orders the work, every customer rolls up into one detail spine (overview, invoices, payments, communications, details), and calls resolve into a post-call wrap-up and summary, then the loop repeats.</p>
+      </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/highradius/hr-ia.png" alt="Information architecture flow diagram: login to my workboard, branching to worklist, inbox, customer list and invoice list, into the customer detail page and on to post-call wrap-up and summary" loading="lazy" /></div>
+        <figcaption><b>The map.</b> Page architecture and primary paths, with the high-traffic destinations starred, so the redesign had a single navigational backbone.</figcaption>
+      </figure>
+
+      <section id="designs">
+        <p class="label">The product, screen by screen</p>
+        <h2>From a busy table to a guided day</h2>
+        <p class="body">The redesign is ten core screens working as one system. It opens on a command center, narrows to a prioritized worklist, then drills into a full customer 360 and the tools to work a call end to end.</p>
+      </section>
+
+      <div class="shots">
+        <figure class="shot wide">
+          <img src="img/highradius/hr-workboard.jpg" alt="My Workboard: a dark dashboard with a greeting, daily goal, call and email counts, portfolio summary chart, total due by difficulty, suggested actions, and a scorecard" loading="lazy" />
+          <figcaption class="shot-cap"><b>My Workboard.</b> The morning command center: today's goal, channel activity, portfolio health, AI-suggested actions, and a personal scorecard, all in one glance.</figcaption>
+        </figure>
+        <figure class="shot wide">
+          <img src="img/highradius/hr-worklist.jpg" alt="My Worklist: customer cards for accounts to contact, each showing current versus past due, total due, and last contact, with call, email, and fax flags" loading="lazy" />
+          <figcaption class="shot-cap"><b>My Worklist.</b> A prepared, prioritized queue of accounts to contact, with current-versus-past-due at a glance and the right channel surfaced per customer.</figcaption>
+        </figure>
+      </div>
+
+      <p class="shot-group-label">The customer 360</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="img/highradius/hr-overview.jpg" alt="Customer overview: reasons to call, recent activities, account summary with predicted versus actual chart, and credit utilization" loading="lazy" />
+          <figcaption class="shot-cap"><b>Overview.</b> Why this account is on the list, recent activity, and a predicted-versus-actual account summary.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/highradius/hr-invoices.jpg" alt="Customer invoice list grouped by aging bucket with quick filters for broken promises, disputes, and predicted delays" loading="lazy" />
+          <figcaption class="shot-cap"><b>Invoices.</b> Open items by aging bucket, with quick filters for broken P2Ps, disputes, and predicted delays.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/highradius/hr-payments.jpg" alt="Customer payments: average delay, disputes, payment interval, and a payment history timeline with on-time and delayed tags" loading="lazy" />
+          <figcaption class="shot-cap"><b>Payments.</b> Behavior at a glance, average delay, interval, and a tagged payment history.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/highradius/hr-communications.jpg" alt="Customer communications history with call conversion, follow-ups pending, and threaded emails with promise-to-pay and dispute states" loading="lazy" />
+          <figcaption class="shot-cap"><b>Communications.</b> Every call and email threaded, with promise-to-pay, follow-up, and dispute states inline.</figcaption>
+        </figure>
+        <figure class="shot wide">
+          <img src="img/highradius/hr-details.jpg" alt="Customer details: company info and an expandable account hierarchy across global subsidiaries with past-versus-total-due figures" loading="lazy" />
+          <figcaption class="shot-cap"><b>Customer details.</b> Company profile and an expandable account hierarchy across subsidiaries, so global relationships read clearly.</figcaption>
+        </figure>
+      </div>
+
+      <p class="shot-group-label">Working a call, end to end</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="img/highradius/hr-call.jpg" alt="On-call screen with an in-app call dialer overlay showing the contact, call timer, transcript and take-notes actions, beside the live invoice list" loading="lazy" />
+          <figcaption class="shot-cap"><b>On the call.</b> A built-in dialer keeps the customer's data in view while transcript and notes are a tap away.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/highradius/hr-wrapup.jpg" alt="Post-call wrap-up: rate the call, create a promise to pay and a dispute, with the call recording and a summary email action" loading="lazy" />
+          <figcaption class="shot-cap"><b>Post-call wrap-up.</b> Promises to pay, disputes, notes, and a summary email captured in one pass, no separate tools.</figcaption>
+        </figure>
+      </div>
+
+      <section id="freeda">
+        <p class="label">Freeda, voice &amp; touch</p>
+        <h2>An assistant built for how people actually work</h2>
+        <p class="body">Analysts increasingly work on touch-capable laptops and want to move without hunting through menus. So the product was optimized for a touch-and-voice framework, and given its own assistant, <mark class="hl hl-violet">Freeda</mark>. Ask in plain language, like "show me all customers with past due over ten thousand dollars," and the worklist filters itself; Freeda can open an account or kick off a task, by voice or by tap.</p>
+      </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/highradius/hr-freeda.jpg" alt="Freeda results: a filtered customer list returned from a spoken query, beside the Freeda assistant chat panel listening for the next command" loading="lazy" /></div>
+        <figcaption><b>Freeda in use.</b> A spoken request returns a filtered worklist on the left while the assistant offers the next step, keeping hands and eyes on the work.</figcaption>
+      </figure>
+
+      <div class="pull" data-reveal>
+        <q>Voice is the next major disruption in computing.</q>
+        <cite>Max Amordeluso, then EU head of the Alexa Skills Kit, a reference point as we designed for voice</cite>
+      </div>
+
+      <section id="craft">
+        <p class="label">Craft decisions</p>
+        <h2>The details that made it usable</h2>
+        <ul class="highlights">
+          <li>
+            <p class="hl-term">Insight over raw data</p>
+            <p class="hl-desc">Periodic trends and behavioral signals surfaced as concise, AI-driven findings, so analysts decide faster instead of reading tables.</p>
+          </li>
+          <li>
+            <p class="hl-term">CTAs with room to breathe</p>
+            <p class="hl-desc">Primary actions sit where the task expects them, with negative space around them, making the flow predictable and quick.</p>
+          </li>
+          <li>
+            <p class="hl-term">Readable in the dark</p>
+            <p class="hl-desc">A dark base drawn from the brand blue and black, tuned to hold a 4.5:1 contrast minimum so long sessions do not strain the eyes.</p>
+          </li>
+          <li>
+            <p class="hl-term">A linear path</p>
+            <p class="hl-desc">The journey simplified toward a near-straight line, cutting fuss at each step and clarifying the critical touchpoints.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="system">
+        <p class="label">Visual system</p>
+        <h2>A calm, dark-first palette</h2>
+        <p class="body">Analysts live in this product, so the visual system had to feel fresh without tiring the eyes. I derived a dark base from the brand's blue and black, lifted surfaces with a 5% wash of bluish white for elevation, and reserved a warm orange for the actions that matter most. Type is Ubuntu, set for legibility at small sizes across dense screens.</p>
+        <div class="swatches">
+          <div class="sw"><div class="sw-chip" style="background:#151C25"></div><div class="sw-meta"><span class="sw-name">Background</span><span class="sw-hex">#151C25</span></div></div>
+          <div class="sw"><div class="sw-chip" style="background:#FC7500"></div><div class="sw-meta"><span class="sw-name">Main accent</span><span class="sw-hex">#FC7500</span></div></div>
+          <div class="sw"><div class="sw-chip" style="background:#14AFF1"></div><div class="sw-meta"><span class="sw-name">Brand blue</span><span class="sw-hex">#14AFF1</span></div></div>
+          <div class="sw"><div class="sw-chip" style="background:#8FD163"></div><div class="sw-meta"><span class="sw-name">Brand green</span><span class="sw-hex">#8FD163</span></div></div>
+          <div class="sw"><div class="sw-chip" style="background:#FFFFFF;border-bottom:1px solid var(--line-soft)"></div><div class="sw-meta"><span class="sw-name">Text level 1</span><span class="sw-hex">#FFFFFF</span></div></div>
+          <div class="sw"><div class="sw-chip" style="background:#B9BBBE"></div><div class="sw-meta"><span class="sw-name">Text level 2</span><span class="sw-hex">#B9BBBE</span></div></div>
+          <div class="sw"><div class="sw-chip" style="background:#8A8D92"></div><div class="sw-meta"><span class="sw-name">Text level 3</span><span class="sw-hex">#8A8D92</span></div></div>
+        </div>
+        <div class="typespec">
+          <span class="tf-sample tf-aa">Aa</span>
+          <span class="tf-sample tf-set">Ubuntu&nbsp; 0123456789</span>
+          <span class="tf-meta"><b>Ubuntu</b><br/>Friendly, humanist sans, legible at small sizes</span>
+        </div>
+      </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/highradius/hr-laptop.jpg" alt="The redesigned collections product shown on a laptop in a calm workspace" loading="lazy" /></div>
+        <figcaption><b>In context.</b> The dark UI reads comfortably in a real working environment, day after day.</figcaption>
+      </figure>
+
+      <section id="outcome">
+        <p class="label">Outcome</p>
+        <h2>A product analysts could actually live in</h2>
+        <p class="body">The collections product was fully redesigned: a refined interaction model, new functionality, resolved accessibility issues, and AI-driven insight woven through. Disparate tools, the sticky notes, reminders, and calendars, folded into one workspace, so analysts could focus on the work instead of the workaround.</p>
+        <ol class="timeline" data-reveal>
+          <li><p class="tl-phase">Replatform</p><p class="tl-desc">Rebuilt a decade-old product as CLS 2.0 on a modern stack, redesigning experience and interface together.</p></li>
+          <li><p class="tl-phase">Consolidate</p><p class="tl-desc">Folded notes, reminders, and calls into one screen, removing the disparate side-tools analysts relied on.</p></li>
+          <li><p class="tl-phase">Recover faster</p><p class="tl-desc">HighRadius reported up to 75% faster receivables recovery in a 2021 survey, with stronger automated dunning and calls.</p></li>
+          <li><p class="tl-phase">Land well</p><p class="tl-desc">The redesign was warmly received across global collections teams.</p></li>
+        </ol>
+        <p class="body" style="margin-top:1.5rem;">There may be a better solution out there, but I designed an experience that works well for the people who use it every day, and that is the part I am proudest of.</p>
+      </section>
+
+      <div class="cta">
+        <a href="index.html#misc">← Back to work</a>
+        <span class="note">Full walkthrough and process available on request.</span>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html#work">Work</a>
+        <a href="about.html">About</a>
+        <button class="nav-link" data-copy-email type="button" style="padding:0;background:none;color:var(--muted);font-size:0.8125rem;">Email</button>
+      </div>
+      <p class="footer-meta">© 2026 Niran D. · Autonomous Collections case study</p>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+  <script src="case.js"></script>
+</body>
+</html>

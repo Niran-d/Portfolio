@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.classList.add('reveal-ready');</script>
+  <title>KAYAK Search Overview · Niran D.</title>
+  <meta name="description" content="Case study: turning AI summaries on KAYAK flight results into booking decisions, with a cost-aware generation layer. By Niran D." />
+  <meta property="og:title" content="KAYAK Search Overview · Niran D." />
+  <meta property="og:description" content="AI guidance on flight results with quick actions and a cost-aware generation gate tied to real user value." />
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="img/kayak-so-google.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4a6b'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="site.css" />
+  <link rel="stylesheet" href="case.css" />
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+
+  <header class="nav" data-nav>
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark">Niran D.</a>
+      <button class="nav-toggle" data-nav-toggle type="button" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="process.html">Process</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger is-active" type="button" aria-haspopup="true" aria-expanded="false">Work
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu" role="menu">
+            <a class="menu-item" role="menuitem" href="kayak-ai.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5.1a3 3 0 0 0 1.9 1.9L20.7 12l-5.1 1.7a3 3 0 0 0-1.9 1.9L12 20.7l-1.7-5.1a3 3 0 0 0-1.9-1.9L3.3 12l5.1-1.7a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK.ai</span><span class="menu-sub">Standalone AI travel assistant</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-ai-chat.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.2V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK AI Chat</span><span class="menu-sub">Embedded conversational search</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-search-overview.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16M4 12h16M4 17.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK Search Overview</span><span class="menu-sub">AI guidance on flight results</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="highradius-collections.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V9.5M9.3 19.5V5.5M14.7 19.5V12M20 19.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Autonomous Collections</span><span class="menu-sub">AI-assisted receivables, HighRadius</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="come-touch-grass.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4M12 18c0-2.5 2-4 4.5-4s4 1.4 4 3.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Come touch grass</span><span class="menu-sub">A real-time crowd for live talks</span></span>
+            </a>
+          </div>
+        </div>
+        <a class="nav-link" href="play.html">Play</a>
+        <a class="nav-link" href="photos.html">Photos</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Contact
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu menu-right" role="menu">
+            <button class="menu-item" role="menuitem" type="button" data-copy-email>
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Email</span><span class="menu-sub" data-copy-label>Copy my address</span></span>
+            </button>
+            <a class="menu-item" role="menuitem" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">LinkedIn</span><span class="menu-sub">Let's connect</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="#" data-resume-link target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Resume</span><span class="menu-sub">Download PDF</span></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="case-wrap">
+    <aside class="case-nav" aria-label="On this page">
+      <a class="cn-back" href="index.html#work">← Work</a>
+      <p class="cn-title">On this page</p>
+      <ol>
+        <li><a href="#problem">The problem</a></li>
+        <li><a href="#reframe">The reframe</a></li>
+        <li><a href="#craft">The core craft</a></li>
+        <li><a href="#how">How I worked</a></li>
+        <li><a href="#strategy">Strategic considerations</a></li>
+        <li><a href="#collab">Collaboration &amp; ownership</a></li>
+        <li><a href="#outcome">Outcome</a></li>
+      </ol>
+    </aside>
+
+    <main class="case-main" id="mainContent">
+      <p class="eyebrow">KAYAK · 2025 · AI on flight results</p>
+      <h1>KAYAK Search Overview</h1>
+      <p class="lede">KAYAK's flight results overwhelmed users with options and no guidance. I designed an AI overview that orients travelers and routes them to the filters that convert, without burying results or paying for a model call on every search.</p>
+      <dl class="context">
+        <div><dt class="ctx-k">Role</dt><dd class="ctx-v">Senior Product Designer, AI (lead designer)</dd></div>
+        <div><dt class="ctx-k">Team</dt><dd class="ctx-v">Product, engineering, customer insights</dd></div>
+        <div><dt class="ctx-k">Timeline</dt><dd class="ctx-v">2025</dd></div>
+        <div><dt class="ctx-k">Scope</dt><dd class="ctx-v">AI overview on flight results, cost-aware generation</dd></div>
+      </dl>
+
+      <figure class="hero-media">
+        <div class="fig-img"><img src="img/kayak-so-google.png" alt="Google's text-block AI Overview next to KAYAK's results page, where every visible result is a potential booking click" /></div>
+        <figcaption><b>Why not just copy Google.</b> A text block at the top of results would push flights below the fold, and generic tips ignore the user's actual search. KAYAK's page exists to compare and book, not to read.</figcaption>
+      </figure>
+
+      <p class="metrics-head" data-reveal>Why it mattered</p>
+      <div class="metrics">
+        <div class="metric" data-reveal style="--d:0s"><div class="num">12%</div><div class="lbl">Feature engagement on the flight results page</div></div>
+        <div class="metric" data-reveal style="--d:.08s"><div class="num">+7%</div><div class="lbl">Filter usage from overview quick actions</div></div>
+        <div class="metric" data-reveal style="--d:.16s"><div class="num">3-state</div><div class="lbl">Disclosure pattern that keeps users in control</div></div>
+      </div>
+
+      <section id="problem">
+        <p class="label">The problem</p>
+        <h2>Too many options, not enough clarity</h2>
+        <p class="body">Dense flight lists and deep filter menus made results hard to parse. <mark class="hl hl-pink">"Difficult to make sense of"</mark> was the third most frequent negative theme in customer feedback, and users who could not decide confidently left for Google Flights. The opportunity was to surface AI guidance, but in a form that protects the primary task of comparing and booking.</p>
+      </section>
+
+      <section id="reframe">
+        <p class="label">The reframe</p>
+        <h2>Guidance that drives the next action</h2>
+        <p class="body">Instead of a markdown summary, the overview renders as horizontal cards in three states: half-faded on load, expanded on opt-in, and collapsed once seen, so results stay in the viewport the whole time. Each insight is paired with a <mark class="hl hl-violet">conversion-positive action</mark> wired to the highest-engagement filters already on the page.</p>
+      </section>
+
+      <figure>
+        <div class="fig-img"><video src="img/kayak-so-cards.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-so-cards.jpg"></video></div>
+        <figcaption><b>Three states, results always in view.</b> The overview loads half-faded, expands on opt-in, and collapses to a single row once seen. Cards scroll horizontally so flight results never get pushed below the fold.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="fig-img"><img src="img/kayak-so-actions.png" alt="Each AI overview card paired with a quick action that maps directly to an existing filter or control on the results page" loading="lazy" /></div>
+        <figcaption><b>Insight to action.</b> "Nonstop flights available" applies the Stops filter; a packing tip nudges a checked bag. The AI surfaces existing functionality through a new entry point rather than inventing new behavior.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="fig-img"><video src="img/kayak-so-action.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-so-action.jpg"></video></div>
+        <figcaption><b>From tip to filter, in one tap.</b> Acting on a card applies the matching filter in place and confirms the change on the results below, turning a passive summary into a conversion step.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="fig-img"><video src="img/kayak-so-demo.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-so-actions.png"></video></div>
+        <figcaption><b>The overview in use.</b> Cards expand and collapse over live flight results, with quick actions triggering filters in place.</figcaption>
+      </figure>
+
+      <section id="craft">
+        <p class="label">The core craft</p>
+        <h2>Not every search is worth the tokens</h2>
+        <p class="body">Every overview is an LLM call, so showing one on each search would scale cost linearly with traffic. A traveler comparing a complex international route needs guidance; someone booking a familiar shuttle does not. I designed a two-step architecture: a lightweight scoring layer reads route metadata and predicts whether an overview earns its cost <mark class="hl hl-amber">before any generation fires</mark>, so quality scales with value rather than volume.</p>
+      </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/kayak-so-system.png" alt="Generation pipeline: user query and KAYAK data feed a model call that selects relevant themes, each mapped to a suggested action, then rendered on the results page" loading="lazy" /></div>
+        <figcaption><b>One system, many surfaces.</b> Query and KAYAK data feed a model call that selects themes, each mapped to a suggested action and rendered inline. The same structure scales across routes without bespoke layouts.</figcaption>
+      </figure>
+
+      <section id="how">
+        <p class="label">How I worked</p>
+        <ul class="highlights">
+          <li>
+            <p class="hl-term">Designed for cost, not just pixels</p>
+            <p class="hl-desc">A scoring gate decides when an overview is worth generating, treating tokens as a real constraint of the design.</p>
+          </li>
+          <li>
+            <p class="hl-term">Reused what already converts</p>
+            <p class="hl-desc">Quick actions map to the highest-engagement filters on the page, turning a passive content layer into a conversion tool.</p>
+          </li>
+          <li>
+            <p class="hl-term">Kept the user in control</p>
+            <p class="hl-desc">A three-state disclosure lets people choose how much AI they see while the results they came for stay visible.</p>
+          </li>
+          <li>
+            <p class="hl-term">Built a reusable pattern</p>
+            <p class="hl-desc">The card model works for any supplementary content on a high-intent results page, not just this feature.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="strategy">
+        <p class="label">Strategic considerations</p>
+        <h2>The trade-offs that shaped the work</h2>
+        <ul class="highlights">
+          <li>
+            <p class="hl-term">Protect the page's job: comparing and booking</p>
+            <p class="hl-desc">A Google-style text summary would have pushed results below the fold. The three-state card pattern keeps flights in view while still offering guidance.</p>
+          </li>
+          <li>
+            <p class="hl-term">Treat tokens as a design constraint</p>
+            <p class="hl-desc">Generating on every search would scale cost linearly with traffic. A scoring gate fires the model only when an overview is likely worth it, so quality tracks value, not volume.</p>
+          </li>
+          <li>
+            <p class="hl-term">What I didn't build</p>
+            <p class="hl-desc">No new behaviors to learn. Quick actions route to existing high-engagement filters, so the AI surfaces functionality the page already had rather than adding a parallel system.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="collab">
+        <p class="label">Collaboration &amp; ownership</p>
+        <h2>From customer pain to measured conversion</h2>
+        <ul class="stk"><li>Product</li><li>Engineering</li><li>Customer insights</li></ul>
+        <p class="body">I owned the feature from the framing of a recurring customer-feedback theme, through the interaction model and the cost-scoring architecture that made it viable to ship at traffic scale, to its measured impact on engagement and filter usage.</p>
+        <ol class="timeline" data-reveal>
+          <li><p class="tl-phase">Frame</p><p class="tl-desc">"Difficult to make sense of" ranked third among negative feedback themes; users were leaving for Google Flights.</p></li>
+          <li><p class="tl-phase">Reframe</p><p class="tl-desc">Designed a three-state card pattern that guides without burying results, each insight tied to a converting action.</p></li>
+          <li><p class="tl-phase">Make it viable</p><p class="tl-desc">Added a scoring gate so the model only generates when an overview earns its cost.</p></li>
+          <li><p class="tl-phase">Ship &amp; measure</p><p class="tl-desc">12% feature engagement on the flight results page and +7% filter usage from quick actions.</p></li>
+        </ol>
+      </section>
+
+      <section id="outcome">
+        <p class="label">Outcome</p>
+        <h2>AI that earns its place on the page</h2>
+        <p class="body">Users engaged with the overview, scrolled the cards, and triggered filters they might not have found otherwise: <mark class="hl hl-green">12% feature engagement</mark> on the flight results page and <mark class="hl hl-blue">+7% filter usage</mark>. Tying AI insights to specific page actions turned a content layer into measurable conversion.</p>
+      </section>
+
+      <div class="cta">
+        <a href="index.html#work">← Back to work</a>
+        <span class="note">Full walkthrough and process available on request.</span>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html#work">Work</a>
+        <a href="about.html">About</a>
+        <button class="nav-link" data-copy-email type="button" style="padding:0;background:none;color:var(--muted);font-size:0.8125rem;">Email</button>
+      </div>
+      <p class="footer-meta">© 2026 Niran D. · KAYAK Search Overview case study</p>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+  <script src="case.js"></script>
+</body>
+</html>

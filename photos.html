@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.classList.add('reveal-ready');</script>
+  <title>Photographs · Niran D.</title>
+  <meta name="description" content="A personal contact sheet by Niran D.: photos from travel and downtime, grouped by feel (Wide, Last Light, Built, Up Close, Still) instead of by place or date." />
+  <meta property="og:title" content="Photographs · Niran D." />
+  <meta property="og:description" content="Photos from travel and downtime, grouped by feel instead of place or date." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4a6b'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="site.css" />
+  <style>
+    /* ============ PHOTOS — CONTACT SHEET ============ */
+    .ph-intro { padding-top: clamp(3rem, 8vw, 5rem); }
+    .ph-eyebrow { font-size: 0.8125rem; font-weight: 550; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); }
+    .ph-title {
+      font-family: var(--display); font-weight: 500; color: var(--ink);
+      font-size: clamp(2rem, 1.1rem + 3.6vw, 3.1rem); line-height: 1.06; letter-spacing: -0.028em;
+      margin-top: 0.75rem; max-width: 13ch;
+    }
+    .ph-lead { margin-top: 1.3rem; max-width: 48ch; color: var(--muted); font-size: 1.0625rem; line-height: 1.62; }
+
+    /* ---- the sheet ---- */
+    .sheet {
+      --paper: #f2efe7;
+      --paper-edge: #e7e3d8;
+      --film: #14130f;
+      --film-soft: #1d1b16;
+      --rebate: rgba(247, 242, 228, 0.62);
+      max-width: 1240px; margin: clamp(2.4rem, 6vw, 3.8rem) auto 0;
+      background: var(--paper);
+      background-image: radial-gradient(rgba(0,0,0,0.018) 1px, transparent 1px);
+      background-size: 4px 4px;
+      border: 1px solid var(--paper-edge);
+      border-radius: 4px;
+      padding: clamp(1.1rem, 3.4vw, 2.6rem);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 28px 60px -34px rgba(0,0,0,0.4);
+    }
+    .sheet-bar {
+      display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; align-items: baseline;
+      justify-content: space-between;
+      padding-bottom: 0.85rem; margin-bottom: 1.7rem;
+      border-bottom: 1px solid rgba(0,0,0,0.13);
+    }
+    .sheet-id { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(0,0,0,0.6); font-weight: 550; }
+    .sheet-id b { color: rgba(0,0,0,0.8); font-weight: 600; }
+
+    /* ---- a roll (one mode) ---- */
+    .roll { margin-top: clamp(1.9rem, 4vw, 2.6rem); }
+    .roll:first-of-type { margin-top: 0; }
+    .roll-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.8rem; margin-bottom: 0.95rem; }
+    .roll-tag {
+      font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+      background: var(--accent-soft); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 550;
+      align-self: center;
+    }
+    .roll-name { font-family: var(--display); font-weight: 500; font-size: 1.2rem; color: var(--ink); letter-spacing: -0.01em; }
+    .roll-pov { font-size: 0.82rem; color: rgba(0,0,0,0.55); }
+    .roll-count { font-size: 0.68rem; letter-spacing: 0.06em; color: rgba(0,0,0,0.4); margin-left: auto; align-self: center; }
+
+    /* ---- the strip of frames ---- */
+    .strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(var(--fw, 210px), 1fr));
+      gap: 0.6rem;
+    }
+    .frame {
+      position: relative; display: block; width: 100%;
+      background: var(--film); border: 0; padding: 8px 0; margin: 0;
+      border-radius: 2px; cursor: zoom-in; -webkit-tap-highlight-color: transparent;
+      transition: transform 0.32s var(--ease), box-shadow 0.32s var(--ease);
+    }
+    /* sprocket holes top + bottom */
+    .frame::before, .frame::after {
+      content: ""; position: absolute; left: 4px; right: 4px; height: 6px;
+      background-image: repeating-linear-gradient(to right, transparent 0 6px, var(--rebate) 6px 11px, transparent 11px 17px);
+      pointer-events: none;
+    }
+    .frame::before { top: 1px; }
+    .frame::after { bottom: 1px; }
+    .frame-img {
+      display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover;
+      transition: filter 0.32s var(--ease);
+    }
+    .frame-no {
+      position: absolute; bottom: 0; right: 7px; height: 8px; line-height: 8px;
+      font-size: 7.5px; letter-spacing: 0.1em; color: var(--rebate); font-variant-numeric: tabular-nums;
+    }
+    .frame-edge {
+      position: absolute; bottom: 0; left: 7px; height: 8px; line-height: 8px;
+      font-size: 7.5px; letter-spacing: 0.18em; color: rgba(247,242,228,0.4);
+    }
+    .frame:hover, .frame:focus-visible { transform: translateY(-3px); box-shadow: 0 14px 30px -12px rgba(0,0,0,0.55); z-index: 3; outline: none; }
+    .frame:hover .frame-img, .frame:focus-visible .frame-img { filter: brightness(1.07) saturate(1.05); }
+    .frame:focus-visible { box-shadow: 0 0 0 2px var(--accent), 0 14px 30px -12px rgba(0,0,0,0.55); }
+
+    /* reveal injected sections */
+    @media (prefers-reduced-motion: no-preference) {
+      html.reveal-ready .ph-reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s var(--ease), transform 0.7s var(--ease); }
+      html.reveal-ready .ph-reveal.in { opacity: 1; transform: none; }
+    }
+
+    /* frame-width breakpoints */
+    @media (max-width: 1024px) { .strip { --fw: 188px; } }
+    @media (max-width: 680px)  { .strip { --fw: 150px; gap: 0.45rem; } }
+    @media (max-width: 430px)  { .strip { --fw: 142px; } }
+
+    /* ============ PRINT LIGHTBOX ============ */
+    .ph-lb {
+      position: fixed; inset: 0; z-index: 90; display: none;
+      align-items: center; justify-content: center;
+      padding: clamp(0.75rem, 3.5vw, 2.5rem);
+      background: rgba(16, 14, 11, 0.95);
+      opacity: 0; transition: opacity 0.3s var(--ease);
+    }
+    .ph-lb.open { display: flex; }
+    .ph-lb.visible { opacity: 1; }
+    .ph-print {
+      margin: 0; background: #fbfaf6;
+      padding: clamp(10px, 1.6vw, 18px) clamp(10px, 1.6vw, 18px) clamp(8px, 1.2vw, 14px);
+      border-radius: 2px; box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7);
+      transform: scale(0.985) translateY(6px); transition: transform 0.34s var(--ease);
+      max-width: min(1040px, 94vw);
+    }
+    .ph-lb.visible .ph-print { transform: none; }
+    .ph-print img {
+      display: block; max-width: 100%; max-height: 78vh; object-fit: contain;
+      background: #ece9e2;
+    }
+    .ph-print-cap {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem 1.2rem;
+      margin-top: 0.75rem; color: #534e44; flex-wrap: wrap;
+    }
+    .ph-cap-main { display: flex; align-items: baseline; gap: 0.55rem; flex-wrap: wrap; min-width: 0; }
+    .ph-print-cap b { font-family: var(--display); font-weight: 500; font-size: 1.02rem; color: #2a261f; }
+    .ph-cap-note { font-size: 0.86rem; font-style: italic; color: #6f685b; }
+    .ph-cap-meta {
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #948d7c;
+      white-space: nowrap; font-variant-numeric: tabular-nums; margin-left: auto;
+    }
+    .ph-lb-btn {
+      position: absolute; background: rgba(255,255,255,0.1); border: 0; color: #fff;
+      cursor: pointer; border-radius: 50%; width: 46px; height: 46px; display: grid; place-items: center;
+      transition: background 0.28s var(--ease), transform 0.28s var(--ease);
+    }
+    .ph-lb-btn:hover { background: rgba(255,255,255,0.2); }
+    .ph-lb-btn svg { width: 22px; height: 22px; }
+    .ph-lb-close { top: clamp(0.75rem, 3vw, 1.5rem); right: clamp(0.75rem, 3vw, 1.5rem); }
+    .ph-lb-prev { left: clamp(0.5rem, 2.5vw, 1.75rem); top: 50%; transform: translateY(-50%); }
+    .ph-lb-next { right: clamp(0.5rem, 2.5vw, 1.75rem); top: 50%; transform: translateY(-50%); }
+    .ph-lb-prev:hover { transform: translateY(-50%) scale(1.06); }
+    .ph-lb-next:hover { transform: translateY(-50%) scale(1.06); }
+    @media (max-width: 600px) {
+      .ph-lb-prev { left: 0.4rem; } .ph-lb-next { right: 0.4rem; }
+      .ph-lb-btn { width: 40px; height: 40px; }
+      .ph-print img { max-height: 68vh; }
+    }
+    body.ph-lb-open { overflow: hidden; }
+  </style>
+</head>
+<body id="top">
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+
+  <header class="nav" data-nav>
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark">Niran D.</a>
+      <button class="nav-toggle" data-nav-toggle type="button" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="process.html">Process</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Work
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu" role="menu">
+            <a class="menu-item" role="menuitem" href="kayak-ai.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5.1a3 3 0 0 0 1.9 1.9L20.7 12l-5.1 1.7a3 3 0 0 0-1.9 1.9L12 20.7l-1.7-5.1a3 3 0 0 0-1.9-1.9L3.3 12l5.1-1.7a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK.ai</span><span class="menu-sub">Standalone AI travel assistant</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-ai-chat.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.2V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK AI Chat</span><span class="menu-sub">Embedded conversational search</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-search-overview.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16M4 12h16M4 17.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK Search Overview</span><span class="menu-sub">AI guidance on flight results</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="highradius-collections.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V9.5M9.3 19.5V5.5M14.7 19.5V12M20 19.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Autonomous Collections</span><span class="menu-sub">AI-assisted receivables, HighRadius</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="come-touch-grass.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4M12 18c0-2.5 2-4 4.5-4s4 1.4 4 3.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Come touch grass</span><span class="menu-sub">A real-time crowd for live talks</span></span>
+            </a>
+          </div>
+        </div>
+
+        <a class="nav-link" href="play.html">Play</a>
+        <a class="nav-link is-active" href="photos.html" aria-current="page">Photos</a>
+
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Contact
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu menu-right" role="menu">
+            <button class="menu-item" role="menuitem" type="button" data-copy-email>
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Email</span><span class="menu-sub" data-copy-label>Copy my address</span></span>
+            </button>
+            <a class="menu-item" role="menuitem" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">LinkedIn</span><span class="menu-sub">Let's connect</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="#" data-resume-link target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Resume</span><span class="menu-sub">Download PDF</span></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <section class="ph-intro">
+      <div class="shell">
+        <p class="ph-eyebrow">Photographs</p>
+        <h1 class="ph-title">Sorted by feel, not by place.</h1>
+        <p class="ph-lead">I take photos when I travel, without much of a plan. Looking back through all of them, five kinds kept showing up: wide shots, late light, buildings, close details, and quiet ones. That's the sort you'll find here.</p>
+
+        <div class="sheet" data-sheet>
+          <div class="sheet-bar">
+            <span class="sheet-id"><b>Niran D.</b> &nbsp;·&nbsp; Contact Sheet &nbsp;·&nbsp; <span data-total>63</span> Frames</span>
+          </div>
+          <div data-rolls></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Print lightbox -->
+  <div class="ph-lb" data-lightbox role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="ph-lb-btn ph-lb-close" type="button" data-lb-close aria-label="Close viewer">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <button class="ph-lb-btn ph-lb-prev" type="button" data-lb-prev aria-label="Previous photo">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="ph-lb-btn ph-lb-next" type="button" data-lb-next aria-label="Next photo">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <figure class="ph-print">
+      <img data-lb-img src="" alt="" />
+      <figcaption class="ph-print-cap">
+        <span class="ph-cap-main"><b data-lb-title></b><span class="ph-cap-note" data-lb-note></span></span>
+        <span class="ph-cap-meta"><span data-lb-mode></span><span data-lb-count></span></span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="play.html">Play</a>
+        <button class="nav-link" data-copy-email type="button" style="padding:0;background:none;color:var(--muted);font-size:0.8125rem;">Email</button>
+        <a href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="footer-meta">© 2026 Niran D. · Photographs are personal work · Built from scratch.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+      var PHOTOS = [{"key":"wide","name":"Wide","pov":"Standing back, letting the land run to the edges.","photos":[{"src":"img/photos/wide-04.webp","w":1042,"h":1040,"featured":true,"loc":"Death Valley","note":"Finding beauty in barren."},{"src":"img/photos/wide-17.webp","w":1041,"h":663,"featured":false},{"src":"img/photos/wide-10.webp","w":1044,"h":723,"featured":false,"loc":"Joshua Tree","note":"Sweat, sunburns, and endless rocks."},{"src":"img/photos/wide-09.webp","w":1043,"h":1042,"featured":false,"loc":"Joshua Tree"},{"src":"img/photos/wide-06.webp","w":1080,"h":632,"featured":false,"loc":"Death Valley","note":"Finding beauty in barren."},{"src":"img/photos/wide-08.webp","w":1043,"h":1044,"featured":false,"loc":"Joshua Tree"},{"src":"img/photos/wide-11.webp","w":1080,"h":1080,"featured":false,"loc":"Joshua Tree","note":"Sweat, sunburns, and endless rocks."},{"src":"img/photos/wide-03.webp","w":1044,"h":1044,"featured":true},{"src":"img/photos/wide-02.webp","w":807,"h":1044,"featured":true},{"src":"img/photos/wide-05.webp","w":1042,"h":1041,"featured":true,"loc":"Death Valley","note":"Finding beauty in barren."},{"src":"img/photos/wide-01.webp","w":1042,"h":542,"featured":true},{"src":"img/photos/wide-13.webp","w":1042,"h":685,"featured":false,"loc":"Death Valley"},{"src":"img/photos/wide-07.webp","w":1041,"h":825,"featured":false,"loc":"Joshua Tree"},{"src":"img/photos/wide-14.webp","w":1045,"h":538,"featured":false,"loc":"Death Valley"},{"src":"img/photos/wide-16.webp","w":1041,"h":748,"featured":false,"loc":"Death Valley"},{"src":"img/photos/wide-15.webp","w":1045,"h":603,"featured":false,"loc":"Death Valley"},{"src":"img/photos/wide-12.webp","w":1080,"h":877,"featured":false,"loc":"Death Valley","note":"Adventures are best shared with a friend, especially from the top of the world."}]},{"key":"lastlight","name":"Last Light","pov":"The last hour, when the sky does most of the work.","photos":[{"src":"img/photos/lastlight-07.webp","w":1047,"h":792,"featured":false,"note":"From sunshine to stormy skies in a flash."},{"src":"img/photos/lastlight-09.webp","w":1044,"h":1042,"featured":false},{"src":"img/photos/lastlight-02.webp","w":1045,"h":1041,"featured":true,"loc":"Griffith Observatory, Los Angeles"},{"src":"img/photos/lastlight-01.webp","w":1080,"h":1080,"featured":true,"loc":"Griffith Observatory, Los Angeles"},{"src":"img/photos/lastlight-08.webp","w":853,"h":1280,"featured":false},{"src":"img/photos/lastlight-06.webp","w":726,"h":1080,"featured":false,"note":"Chasing clouds and captured the unexpected thunder!"},{"src":"img/photos/lastlight-03.webp","w":1044,"h":705,"featured":true,"loc":"Griffith Observatory, Los Angeles"},{"src":"img/photos/lastlight-04.webp","w":1080,"h":723,"featured":true,"note":"Chasing clouds and captured the unexpected thunder!"},{"src":"img/photos/lastlight-10.webp","w":1044,"h":674,"featured":false},{"src":"img/photos/lastlight-05.webp","w":1042,"h":1041,"featured":true,"note":"Chasing clouds and captured the unexpected thunder!"}]},{"key":"built","name":"Built","pov":"Lines, structure, and the spaces people made.","photos":[{"src":"img/photos/built-15.webp","w":1042,"h":681,"featured":false,"loc":"Hoover Dam"},{"src":"img/photos/built-02.webp","w":727,"h":1050,"featured":true,"loc":"Walt Disney Concert Hall, Los Angeles","note":"Shapes of music."},{"src":"img/photos/built-19.webp","w":1280,"h":903,"featured":false,"loc":"Bloomington, Indiana"},{"src":"img/photos/built-10.webp","w":1050,"h":728,"featured":false,"loc":"Civic Center Station, Los Angeles"},{"src":"img/photos/built-18.webp","w":1280,"h":1280,"featured":false},{"src":"img/photos/built-06.webp","w":1051,"h":1050,"featured":false,"loc":"Civic Center Station, Los Angeles"},{"src":"img/photos/built-07.webp","w":1050,"h":1051,"featured":false,"loc":"Civic Center Station, Los Angeles"},{"src":"img/photos/built-11.webp","w":1043,"h":1035,"featured":false,"loc":"Hoover Dam"},{"src":"img/photos/built-05.webp","w":871,"h":640,"featured":true,"loc":"Walt Disney Concert Hall, Los Angeles","note":"Shapes of music."},{"src":"img/photos/built-13.webp","w":1041,"h":546,"featured":false,"loc":"Hoover Dam"},{"src":"img/photos/built-08.webp","w":1051,"h":1050,"featured":false,"loc":"Civic Center Station, Los Angeles"},{"src":"img/photos/built-03.webp","w":1050,"h":648,"featured":true,"loc":"Walt Disney Concert Hall, Los Angeles","note":"Shapes of music."},{"src":"img/photos/built-04.webp","w":700,"h":1050,"featured":true,"loc":"Walt Disney Concert Hall, Los Angeles","note":"Shapes of music."},{"src":"img/photos/built-12.webp","w":813,"h":1041,"featured":false,"loc":"Hoover Dam"},{"src":"img/photos/built-01.webp","w":1050,"h":721,"featured":true,"loc":"Walt Disney Concert Hall, Los Angeles","note":"Shapes of music."},{"src":"img/photos/built-17.webp","w":1280,"h":1280,"featured":false},{"src":"img/photos/built-14.webp","w":828,"h":1043,"featured":false,"loc":"Hoover Dam"},{"src":"img/photos/built-16.webp","w":1042,"h":1042,"featured":false,"loc":"Griffith Observatory, Los Angeles"},{"src":"img/photos/built-09.webp","w":1051,"h":1051,"featured":false,"loc":"Civic Center Station, Los Angeles"}]},{"key":"upclose","name":"Up Close","pov":"Close enough that the ordinary turns abstract.","photos":[{"src":"img/photos/upclose-02.webp","w":1280,"h":1280,"featured":true,"note":"Capturing the magic of soap bubbles."},{"src":"img/photos/upclose-04.webp","w":1280,"h":1280,"featured":true,"note":"Capturing the magic of soap bubbles."},{"src":"img/photos/upclose-06.webp","w":1280,"h":1280,"featured":false,"note":"Capturing the magic of soap bubbles."},{"src":"img/photos/upclose-03.webp","w":1280,"h":1280,"featured":true,"note":"Capturing the magic of soap bubbles."},{"src":"img/photos/upclose-07.webp","w":1280,"h":1280,"featured":false,"note":"Capturing the magic of soap bubbles."},{"src":"img/photos/upclose-01.webp","w":1280,"h":1280,"featured":true,"note":"Capturing the magic of soap bubbles."},{"src":"img/photos/upclose-05.webp","w":1280,"h":1280,"featured":true,"note":"Capturing the magic of soap bubbles."},{"src":"img/photos/upclose-08.webp","w":1080,"h":1080,"featured":false}]},{"key":"still","name":"Still","pov":"Quiet things, held a second longer.","photos":[{"src":"img/photos/still-03.webp","w":1023,"h":1280,"featured":true,"loc":"Carolina Chickadee","note":"Small bird, big personality!"},{"src":"img/photos/still-02.webp","w":1038,"h":1037,"featured":true,"loc":"Venice Beach","note":"Lost in thought, or just lost?"},{"src":"img/photos/still-04.webp","w":1023,"h":1280,"featured":true,"loc":"Carolina Chickadee","note":"Small bird, big personality!"},{"src":"img/photos/still-07.webp","w":1280,"h":1280,"featured":false,"note":"End of a day. End of a season."},{"src":"img/photos/still-06.webp","w":1280,"h":1280,"featured":false,"note":"End of a day. End of a season."},{"src":"img/photos/still-01.webp","w":1024,"h":1280,"featured":true,"loc":"Northern Cardinal","note":"Nature's pop of color."},{"src":"img/photos/still-09.webp","w":1280,"h":1280,"featured":false},{"src":"img/photos/still-05.webp","w":1280,"h":720,"featured":true,"loc":"House Finch","note":"Lovebirds of the backyard."},{"src":"img/photos/still-08.webp","w":1280,"h":1280,"featured":false,"note":"Moments as crisp as autumn leaves."}]}];
+
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var rollsHost = document.querySelector("[data-rolls]");
+      if (!rollsHost) { return; }
+      function el(tag, cls) { var n = document.createElement(tag); if (cls) { n.className = cls; } return n; }
+      function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+      /* ---- build the rolls ---- */
+      var gf = 0; // global frame number across the whole sheet
+      PHOTOS.forEach(function (mode, mi) {
+        var roll = el("div", "roll ph-reveal");
+
+        var head = el("div", "roll-head");
+        var tag = el("span", "roll-tag"); tag.textContent = "Roll " + pad(mi + 1);
+        var name = el("span", "roll-name"); name.textContent = mode.name;
+        var pov = el("span", "roll-pov"); pov.textContent = mode.pov;
+        var count = el("span", "roll-count"); count.textContent = mode.photos.length + " frames";
+        head.appendChild(tag); head.appendChild(name); head.appendChild(pov); head.appendChild(count);
+        roll.appendChild(head);
+
+        var strip = el("div", "strip");
+        mode.photos.forEach(function (p, pi) {
+          gf++;
+          var btn = el("button", "frame"); btn.type = "button";
+          btn.dataset.mode = mi; btn.dataset.idx = pi;
+          btn.setAttribute("aria-label", "Enlarge " + (p.loc ? p.loc + ", " : "") + mode.name + " frame " + (pi + 1));
+          btn.title = (p.loc || mode.name) + (p.note ? ", " + p.note : "");
+
+          var img = new Image();
+          img.className = "frame-img";
+          img.src = p.src; img.alt = (p.loc || mode.name) + " photograph";
+          img.decoding = "async"; img.loading = (mi === 0 && pi < 6) ? "eager" : "lazy";
+          btn.appendChild(img);
+
+          var no = el("span", "frame-no"); no.textContent = pad(gf); btn.appendChild(no);
+          var edge = el("span", "frame-edge"); edge.textContent = "ND"; btn.appendChild(edge);
+
+          btn.addEventListener("click", function () { openLB(mi, pi, btn); });
+          strip.appendChild(btn);
+        });
+        roll.appendChild(strip);
+        rollsHost.appendChild(roll);
+      });
+
+      /* ---- reveal rolls on scroll ---- */
+      (function revealRolls() {
+        var els = Array.prototype.slice.call(document.querySelectorAll(".ph-reveal"));
+        if (!els.length) { return; }
+        if (reduceMotion || !("IntersectionObserver" in window)) {
+          els.forEach(function (e) { e.classList.add("in"); }); return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+        }, { threshold: 0.06, rootMargin: "0px 0px -5% 0px" });
+        els.forEach(function (e) { io.observe(e); });
+      })();
+
+      /* ---- print lightbox ---- */
+      var lb = document.querySelector("[data-lightbox]");
+      var lbImg = lb.querySelector("[data-lb-img]");
+      var lbTitle = lb.querySelector("[data-lb-title]");
+      var lbNote = lb.querySelector("[data-lb-note]");
+      var lbMode = lb.querySelector("[data-lb-mode]");
+      var lbCount = lb.querySelector("[data-lb-count]");
+      var curMode = 0, curIdx = 0, lastFocus = null;
+
+      function render() {
+        var m = PHOTOS[curMode], p = m.photos[curIdx];
+        var loc = p.loc || "";
+        lbImg.src = p.src;
+        lbImg.alt = (loc || m.name) + " photograph";
+        lbTitle.textContent = loc || m.name;
+        if (p.note) { lbNote.textContent = p.note; lbNote.style.display = ""; }
+        else { lbNote.textContent = ""; lbNote.style.display = "none"; }
+        // mode tag only when the title already shows a location (avoid duplicate)
+        if (loc) { lbMode.textContent = m.name + "  ·  "; lbMode.style.display = ""; }
+        else { lbMode.textContent = ""; lbMode.style.display = "none"; }
+        lbCount.textContent = "Frame " + (curIdx + 1) + " / " + m.photos.length;
+      }
+      function openLB(mi, pi, trigger) {
+        curMode = mi; curIdx = pi; lastFocus = trigger || null;
+        render();
+        lb.classList.add("open");
+        document.body.classList.add("ph-lb-open");
+        requestAnimationFrame(function () { lb.classList.add("visible"); });
+        lb.querySelector("[data-lb-close]").focus();
+      }
+      function closeLB() {
+        lb.classList.remove("visible");
+        document.body.classList.remove("ph-lb-open");
+        var done = function () {
+          lb.classList.remove("open"); lbImg.src = "";
+          lb.removeEventListener("transitionend", done);
+          if (lastFocus && lastFocus.focus) { lastFocus.focus(); }
+        };
+        if (reduceMotion) { done(); } else { lb.addEventListener("transitionend", done); }
+      }
+      function step(dir) {
+        var n = PHOTOS[curMode].photos.length;
+        curIdx = (curIdx + dir + n) % n; render();
+      }
+      lb.querySelector("[data-lb-close]").addEventListener("click", closeLB);
+      lb.querySelector("[data-lb-prev]").addEventListener("click", function () { step(-1); });
+      lb.querySelector("[data-lb-next]").addEventListener("click", function () { step(1); });
+      lb.addEventListener("click", function (e) { if (e.target === lb) { closeLB(); } });
+      document.addEventListener("keydown", function (e) {
+        if (!lb.classList.contains("open")) { return; }
+        if (e.key === "Escape") { closeLB(); }
+        else if (e.key === "ArrowLeft") { step(-1); }
+        else if (e.key === "ArrowRight") { step(1); }
+        else if (e.key === "Tab") {
+          var f = lb.querySelectorAll("button");
+          var first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+    })();
+  </script>
+  <script src="site.js"></script>
+</body>
+</html>

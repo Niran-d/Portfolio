@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.classList.add('reveal-ready');</script>
+  <title>Niran D. · Senior Product Designer, AI</title>
+  <meta name="description" content="Senior product designer focused on AI-native experiences, shaping model behavior into clear product decisions. 7+ years across travel and enterprise SaaS." />
+  <meta property="og:title" content="Niran D. · Senior Product Designer, AI" />
+  <meta property="og:description" content="Designing AI-native product surfaces, from model behavior to interface decisions." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="img/kayak-ai-home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Niran D. · Senior Product Designer, AI" />
+  <meta name="twitter:image" content="img/kayak-ai-home.png" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4a6b'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="site.css" />
+  <style>
+    /* ---------- HOME-ONLY ---------- */
+    /* faint graph-paper grid behind the hero that dissolves into the bg about halfway down */
+    .hero-grid {
+      position: absolute; top: 0; left: 0; right: 0; height: min(820px, 86vh);
+      background-image:
+        linear-gradient(to right, rgba(22, 24, 29, 0.09) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(22, 24, 29, 0.09) 1px, transparent 1px);
+      background-size: 58px 58px;
+      /* line up a grid line with the text column's left edge (home-col's centering + padding), so headline, sub, and buttons all sit flush against the pattern */
+      background-position: max(var(--pad), calc((100vw - 880px) / 2 + var(--pad))) 0;
+      -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 34%, transparent 70%);
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 34%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    main { position: relative; z-index: 1; }
+
+    /* centered editorial column (left-aligned text inside) */
+    .home-col { width: 100%; max-width: 880px; margin: 0 auto; padding: 0 var(--pad); }
+
+    /* ---------- HERO ---------- */
+    /* padding-top/bottom tuned so the block (nav -> headline -> caption) reads as a complete,
+       settled unit now that it closes on the "Currently at KAYAK" caption rather than a button row */
+    .hero { padding-top: clamp(5rem, 12vw, 9rem); padding-bottom: clamp(3.5rem, 8vw, 5.5rem); }
+    .hero h1 {
+      font-weight: 500;
+      font-size: clamp(1.7rem, 1rem + 2.4vw, 2.5rem);
+      line-height: 1.3; letter-spacing: -0.02em;
+      max-width: 40ch;
+    }
+    .hero-sub {
+      margin-top: 2rem; max-width: 28ch;
+      font-size: 0.9375rem; color: var(--faint);
+      display: flex; align-items: center; gap: 0.45rem;
+    }
+    .kayak-logo {
+      display: inline-flex; flex: 0 0 auto; line-height: 0;
+      transition: transform 0.35s var(--ease-out);
+    }
+    .kayak-logo svg { display: block; width: 105px; height: 20px; overflow: visible; }
+    .kayak-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+    .kayak-logo:active { transform: scale(0.95); }
+    /* per-tile "wave": each K-A-Y-A-K letter tile bobs up in a quick left-to-right sequence */
+    @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+      .kayak-logo:hover .klt { animation: kayakBob 0.42s var(--ease-out); }
+      .kayak-logo:hover .klt:nth-child(2) { animation-delay: 0.04s; }
+      .kayak-logo:hover .klt:nth-child(3) { animation-delay: 0.08s; }
+      .kayak-logo:hover .klt:nth-child(4) { animation-delay: 0.12s; }
+      .kayak-logo:hover .klt:nth-child(5) { animation-delay: 0.16s; }
+    }
+    @keyframes kayakBob {
+      0%, 100% { transform: translateY(0); }
+      45% { transform: translateY(-24px); }
+    }
+    /* reduced-motion fallback: a brightness pulse instead of movement */
+    @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+      .kayak-logo:hover .klt { opacity: 0.7; transition: opacity 0.2s var(--ease); }
+    }
+
+    .hero-actions { margin-top: 2.1rem; display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
+
+    /* secondary pill (Resume), height-matched to the chat CTA */
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      height: 52px; padding: 0 1.35rem;
+      background: var(--surface); color: var(--ink);
+      border: 1px solid var(--line); border-radius: 999px;
+      font-family: var(--sans); font-size: 0.95rem; font-weight: 500;
+      text-decoration: none; cursor: pointer;
+      transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur-press) var(--ease-out);
+    }
+    .btn-secondary:hover, .btn-secondary:focus-visible { background: var(--surface-2); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07); }
+    .btn-secondary:active { transform: scale(0.97); }
+    .btn-secondary svg { width: 18px; height: 18px; color: var(--muted); }
+
+    /* "Let's chat" email CTA — rests as a circular envelope, expands into a pill on hover/focus */
+    .chat-cta {
+      display: inline-flex; align-items: center;
+      background: var(--surface); color: var(--ink);
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 0.5rem; cursor: pointer;
+      font-family: var(--sans); font-size: 0.95rem; font-weight: 500;
+      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur-press) var(--ease-out);
+    }
+    .chat-cta:hover, .chat-cta:focus-visible { background: var(--surface-2); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07); }
+    .chat-cta:active { transform: scale(0.97); }
+    .chat-cta .cc-ico {
+      flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%;
+      display: grid; place-items: center; color: var(--muted);
+      transition: color var(--dur) var(--ease);
+    }
+    .chat-cta:hover .cc-ico, .chat-cta:focus-visible .cc-ico, .chat-cta.is-confirmed .cc-ico { color: var(--accent); }
+    .chat-cta .cc-ico svg { width: 19px; height: 19px; }
+    .chat-cta .cc-label {
+      max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap;
+      margin-left: 0; padding-right: 0;
+      transition: max-width 0.4s var(--ease-out), opacity 0.3s var(--ease-out), margin 0.4s var(--ease-out), padding 0.4s var(--ease-out);
+    }
+    .chat-cta:hover .cc-label, .chat-cta:focus-visible .cc-label, .chat-cta.is-confirmed .cc-label {
+      max-width: 14rem; opacity: 1; margin-left: 0.5rem; padding-right: 0.55rem;
+    }
+
+    /* ---------- SHARED SECTION HEADING ---------- */
+    .home-section { margin-top: clamp(4rem, 10vw, 7rem); }
+    .home-h2 {
+      font-weight: 500; letter-spacing: -0.02em; color: var(--ink);
+      font-size: clamp(1.4rem, 1rem + 1.4vw, 1.85rem);
+    }
+    .home-h2-sub { margin-top: 0.5rem; font-size: 1.0625rem; color: var(--muted); }
+    .home-rule { height: 1px; background: var(--line); margin-bottom: clamp(2rem, 5vw, 3rem); }
+
+    /* ---------- CASE STUDIES (vertical stack of framed figures) ---------- */
+    .cs-list { margin-top: clamp(1.8rem, 4vw, 2.6rem); display: flex; flex-direction: column; gap: clamp(3.5rem, 8vw, 6rem); }
+    .cs-frame {
+      background: linear-gradient(180deg, var(--surface) 0%, #fafafa 100%);
+      border: 1px solid var(--line-soft); border-radius: 18px;
+      padding: clamp(0.9rem, 3vw, 2.4rem);
+    }
+    .cs-media {
+      display: block; border-radius: 10px; overflow: hidden;
+      background: var(--surface-2); border: 1px solid var(--line-soft);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.10);
+    }
+    .cs-media video, .cs-media img { width: 100%; display: block; }
+    .cs-cap { margin-top: 1.1rem; font-size: 0.8125rem; color: var(--faint); }
+    .cs-title { margin-top: 0.45rem; font-size: clamp(1.35rem, 0.9rem + 1.6vw, 1.85rem); font-weight: 500; line-height: 1.18; letter-spacing: -0.02em; }
+    .cs-title a { text-decoration: none; color: var(--ink); transition: color var(--dur) var(--ease); }
+    .cs-title a:hover { color: var(--accent); }
+    .cs-desc { margin-top: 0.7rem; max-width: 58ch; color: var(--body); font-size: 1rem; line-height: 1.62; }
+    .cs-link {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      margin-top: 1.2rem; padding: 0.62rem 1.05rem;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+      font-family: var(--sans); font-size: 0.875rem; font-weight: 500; color: var(--ink); text-decoration: none;
+      transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur-press) var(--ease-out);
+    }
+    .cs-link svg { width: 15px; height: 15px; transition: transform var(--dur) var(--ease-out); }
+    .cs-link:hover, .cs-link:focus-visible { background: var(--surface-2); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07); }
+    .cs-link:active { transform: scale(0.98); }
+    .cs-link:focus-visible svg { transform: translateX(3px); }
+    @media (hover: hover) and (pointer: fine) {
+      .cs-link:hover svg { transform: translateX(3px); }
+    }
+
+    /* ---------- MISC. WORK (grid of tiles -> modal) ---------- */
+    .misc-grid { margin-top: clamp(1.6rem, 3.5vw, 2.2rem); display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1.1rem, 2.6vw, 1.8rem); }
+    .misc-tile { display: block; text-align: left; background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit; color: inherit; text-decoration: none; }
+    .misc-thumb {
+      position: relative; aspect-ratio: 16 / 10; border-radius: 13px; overflow: hidden;
+      border: 1px solid var(--line-soft); display: grid; place-items: center; padding: 1.4rem;
+      background-color: var(--surface);
+      background-image: radial-gradient(rgba(47, 74, 107, 0.10) 1px, transparent 1.4px);
+      background-size: 15px 15px; background-position: -1px -1px;
+      transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur) var(--ease);
+    }
+    .misc-tile:focus-visible .misc-thumb { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(0, 0, 0, 0.10); }
+    @media (hover: hover) and (pointer: fine) {
+      .misc-tile:hover .misc-thumb { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(0, 0, 0, 0.10); }
+    }
+    .misc-tile:active .misc-thumb { transform: scale(0.99); }
+    .misc-mark { display: flex; flex-direction: column; align-items: center; gap: 0.65rem; }
+    .misc-badge {
+      width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center;
+      background: var(--bg); border: 1px solid var(--line-soft);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      font-family: var(--display); font-weight: 700; font-size: 1.25rem; color: var(--accent);
+    }
+    .misc-co { font-family: var(--display); font-weight: 500; font-size: 1.1rem; letter-spacing: -0.01em; color: var(--ink); }
+    .misc-kind {
+      position: absolute; top: 0.85rem; left: 0.85rem;
+      font-size: 0.7rem; font-weight: 500; color: var(--muted);
+      background: var(--bg); border: 1px solid var(--line-soft); border-radius: 999px; padding: 0.26rem 0.62rem;
+    }
+    .misc-view {
+      position: absolute; right: 0.85rem; bottom: 0.85rem;
+      font-size: 0.72rem; font-weight: 500; color: var(--accent);
+      background: var(--bg); border: 1px solid var(--line-soft); border-radius: 999px; padding: 0.26rem 0.62rem;
+      opacity: 0; transform: translateY(4px); transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+    }
+    .misc-tile:focus-visible .misc-view { opacity: 1; transform: none; }
+    @media (hover: hover) and (pointer: fine) {
+      .misc-tile:hover .misc-view { opacity: 1; transform: none; }
+    }
+    .misc-cap { display: block; margin-top: 0.85rem; }
+    .misc-cap .t { display: block; font-size: 0.9375rem; font-weight: 500; color: var(--ink); }
+    .misc-cap .m { display: block; font-size: 0.8125rem; color: var(--faint); margin-top: 0.12rem; }
+
+    /* ---------- CONTACT ---------- */
+    .contact-line { margin-top: 0.85rem; max-width: 50ch; color: var(--body); font-size: 1.0625rem; line-height: 1.6; }
+    .contact-actions { margin-top: 1.7rem; display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
+
+    @media (max-width: 560px) {
+      .misc-grid { grid-template-columns: 1fr; }
+    }
+
+    /* modal */
+    .modal-scrim { position: fixed; inset: 0; background: rgba(0,0,0,0.42); display: none; align-items: flex-start; justify-content: center; padding: 2.5rem 1rem; overflow-y: auto; z-index: 80; opacity: 0; transition: opacity var(--dur) var(--ease-out); }
+    .modal-scrim.open { display: flex; }
+    .modal-scrim.visible { opacity: 1; transition: opacity var(--dur) var(--ease); }
+    .modal { background: var(--bg); width: 100%; max-width: 540px; border-radius: 16px; overflow: hidden; position: relative; box-shadow: 0 30px 70px rgba(0,0,0,0.24); transform: translateY(12px) scale(0.985); opacity: 0; transition: transform var(--dur) var(--ease-out), opacity var(--dur) var(--ease-out); }
+    .modal-scrim.visible .modal { transform: none; opacity: 1; transition: transform 0.34s var(--ease-out), opacity 0.34s var(--ease-out); }
+    .modal-close { position: absolute; top: 1rem; right: 1rem; width: 34px; height: 34px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); cursor: pointer; color: var(--muted); font-size: 1.1rem; line-height: 1; transition: color var(--dur) var(--ease), transform var(--dur-press) var(--ease-out); }
+    .modal-close:hover { color: var(--ink); }
+    .modal-close:active { transform: scale(0.92); }
+    .modal-body { padding: 1.8rem 1.9rem; }
+    .modal-eyebrow { font-size: 0.75rem; color: var(--faint); margin-bottom: 0.5rem; }
+    .modal-title { font-family: var(--display); font-weight: 500; font-size: 1.5rem; line-height: 1.15; letter-spacing: -0.015em; margin-bottom: 0.55rem; }
+    .modal-role { display: inline-block; font-size: 0.75rem; color: var(--accent); background: var(--accent-soft); padding: 0.32rem 0.65rem; border-radius: 999px; margin-bottom: 1.1rem; }
+    .impact-label { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.6rem; }
+    .impact-list { list-style: none; }
+    .impact-list li { display: flex; gap: 0.6rem; padding: 0.4rem 0; font-size: 0.9375rem; line-height: 1.55; color: var(--body); }
+    .impact-list li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-top: 0.6rem; flex-shrink: 0; }
+    .modal-divider { border: none; border-top: 1px solid var(--line-soft); margin: 1.3rem 0; }
+    .modal-foot { display: flex; gap: 0.9rem; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .modal-foot .note { color: var(--muted); font-size: 0.8125rem; }
+    .modal-foot button { background: var(--ink); color: #fff; border: none; border-radius: 999px; padding: 0.6rem 1.1rem; font-family: var(--sans); font-size: 0.8125rem; cursor: pointer; transition: opacity var(--dur) var(--ease), transform var(--dur-press) var(--ease-out); }
+    .modal-foot button:hover { opacity: 0.88; }
+    .modal-foot button:active { transform: scale(0.97); }
+    body.modal-open { overflow: hidden; }
+  </style>
+</head>
+<body id="top">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+
+  <header class="nav" data-nav>
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark">Niran D.</a>
+      <button class="nav-toggle" data-nav-toggle type="button" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="process.html">Process</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Work
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu" role="menu">
+            <a class="menu-item" role="menuitem" href="kayak-ai.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5.1a3 3 0 0 0 1.9 1.9L20.7 12l-5.1 1.7a3 3 0 0 0-1.9 1.9L12 20.7l-1.7-5.1a3 3 0 0 0-1.9-1.9L3.3 12l5.1-1.7a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK.ai</span><span class="menu-sub">Standalone AI travel assistant</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-ai-chat.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.2V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK AI Chat</span><span class="menu-sub">Embedded conversational search</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-search-overview.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16M4 12h16M4 17.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK Search Overview</span><span class="menu-sub">AI guidance on flight results</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="highradius-collections.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V9.5M9.3 19.5V5.5M14.7 19.5V12M20 19.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Autonomous Collections</span><span class="menu-sub">AI-assisted receivables, HighRadius</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="come-touch-grass.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4M12 18c0-2.5 2-4 4.5-4s4 1.4 4 3.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Come touch grass</span><span class="menu-sub">A real-time crowd for live talks</span></span>
+            </a>
+          </div>
+        </div>
+
+        <a class="nav-link" href="play.html">Play</a>
+        <a class="nav-link" href="photos.html">Photos</a>
+
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Contact
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu menu-right" role="menu">
+            <button class="menu-item" role="menuitem" type="button" data-copy-email>
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Email</span><span class="menu-sub" data-copy-label>Copy my address</span></span>
+            </button>
+            <a class="menu-item" role="menuitem" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">LinkedIn</span><span class="menu-sub">Let's connect</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="#" data-resume-link target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Resume</span><span class="menu-sub">Download PDF</span></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <section class="hero">
+      <div class="home-col">
+        <h1>Product designer. I design products that hold up at scale, help teams align on ambiguous, 0&#8209;to&#8209;1 problems, and obsess over the details.</h1>
+        <p class="hero-sub">Currently at
+          <a class="kayak-logo" href="https://www.kayak.com/" target="_blank" rel="noopener" aria-label="KAYAK, opens in a new tab">
+            <svg viewBox="0 0 647.45215 124" width="105" height="20" aria-hidden="true" focusable="false">
+              <g class="klt"><path fill="#ff690f" d="M 0,0 H 124 V 124 H 0 Z"/><path fill="#fff" d="M 38.225559,31.025902 H 53.298227 V 93.025943 H 38.225559 Z"/><path fill="#fff" d="M 85.774463,92.974057 H 69.147858 L 52.003325,62 69.147858,31.025902 H 85.774463 L 68.526307,62 Z"/></g>
+              <g class="klt"><path fill="#ff690f" d="m 130.8889,0 h 124 v 124 h -124 z"/><path fill="#fff" d="m 181.64911,84.065133 -2.69341,9.012568 h -16.05682 l 20.40776,-62.155396 h 19.16453 l 20.25231,62.155396 H 206.3041 l -2.69342,-8.908957 z m 10.98081,-35.324949 -7.25145,23.152875 h 14.50291 z"/></g>
+              <g class="klt"><path fill="#ff690f" d="M 261.72598,0 H 385.72603 V 124 H 261.72598 Z"/><path fill="#fff" d="M 331.4954,93.077701 H 316.3191 V 65.677543 L 295.96323,30.922305 h 17.92149 l 10.04843,19.060984 9.89309,-19.060984 h 17.66249 L 331.4954,65.677543 Z"/></g>
+              <g class="klt"><path fill="#ff690f" d="M 392.61484,0 H 516.61456 V 124 H 392.61484 Z"/><path fill="#fff" d="m 443.37499,84.065133 -2.69343,9.012568 h -16.05658 l 20.40765,-62.155396 h 19.16456 l 20.25246,62.155396 h -16.41967 l -2.69319,-8.908957 z m 10.98085,-35.324949 -7.25148,23.152875 h 14.50303 z"/></g>
+              <g class="klt"><path fill="#ff690f" d="m 523.45216,0 h 124 v 124 h -124 z"/><path fill="#fff" d="m 561.6777,31.025902 h 15.07207 V 93.025943 H 561.6777 Z"/><path fill="#fff" d="M 609.2263,92.974057 H 592.5999 L 575.45525,62 592.5999,31.025902 h 16.6264 L 591.97831,62 Z"/></g>
+            </svg>
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <section class="home-section" id="work">
+      <div class="home-col">
+        <div class="home-rule" aria-hidden="true"></div>
+        <h2 class="home-h2" data-reveal>Select work</h2>
+        <p class="home-h2-sub" data-reveal>A curated selection of my recent works.</p>
+
+        <div class="cs-list">
+          <article class="cs" data-reveal>
+            <div class="cs-frame">
+              <a class="cs-media" href="kayak-ai.html" aria-label="KAYAK.ai case study">
+                <video src="img/kayak-ai-card.mp4" poster="img/kayak-ai-card.jpg" muted loop playsinline preload="metadata"></video>
+              </a>
+            </div>
+            <p class="cs-cap">KAYAK · 2024–present · Information architecture &amp; interaction model</p>
+            <h3 class="cs-title"><a href="kayak-ai.html">A standalone AI travel assistant, built 0 to 1</a></h3>
+            <p class="cs-desc">I defined the information architecture and interaction model that connects natural-language prompts to KAYAK's structured metasearch results, and built it to scale.</p>
+            <a class="cs-link" href="kayak-ai.html">Read case study <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </article>
+
+          <article class="cs" data-reveal>
+            <div class="cs-frame">
+              <a class="cs-media" href="kayak-ai-chat.html" aria-label="KAYAK AI Chat case study">
+                <video src="img/kayak-chat-card.mp4" poster="img/kayak-chat-card.jpg" muted loop playsinline preload="metadata"></video>
+              </a>
+            </div>
+            <p class="cs-cap">KAYAK · 2024 · Embedded conversational search</p>
+            <h3 class="cs-title"><a href="kayak-ai-chat.html">Bringing conversational AI into the booking flow</a></h3>
+            <p class="cs-desc">KAYAK's standalone AI had strong capabilities but near-zero retention. I helped move it into an embedded chat experience on KAYAK.com, then designed for the hardest part: keeping non-deterministic output coherent.</p>
+            <a class="cs-link" href="kayak-ai-chat.html">Read case study <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </article>
+
+          <article class="cs" data-reveal>
+            <div class="cs-frame">
+              <a class="cs-media" href="kayak-search-overview.html" aria-label="KAYAK Search Overview case study">
+                <video src="img/kayak-so-card.mp4" poster="img/kayak-so-card.jpg" muted loop playsinline preload="metadata"></video>
+              </a>
+            </div>
+            <p class="cs-cap">KAYAK · 2025 · AI guidance on flight results</p>
+            <h3 class="cs-title"><a href="kayak-search-overview.html">Turning AI summaries into booking decisions</a></h3>
+            <p class="cs-desc">KAYAK's flight results overwhelmed travelers with options and no guidance. I designed an AI overview that orients users and routes them to the filters that convert, without burying results.</p>
+            <a class="cs-link" href="kayak-search-overview.html">Read case study <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section" id="misc">
+      <div class="home-col">
+        <h2 class="home-h2" data-reveal>Misc. Work</h2>
+        <div class="misc-grid">
+          <a class="misc-tile" href="highradius-collections.html" aria-label="Autonomous Collections case study, HighRadius" data-reveal>
+            <span class="misc-thumb">
+              <span class="misc-kind">Finance · AI-assisted</span>
+              <span class="misc-mark">
+                <span class="misc-badge" aria-hidden="true">H</span>
+                <span class="misc-co">HighRadius</span>
+              </span>
+              <span class="misc-view" aria-hidden="true">Read case study →</span>
+            </span>
+            <span class="misc-cap">
+              <span class="t">Autonomous Collections, an AI-assisted receivables workspace</span>
+              <span class="m">Lead designer · 2021</span>
+            </span>
+          </a>
+          <button class="misc-tile" type="button" data-case="3" data-reveal style="--d:.06s">
+            <span class="misc-thumb">
+              <span class="misc-kind">Multi-platform launch</span>
+              <span class="misc-mark">
+                <span class="misc-badge" aria-hidden="true">P</span>
+                <span class="misc-co">PartyPoker</span>
+              </span>
+              <span class="misc-view" aria-hidden="true">View →</span>
+            </span>
+            <span class="misc-cap">
+              <span class="t">PartyPoker multi-platform product launch</span>
+              <span class="m">ivy · UX Designer · 2018–2020</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section" id="contact">
+      <div class="home-col">
+        <h2 class="home-h2" data-reveal>Contact</h2>
+        <p class="contact-line" data-reveal>Reach out about senior product design roles, or connect on the platforms below.</p>
+        <div class="contact-actions" data-reveal>
+          <button class="btn-secondary" type="button" data-copy-email data-copied="Copied!">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l7 5 7-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-copy-label>Email</span>
+          </button>
+          <a class="btn-secondary" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            LinkedIn
+          </a>
+          <a class="btn-secondary" href="#" data-resume-link target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            Resume
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="about.html">About</a>
+        <button class="nav-link" data-copy-email type="button" style="padding:0;background:none;color:var(--muted);font-size:0.8125rem;">Email</button>
+        <a href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#" data-resume-link target="_blank" rel="noopener">Resume</a>
+      </div>
+      <p class="footer-meta">© 2026 Niran D. · Designed and built from scratch.</p>
+    </div>
+  </footer>
+
+  <div class="modal-scrim" id="modalScrim" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      <div class="modal-body">
+        <p class="modal-eyebrow" id="modalEyebrow"></p>
+        <h3 class="modal-title" id="modalTitle"></h3>
+        <span class="modal-role" id="modalRole"></span>
+        <p class="impact-label">Impact</p>
+        <ul class="impact-list" id="modalImpact"></ul>
+        <hr class="modal-divider" />
+        <div class="modal-foot">
+          <span class="note">Full case study available on request.</span>
+          <button type="button" id="requestBtn">Request case study</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="site.js"></script>
+  <script>
+    /* Earlier-work modal (home only) */
+    (function () {
+      var EMAIL = "you@email.com";
+      var CASE_DATA = {
+        "3": { eyebrow: "ivy · 2018 to 2020", title: "PartyPoker multi-platform launch", role: "UX Designer",
+          impact: ["Onboarded 50,000 users in the first month and drove a 20% engagement increase.", "Led design across Android, iOS, web, and desktop for one core experience.", "Designed 500+ screens and reusable white-label components across brands."] }
+      };
+      var scrim = document.getElementById("modalScrim");
+      var modal = scrim.querySelector(".modal");
+      var lastFocused = null;
+      function focusable() { return modal.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])'); }
+      function open(id, trigger) {
+        var d = CASE_DATA[id]; if (!d) { return; }
+        lastFocused = trigger || document.activeElement;
+        document.getElementById("modalEyebrow").textContent = d.eyebrow;
+        document.getElementById("modalTitle").textContent = d.title;
+        document.getElementById("modalRole").textContent = d.role;
+        document.getElementById("modalImpact").innerHTML = d.impact.map(function (t) { return "<li>" + t + "</li>"; }).join("");
+        scrim.classList.add("open"); document.body.classList.add("modal-open");
+        requestAnimationFrame(function () { scrim.classList.add("visible"); });
+        document.getElementById("modalClose").focus();
+      }
+      function close() {
+        scrim.classList.remove("visible"); document.body.classList.remove("modal-open");
+        setTimeout(function () { scrim.classList.remove("open"); }, 280);
+        if (lastFocused && lastFocused.focus) { lastFocused.focus(); }
+      }
+      document.querySelectorAll("[data-case]").forEach(function (el) {
+        el.addEventListener("click", function (e) { e.preventDefault(); open(el.getAttribute("data-case"), el); });
+      });
+      document.getElementById("modalClose").addEventListener("click", close);
+      document.getElementById("requestBtn").addEventListener("click", function () { window.location.href = "mailto:" + EMAIL + "?subject=Case%20study%20request"; });
+      scrim.addEventListener("click", function (e) { if (e.target === scrim) { close(); } });
+      document.addEventListener("keydown", function (e) {
+        if (!scrim.classList.contains("open")) { return; }
+        if (e.key === "Escape") { close(); return; }
+        if (e.key === "Tab") {
+          var f = focusable(); if (!f.length) { return; }
+          var first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

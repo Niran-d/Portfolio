@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Niran greeter — standalone demo</title>
+  <style>
+    /* demo page chrome only — not part of the widget */
+    body { margin: 0; min-height: 200vh; font-family: ui-sans-serif, system-ui, sans-serif; color: #16181d; background: #fcfcfb; }
+    .demo-note { max-width: 640px; margin: 4rem auto; padding: 0 1.5rem; line-height: 1.6; color: #5a5e68; }
+    .demo-note h1 { color: #16181d; }
+    code { font-family: ui-monospace, monospace; background: #eef2f7; padding: 1px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <div class="demo-note">
+    <h1>Niran greeter</h1>
+    <p>The avatar walks in from the bottom-left, waves, and greets you. Click or tap it to make it wave again. Scroll — it stays pinned to the bottom of the viewport. To embed it in your site, copy the marked block below into your page and set <code>SHEET_SRC</code> to wherever <code>niran.png</code> lives.</p>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- NIRAN GREETER : START  (copy from here to END into your page) -->
+  <!-- ============================================================= -->
+  <div id="niran-greeter" aria-live="polite">
+    <div class="ng-bubble" id="ngBubble"></div>
+    <button class="ng-avatar" id="ngAvatar" type="button" aria-label="Niran the avatar — click to say hi"></button>
+  </div>
+
+  <style>
+    #niran-greeter {
+      position: fixed; left: 0; bottom: 0; width: 100%; height: 140px;
+      pointer-events: none; z-index: 60; overflow: visible;
+      --ng-frame: 128px;
+    }
+    #niran-greeter .ng-avatar {
+      position: absolute; left: 0; bottom: 0;
+      width: var(--ng-frame); height: var(--ng-frame);
+      padding: 0; border: 0; background-color: transparent; cursor: pointer;
+      background-image: url("img/niran.png");
+      background-repeat: no-repeat;
+      background-size: 768px 640px;          /* SHEET_W × SHEET_H × SCALE */
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      pointer-events: auto;
+      will-change: transform;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #niran-greeter .ng-avatar:focus-visible { outline: 2px solid #2f4a6b; outline-offset: 3px; }
+    #niran-greeter .ng-bubble {
+      position: absolute; left: 0; bottom: calc(var(--ng-frame) - 8px);
+      pointer-events: none; opacity: 0;
+      transform: translate(-50%, 5px) scale(0.96); transform-origin: center bottom;
+      background: #ffffff; color: #16181d;
+      font: 600 12px/1.45 ui-monospace, "JetBrains Mono", monospace;
+      letter-spacing: -0.01em; padding: 8px 11px; white-space: nowrap;
+      border: 2px solid #16181d; box-shadow: 4px 4px 0 rgba(22,24,29,0.14);
+      transition: opacity 0.18s ease-out, transform 0.18s cubic-bezier(0.22,1,0.36,1);
+    }
+    #niran-greeter .ng-bubble.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    #niran-greeter .ng-bubble::after {
+      content: ""; position: absolute; left: 50%; bottom: -6px;
+      width: 9px; height: 9px; background: #ffffff;
+      border-right: 2px solid #16181d; border-bottom: 2px solid #16181d;
+      transform: translateX(-50%) rotate(45deg);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #niran-greeter .ng-bubble { transition: opacity 0.18s; }
+    }
+  </style>
+
+  <script>
+    (function () {
+      var SHEET_SRC = "img/niran.png";   // <-- change to "public/niran.png" (or your path) when embedding
+      var SHEET_W = 768, SHEET_H = 640, FRAME = 128, COLS = 6, SCALE = 1;
+      var ANIM = {
+        idle: { row: 0, fps: 4 },
+        walk: { row: 1, fps: 10 },
+        wave: { row: 4, fps: 6 }
+      };
+      var WALK_SPEED = 130;          // px per second
+      var START_X = 8;
+      var FLIP_WALK = false;         // set true if the walk cycle faces left
+      var WELCOME = "hey, welcome \uD83D\uDC4B";
+      var CLICK_MSG = "I'm Niran, a designer. Have a look around.";
+      var BUBBLE_MS = 4000;
+
+      var root = document.getElementById("niran-greeter");
+      var avatar = document.getElementById("ngAvatar");
+      var bubble = document.getElementById("ngBubble");
+      if (!root || !avatar || !bubble) { return; }
+
+      var px = FRAME * SCALE;
+      root.style.setProperty("--ng-frame", px + "px");
+      avatar.style.backgroundImage = 'url("' + SHEET_SRC + '")';
+      avatar.style.backgroundSize = (SHEET_W * SCALE) + "px " + (SHEET_H * SCALE) + "px";
+
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var x = START_X, targetX = START_X;
+      var anim = "walk", animStart = 0, lastT = 0;
+      var pendingBubble = null, bubbleTimer = null;
+
+      function computeTarget() {
+        targetX = Math.max(START_X, Math.round(window.innerWidth / 2 - px / 2));
+      }
+      function setFrame(row, frame, tx, ty) {
+        avatar.style.transform = "translate(" + tx + "px," + ty + "px)" + (FLIP_WALK && anim === "walk" ? " scaleX(-1)" : "");
+        avatar.style.backgroundPosition = (-frame * px) + "px " + (-row * px) + "px";
+        bubble.style.left = (tx + px / 2) + "px";
+      }
+      function setAnim(name) { anim = name; animStart = performance.now(); }
+      function startWave(msg) { pendingBubble = msg; setAnim("wave"); }
+      function showBubble(text) {
+        bubble.textContent = text;
+        bubble.classList.add("show");
+        if (bubbleTimer) { clearTimeout(bubbleTimer); }
+        bubbleTimer = setTimeout(function () { bubble.classList.remove("show"); }, BUBBLE_MS);
+      }
+
+      function loop(now) {
+        var dt = lastT ? (now - lastT) / 1000 : 0;
+        lastT = now;
+        var cfg = ANIM[anim];
+        var frameDur = 1000 / cfg.fps;
+        var fi = Math.floor((now - animStart) / frameDur);
+        var frame = fi % COLS;
+        var ty = 0;
+
+        if (anim === "walk") {
+          x += WALK_SPEED * dt;
+          if (x >= targetX) { x = targetX; startWave(WELCOME); }
+        } else if (anim === "wave") {
+          frame = Math.min(fi, COLS - 1);
+          if (fi >= COLS) {
+            var msg = pendingBubble; pendingBubble = null;
+            setAnim("idle");
+            if (msg) { showBubble(msg); }
+          }
+        } else { // idle drift
+          x += 0; ty = Math.sin(now / 700) * 2;
+        }
+
+        var driftX = anim === "idle" ? Math.sin(now / 1400) * 4 : 0;
+        setFrame(cfg.row, frame, x + driftX, ty);
+        requestAnimationFrame(loop);
+      }
+
+      function startStatic() {
+        computeTarget();
+        x = targetX;
+        anim = "idle";
+        setFrame(ANIM.idle.row, 0, x, 0);
+        showBubble(WELCOME);
+      }
+
+      avatar.addEventListener("click", function () {
+        if (reduce) { showBubble(CLICK_MSG); return; }
+        startWave(CLICK_MSG);
+      });
+      window.addEventListener("resize", function () {
+        var wasAtTarget = Math.abs(x - targetX) < 1;
+        computeTarget();
+        if (reduce || anim !== "walk" || wasAtTarget) { x = Math.min(x, targetX); if (reduce || anim !== "walk") { x = targetX; } }
+      });
+
+      var img = new Image();
+      img.onload = function () {
+        computeTarget();
+        if (reduce) { startStatic(); return; }
+        setAnim("walk");
+        requestAnimationFrame(loop);
+      };
+      img.onerror = function () { root.style.display = "none"; };
+      img.src = SHEET_SRC;
+    })();
+  </script>
+  <!-- =========================================================== -->
+  <!-- NIRAN GREETER : END                                          -->
+  <!-- =========================================================== -->
+
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.classList.add('reveal-ready');</script>
+  <title>Come touch grass · Niran D.</title>
+  <meta name="description" content="Case study: a live, real-time back-channel that puts the room back into remote talks. The audience joins from a phone and shows up as a little pixel crowd in a meadow under the slides. Designed and built solo by Niran D." />
+  <meta property="og:title" content="Come touch grass · Niran D." />
+  <meta property="og:description" content="A real-time pixel crowd that lets a presenter read the room again. Try the interactive version." />
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="img/play-presentation-title.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4a6b'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="site.css" />
+  <link rel="stylesheet" href="case.css" />
+  <style>
+    /* ============================================================
+       Interactive room — a playable recreation of the presenter view.
+       Detailed pixel sheets are rendered to per-avatar canvases and
+       driven by play-stage.js. Motion is gated behind reduced-motion.
+       ============================================================ */
+    .room { scroll-margin-top: 96px; }
+    .room-frame {
+      position: relative; width: 100%; aspect-ratio: 16 / 8.2;
+      min-height: 280px; max-height: 440px; border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--line-soft);
+      background: #cfe6f3 url("img/pixel-bg.png") center bottom / cover no-repeat;
+    }
+    .room-fallback { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; display: block; }
+    .room-frame.is-ready .room-fallback { display: none; }
+    .room-crowd { position: absolute; inset: 0; overflow: hidden; }
+
+    /* one avatar = shadow + canvas + nametag + bubble */
+    .av { position: absolute; bottom: 0; transform: translateX(-50%); padding: 0; border: 0; background: none; cursor: pointer; }
+    .av .spr { display: block; image-rendering: pixelated; image-rendering: crisp-edges; will-change: transform; }
+    .av .shadow { position: absolute; left: 50%; bottom: -1px; width: 50%; height: 7px; background: rgba(26, 28, 33, 0.22); border-radius: 50%; transform: translateX(-50%); filter: blur(1.2px); pointer-events: none; }
+    .av .nm {
+      position: absolute; left: 50%; top: -14px; transform: translateX(-50%);
+      font: 600 10px/1 var(--sans); letter-spacing: 0.04em; color: #1a1814;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7); white-space: nowrap;
+      transition: opacity 0.2s ease; pointer-events: none;
+    }
+    .av .bub {
+      position: absolute; left: 50%; bottom: calc(100% - 6px); transform: translate(-50%, 5px) scale(0.96);
+      transform-origin: center bottom; width: max-content; max-width: 160px; text-align: center;
+      background: #fff; color: #16181d; border: 2px solid #16181d; border-radius: 4px;
+      padding: 5px 9px; font: 550 11px/1.3 var(--sans);
+      box-shadow: 3px 3px 0 rgba(22, 24, 29, 0.12); opacity: 0; pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s var(--ease); z-index: 40;
+    }
+    .av .bub::after {
+      content: ""; position: absolute; left: 50%; bottom: -6px; width: 8px; height: 8px;
+      background: #fff; border-right: 2px solid #16181d; border-bottom: 2px solid #16181d;
+      transform: translateX(-50%) rotate(45deg);
+    }
+    .av.say .bub { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    .av.say .nm { opacity: 0; }
+    .av.pet .nm { display: none; }
+    .av.pet { cursor: pointer; }
+    .av:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+    .av .emote {
+      position: absolute; left: 50%; bottom: 92%; transform: translateX(-50%);
+      font-size: 18px; line-height: 1; pointer-events: none; z-index: 41;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .av .emote { animation: emoteFloat 1.3s var(--ease) forwards; }
+    }
+    @keyframes emoteFloat {
+      0% { opacity: 0; transform: translate(-50%, 6px) scale(0.6); }
+      18% { opacity: 1; transform: translate(-50%, -2px) scale(1.05); }
+      100% { opacity: 0; transform: translate(-50%, -34px) scale(1); }
+    }
+
+    /* dead-room veil: the muted Zoom grid that opens the story */
+    .zoom-veil {
+      position: absolute; inset: 0; z-index: 200; display: grid; place-items: center;
+      background: #0c0e12; transition: opacity 0.55s var(--ease), visibility 0s linear 0.55s;
+    }
+    .room-frame.live .zoom-veil { opacity: 0; visibility: hidden; pointer-events: none; }
+    .zoom-tiles {
+      position: absolute; inset: 0; display: grid;
+      grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 5px; padding: 5px; opacity: 0.55;
+    }
+    .zoom-tile { position: relative; background: #16181d; border-radius: 5px; display: grid; place-items: center; }
+    .zoom-tile span { width: 26%; aspect-ratio: 1; border-radius: 50%; background: #2a2d34; color: #6c7078; display: grid; place-items: center; font: 600 11px/1 var(--sans); letter-spacing: 0.02em; }
+    .zoom-tile::after { content: ""; position: absolute; right: 8px; bottom: 7px; width: 7px; height: 7px; border-radius: 50%; background: #d2433a; box-shadow: 0 0 0 2px rgba(13,15,18,0.9); }
+    .veil-card { position: relative; z-index: 1; text-align: center; max-width: 30ch; padding: 1.2rem; }
+    .veil-eyebrow { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); font-weight: 600; }
+    .veil-line { margin-top: 0.5rem; color: #fff; font-family: var(--display); font-weight: 500; font-size: clamp(1.1rem, 0.9rem + 1.1vw, 1.5rem); line-height: 1.25; letter-spacing: -0.01em; }
+    .veil-btn {
+      margin-top: 1.1rem; display: inline-flex; align-items: center; gap: 0.5rem;
+      font: 550 0.9rem var(--sans); color: #16181d; background: #fff; border: 0; cursor: pointer;
+      padding: 0.7rem 1.15rem; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
+    .veil-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,0.34); }
+    .veil-btn .dot { width: 8px; height: 8px; border-radius: 50%; background: #4caf72; }
+
+    .room-hint {
+      position: absolute; right: 10px; bottom: 9px; z-index: 130; display: none;
+      font: 500 11px/1 var(--sans); color: rgba(22, 24, 29, 0.6);
+      background: rgba(255, 255, 255, 0.66); padding: 4px 9px; border-radius: 999px; pointer-events: none;
+    }
+    .room-frame.live .room-hint { display: block; }
+
+    /* control panel: the audience controller, brought onto the page */
+    .room-panel {
+      margin-top: 0.85rem; border: 1px solid var(--line-soft); border-radius: 14px;
+      background: var(--surface); padding: 0.85rem 0.95rem;
+      opacity: 0.45; pointer-events: none; transition: opacity 0.4s var(--ease);
+    }
+    .room-frame.live ~ .room-panel, .room.live-panel .room-panel { opacity: 1; pointer-events: auto; }
+    .panel-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+    .panel-row + .panel-row { margin-top: 0.7rem; }
+    .panel-k { width: 100%; font-size: 0.6rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-bottom: -0.1rem; }
+    .ctrl {
+      display: inline-flex; align-items: center; gap: 0.42rem;
+      font: 550 0.82rem var(--sans); color: var(--ink); background: #fff;
+      border: 1px solid var(--line); border-radius: 10px; padding: 0.5rem 0.8rem; cursor: pointer;
+      transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+    }
+    .ctrl:hover { border-color: rgba(47, 74, 107, 0.4); background: var(--accent-soft); }
+    .ctrl:active { transform: translateY(1px); }
+    .ctrl .ico { font-size: 1rem; line-height: 1; }
+    .ctrl-ghost { color: var(--muted); }
+    .ctrl-reset { margin-left: auto; }
+    .panel-note { margin-top: 0.7rem; font-size: 0.72rem; color: var(--faint); }
+
+    /* ============================================================
+       Feature grid — one live, looping avatar per feature, each
+       standing in its own little meadow. Driven by play-stage.js
+       (the .fdemo boxes); paused when scrolled out of view.
+       ============================================================ */
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.9rem; margin-top: 1.4rem;
+    }
+    .fcard {
+      border: 1px solid var(--line-soft); border-radius: 14px; overflow: hidden;
+      background: var(--surface); display: flex; flex-direction: column;
+      transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
+    .fcard:hover { border-color: rgba(47, 74, 107, 0.32); transform: translateY(-2px); box-shadow: 0 10px 26px rgba(22, 24, 29, 0.08); }
+    .fdemo {
+      position: relative; height: 168px; overflow: hidden; border-bottom: 1px solid var(--line-soft);
+      background: #cfe6f3 url("img/pixel-bg.png") center 84% / cover no-repeat;
+    }
+    .fdemo .av { cursor: default; }
+    .fdemo .av .nm { display: none; }
+    .fcard-body { padding: 0.7rem 0.85rem 0.95rem; }
+    .fcard-title { display: flex; align-items: center; gap: 0.4rem; font: 550 0.9rem var(--sans); color: var(--ink); }
+    .fcard-title .ico { font-size: 1rem; line-height: 1; }
+    .fcard-desc { margin: 0.28rem 0 0; font-size: 0.78rem; line-height: 1.45; color: var(--muted); }
+
+    /* product screenshots */
+    .shot { margin: 1.4rem 0 0; }
+    .shot img { width: 100%; display: block; border-radius: 14px; border: 1px solid var(--line-soft); background: var(--surface); }
+    .shot figcaption, .feat-twoup-fig figcaption { margin-top: 0.65rem; font-size: 0.82rem; line-height: 1.5; color: var(--muted); }
+
+    /* two-up figure (join slide + phone controller) */
+    .twoup { display: grid; grid-template-columns: 1.5fr 1fr; gap: 1.1rem; align-items: center; }
+    .twoup-pane img { width: 100%; display: block; border-radius: 12px; border: 1px solid var(--line-soft); background: var(--surface); }
+    .twoup-pane.phone img { max-width: 250px; margin-inline: auto; border-radius: 24px; }
+    @media (max-width: 680px) { .twoup { grid-template-columns: 1fr; } .twoup-pane.phone img { max-width: 230px; } }
+
+    /* closing statement */
+    .feat-kicker {
+      margin: clamp(2.5rem, 5vw, 3.5rem) 0 0; max-width: 40ch;
+      font-family: var(--display); font-weight: 500; color: var(--ink);
+      font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem); line-height: 1.3; letter-spacing: -0.015em;
+    }
+
+    @media (max-width: 640px) {
+      /* let the aspect ratio drive height; a min-height here would force
+         the width wider than the viewport (min-height × ratio). */
+      .room-frame { aspect-ratio: 16 / 11; min-height: 0; }
+      .av.opt { display: none; }
+      .zoom-tiles { grid-template-columns: repeat(3, 1fr); }
+      .ctrl-reset { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+
+  <header class="nav" data-nav>
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark">Niran D.</a>
+      <button class="nav-toggle" data-nav-toggle type="button" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="process.html">Process</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger is-active" type="button" aria-haspopup="true" aria-expanded="false">Work
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu" role="menu">
+            <a class="menu-item" role="menuitem" href="kayak-ai.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5.1a3 3 0 0 0 1.9 1.9L20.7 12l-5.1 1.7a3 3 0 0 0-1.9 1.9L12 20.7l-1.7-5.1a3 3 0 0 0-1.9-1.9L3.3 12l5.1-1.7a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK.ai</span><span class="menu-sub">Standalone AI travel assistant</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-ai-chat.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.2V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK AI Chat</span><span class="menu-sub">Embedded conversational search</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-search-overview.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16M4 12h16M4 17.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK Search Overview</span><span class="menu-sub">AI guidance on flight results</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="highradius-collections.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V9.5M9.3 19.5V5.5M14.7 19.5V12M20 19.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Autonomous Collections</span><span class="menu-sub">AI-assisted receivables, HighRadius</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="come-touch-grass.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4M12 18c0-2.5 2-4 4.5-4s4 1.4 4 3.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Come touch grass</span><span class="menu-sub">A real-time crowd for live talks</span></span>
+            </a>
+          </div>
+        </div>
+        <a class="nav-link" href="play.html">Play</a>
+        <a class="nav-link" href="photos.html">Photos</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Contact
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu menu-right" role="menu">
+            <button class="menu-item" role="menuitem" type="button" data-copy-email>
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Email</span><span class="menu-sub" data-copy-label>Copy my address</span></span>
+            </button>
+            <a class="menu-item" role="menuitem" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">LinkedIn</span><span class="menu-sub">Let's connect</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="#" data-resume-link target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Resume</span><span class="menu-sub">Download PDF</span></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="case-wrap">
+    <aside class="case-nav" aria-label="On this page">
+      <a class="cn-back" href="play.html">← Play</a>
+      <p class="cn-title">On this page</p>
+      <ol>
+        <li><a href="#room">Try it</a></li>
+        <li><a href="#problem">The problem</a></li>
+        <li><a href="#features">The features</a></li>
+        <li><a href="#screens">In the room</a></li>
+        <li><a href="#craft">Under the hood</a></li>
+        <li><a href="#went">How it went</a></li>
+        <li><a href="#why">Why it matters</a></li>
+      </ol>
+    </aside>
+
+    <main class="case-main" id="mainContent">
+      <p class="eyebrow">Side project · Real-time multiplayer · Two evenings</p>
+      <h1>Come touch grass</h1>
+      <p class="lede">A live back-channel that puts the room back into remote talks. The audience scans a QR, picks a little pixel character, and shows up as a <mark class="hl hl-green">tiny crowd in a meadow</mark> under my slides, walking, waving, and reacting in real time while I present.</p>
+      <dl class="context">
+        <div><dt class="ctx-k">Role</dt><dd class="ctx-v">Designed and built solo</dd></div>
+        <div><dt class="ctx-k">Surfaces</dt><dd class="ctx-v">Two: a presenter stage and a phone controller</dd></div>
+        <div><dt class="ctx-k">Built with</dt><dd class="ctx-v">PartyKit, vanilla JS, a hand-drawn sprite engine</dd></div>
+        <div><dt class="ctx-k">Shipped as</dt><dd class="ctx-v">A live talk to my design team</dd></div>
+      </dl>
+
+      <!-- ===== interactive room ===== -->
+      <div class="room" id="room" data-reveal>
+        <div class="room-frame" id="roomFrame" role="group" aria-label="Interactive demo: a pixel-art audience standing in a meadow. Use the controls below to make them wave, cheer, react, and speak. Tap any character to make it react.">
+          <img class="room-fallback" src="img/play-presentation-title.png" alt="The presenter view: a pixel-art audience crowd standing in a meadow along the bottom of a slide, with names floating above each character." />
+          <div class="room-crowd" id="roomCrowd"></div>
+          <span class="room-hint">tap any character</span>
+          <div class="zoom-veil" id="zoomVeil">
+            <div class="zoom-tiles" id="zoomTiles" aria-hidden="true"></div>
+            <div class="veil-card">
+              <p class="veil-eyebrow">A remote talk, right now</p>
+              <p class="veil-line">A wall of muted tiles. No nods, no laughs, no idea if anything is landing.</p>
+              <button class="veil-btn" id="reviveBtn" type="button"><span class="dot" aria-hidden="true"></span> Bring the room to life</button>
+            </div>
+          </div>
+        </div>
+        <div class="room-panel" id="roomPanel" aria-label="Room controls">
+          <div class="panel-row">
+            <span class="panel-k">React</span>
+            <button class="ctrl" type="button" data-room="cheer"><span class="ico" aria-hidden="true">★</span> Cheer</button>
+            <button class="ctrl" type="button" data-room="clap"><span class="ico" aria-hidden="true">👏</span> Clap</button>
+            <button class="ctrl" type="button" data-room="wave"><span class="ico" aria-hidden="true">👋</span> Wave</button>
+            <button class="ctrl" type="button" data-room="hand"><span class="ico" aria-hidden="true">✋</span> Raise hand</button>
+          </div>
+          <div class="panel-row">
+            <span class="panel-k">Feel</span>
+            <button class="ctrl" type="button" data-room="love"><span class="ico" aria-hidden="true">❤️</span> Love</button>
+            <button class="ctrl" type="button" data-room="laugh"><span class="ico" aria-hidden="true">😂</span> Laugh</button>
+            <button class="ctrl" type="button" data-room="hype"><span class="ico" aria-hidden="true">🎉</span> Hype</button>
+          </div>
+          <div class="panel-row">
+            <span class="panel-k">More</span>
+            <button class="ctrl" type="button" data-room="say"><span class="ico" aria-hidden="true">💬</span> Say something</button>
+            <button class="ctrl" type="button" data-room="wander"><span class="ico" aria-hidden="true">🚶</span> Wander</button>
+            <button class="ctrl" type="button" data-room="summon"><span class="ico" aria-hidden="true">🐕</span> Summon Biscuit</button>
+            <button class="ctrl ctrl-ghost ctrl-reset" type="button" data-room="reset">Reset</button>
+          </div>
+          <p class="panel-note">This is the real audience controller, rebuilt on the page. On a phone it fits on a thumb. You can also tap any character in the meadow directly.</p>
+        </div>
+      </div>
+
+      <p class="metrics-head" data-reveal>The short version</p>
+      <div class="metrics">
+        <div class="metric" data-reveal style="--d:0s"><div class="num">2</div><div class="lbl">evenings to design, build, and ship it</div></div>
+        <div class="metric" data-reveal style="--d:.08s"><div class="num">0</div><div class="lbl">apps to install; you join from a phone browser</div></div>
+        <div class="metric" data-reveal style="--d:.16s"><div class="num">20</div><div class="lbl">minutes live, and the crowd stayed the whole way</div></div>
+      </div>
+
+      <section id="problem">
+        <p class="label">The problem</p>
+        <h2>Presenting into a wall of muted tiles</h2>
+        <p class="body">Half of every audience is remote now. You are mid-sentence, looking at a grid of muted rectangles, with <mark class="hl hl-amber">no idea if anything is landing</mark>. In a room you read faces. On a call you get silence and a participant count.</p>
+        <p class="body">So I asked the smallest version of the question, not "what's the best engagement platform" but <mark class="hl hl-blue">"could I just see the room again?"</mark> Two evenings, only tools already on my laptop. The bet: <strong>presence beats features</strong>. Not a dashboard of controls, just a meadow under the slides where everyone shows up and reacts in real time.</p>
+      </section>
+
+      <section id="features">
+        <p class="label">The features</p>
+        <h2>Everything the audience can do</h2>
+        <p class="body">Each one is a single tap on the phone, and lands on the presenter's screen instantly. Here is the whole vocabulary, looping live:</p>
+        <div class="feature-grid">
+          <div class="fcard">
+            <div class="fdemo" data-sheet="rae" data-pose="wave" aria-hidden="true"></div>
+            <div class="fcard-body">
+              <p class="fcard-title"><span class="ico" aria-hidden="true">👋</span> Wave hello</p>
+              <p class="fcard-desc">New arrivals wave themselves in, so joining the room is its own little hello.</p>
+            </div>
+          </div>
+          <div class="fcard">
+            <div class="fdemo" data-sheet="noor" data-pose="cheer" data-flip aria-hidden="true"></div>
+            <div class="fcard-body">
+              <p class="fcard-title"><span class="ico" aria-hidden="true">★</span> Cheer</p>
+              <p class="fcard-desc">Applause you can actually see. The whole field can erupt at once on a good line.</p>
+            </div>
+          </div>
+          <div class="fcard">
+            <div class="fdemo" data-sheet="ivy" data-pose="clap" aria-hidden="true"></div>
+            <div class="fcard-body">
+              <p class="fcard-title"><span class="ico" aria-hidden="true">👏</span> Clap along</p>
+              <p class="fcard-desc">A quieter, steadier signal than a cheer, for the moment a point quietly lands.</p>
+            </div>
+          </div>
+          <div class="fcard">
+            <div class="fdemo" data-sheet="kai" data-pose="wave" data-behavior="hold" aria-hidden="true"></div>
+            <div class="fcard-body">
+              <p class="fcard-title"><span class="ico" aria-hidden="true">✋</span> Raise a hand</p>
+              <p class="fcard-desc">Hands stay up until you lower them, so Q&amp;A works like it does in a real room.</p>
+            </div>
+          </div>
+          <div class="fcard">
+            <div class="fdemo" data-sheet="sage" data-pose="idle" data-behavior="walk" aria-hidden="true"></div>
+            <div class="fcard-body">
+              <p class="fcard-title"><span class="ico" aria-hidden="true">🚶</span> Walk around</p>
+              <p class="fcard-desc">Hold an arrow to wander the meadow, drift toward a friend, or find your own spot.</p>
+            </div>
+          </div>
+          <div class="fcard">
+            <div class="fdemo" data-sheet="max" data-pose="idle" data-behavior="emote" data-emote="❤️" data-flip aria-hidden="true"></div>
+            <div class="fcard-body">
+              <p class="fcard-title"><span class="ico" aria-hidden="true">❤️</span> Float a reaction</p>
+              <p class="fcard-desc">Hearts, laughs, and party poppers drift up over the crowd and fade, like a live reaction bar.</p>
+            </div>
+          </div>
+          <div class="fcard">
+            <div class="fdemo" data-sheet="remy" data-pose="idle" data-behavior="say" data-line="this is so good" aria-hidden="true"></div>
+            <div class="fcard-body">
+              <p class="fcard-title"><span class="ico" aria-hidden="true">💬</span> Say something</p>
+              <p class="fcard-desc">Type a short line and it floats over your head for a beat. A back-channel, in the open.</p>
+            </div>
+          </div>
+          <div class="fcard">
+            <div class="fdemo" data-sheet="biscuit" data-pet data-pose="idle" data-behavior="emote" data-emote="🐾" data-flip aria-hidden="true"></div>
+            <div class="fcard-body">
+              <p class="fcard-title"><span class="ico" aria-hidden="true">🐕</span> Meet Biscuit</p>
+              <p class="fcard-desc">Every good meadow needs a dog. The presenter can summon him to lighten the mood.</p>
+            </div>
+          </div>
+        </div>
+        <p class="panel-note" style="margin-top:0.95rem;">These are the real sprites from the talk, looping here. Want to drive them yourself? <a href="#room">Play with the live room above.</a></p>
+      </section>
+
+      <section id="screens">
+        <p class="label">In the room</p>
+        <h2>What it looked like, live</h2>
+
+        <figure class="shot">
+          <img src="img/play-presentation-title.png" alt="The presenter view during a live talk: a pixel-art audience standing in a meadow along the bottom of the title slide, with names floating above each character." loading="lazy" />
+          <figcaption><b>The meadow under every slide.</b> The crowd lives along the bottom edge of the deck for the whole talk, so the presenter always has a room to read, not a participant count.</figcaption>
+        </figure>
+
+        <figure class="feat-twoup-fig">
+          <div class="twoup">
+            <div class="twoup-pane">
+              <img src="img/play-presentation-join.png" alt="A slide reading 'Come touch grass. Join the presentation. Drop in. Scan the QR. Pick your name.' beside a large QR code, with the pixel audience waiting in the meadow below." loading="lazy" />
+            </div>
+            <div class="twoup-pane phone">
+              <img src="img/play-presentation-phone.png" alt="The phone controller: large buttons to cheer, clap, and wave; react with a heart, laughing emoji, or party popper; walk left or right; raise a hand; and a field to type a short message." loading="lazy" />
+            </div>
+          </div>
+          <figcaption><b>Two sides of the same room.</b> Scan the QR and pick a name to join from any phone (left). The entire audience controller fits on a thumb (right): tap to react, hold an arrow to walk, type to talk.</figcaption>
+        </figure>
+      </section>
+
+      <section id="craft">
+        <p class="label">Under the hood</p>
+        <h2>The details that make it feel alive</h2>
+        <ul class="highlights">
+          <li>
+            <p class="hl-term">A sprite system, not stickers</p>
+            <p class="hl-desc">Every character is a hand-built pixel sheet sharing one pose vocabulary (idle, walk, cheer, clap, wave). A small engine drives poses, floating reactions, and speech bubbles, the same engine running the cards and room on this page.</p>
+          </li>
+          <li>
+            <p class="hl-term">Real-time, hand-rolled</p>
+            <p class="hl-desc">I wrote the live server myself, with a long reconnect grace so a phone that falls asleep keeps its seat for the whole talk. The least glamorous part, and the part that makes the magic feel reliable.</p>
+          </li>
+          <li>
+            <p class="hl-term">Built to behave</p>
+            <p class="hl-desc">Motion respects reduced-motion, animations pause when scrolled out of view, every control is a keyboard-reachable button, and nothing depends on sound alone.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="went">
+        <p class="label">How it went</p>
+        <h2>The warmth came back</h2>
+        <p class="body">I gave the talk live to my design team. People joined within seconds. The crowd reacted as I spoke, hands went up during Q&amp;A, and a few speech bubbles made both rooms laugh at once, the one in front of me and the one on the call. The characters stayed on stage the whole time. That warmth I had been missing on remote calls was back, not measured, just felt, by everyone at once.</p>
+      </section>
+
+      <section id="why">
+        <p class="label">Why it matters</p>
+        <h2>Reading the room is an interface problem</h2>
+        <p class="body">We accepted that remote presence means staring at muted rectangles, and that the fix is always more features. This was a small argument against both: a little presence, designed with care, does more than a wall of controls. It is also why I do this, noticing a small, real friction and making something that brings a little joy to the other side of it.</p>
+      </section>
+
+      <p class="feat-kicker" data-reveal>The medium was the message: a small thing, made in a couple of evenings, that put the room back together.</p>
+
+      <div class="cta">
+        <a href="play.html">← Back to Play</a>
+        <span class="note">Built as a personal experiment. The audience characters, names, and team details here are anonymized for the web.</span>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html">Work</a>
+        <a href="play.html">Play</a>
+        <a href="about.html">About</a>
+        <button class="nav-link" data-copy-email type="button" style="padding:0;background:none;color:var(--muted);font-size:0.8125rem;">Email</button>
+        <a href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="footer-meta">© 2026 Niran D. · Come touch grass</p>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+  <script src="case.js"></script>
+  <script src="play-stage.js"></script>
+</body>
+</html>

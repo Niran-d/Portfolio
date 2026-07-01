@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.classList.add('reveal-ready');</script>
+  <title>KAYAK.ai · Niran D.</title>
+  <meta name="description" content="Case study: defining the IA and interaction model for KAYAK.ai, the standalone AI travel assistant that connects natural-language prompts to structured metasearch results. By Niran D." />
+  <meta property="og:title" content="KAYAK.ai · Niran D." />
+  <meta property="og:description" content="Defining the IA and interaction model for KAYAK's standalone AI travel assistant." />
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="img/kayak-ai-home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4a6b'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="site.css" />
+  <link rel="stylesheet" href="case.css" />
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+
+  <header class="nav" data-nav>
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark">Niran D.</a>
+      <button class="nav-toggle" data-nav-toggle type="button" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="process.html">Process</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger is-active" type="button" aria-haspopup="true" aria-expanded="false">Work
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu" role="menu">
+            <a class="menu-item" role="menuitem" href="kayak-ai.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5.1a3 3 0 0 0 1.9 1.9L20.7 12l-5.1 1.7a3 3 0 0 0-1.9 1.9L12 20.7l-1.7-5.1a3 3 0 0 0-1.9-1.9L3.3 12l5.1-1.7a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK.ai</span><span class="menu-sub">Standalone AI travel assistant</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-ai-chat.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.2V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK AI Chat</span><span class="menu-sub">Embedded conversational search</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="kayak-search-overview.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16M4 12h16M4 17.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">KAYAK Search Overview</span><span class="menu-sub">AI guidance on flight results</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="highradius-collections.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V9.5M9.3 19.5V5.5M14.7 19.5V12M20 19.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Autonomous Collections</span><span class="menu-sub">AI-assisted receivables, HighRadius</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="come-touch-grass.html">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4M12 18c0-2.5 2-4 4.5-4s4 1.4 4 3.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Come touch grass</span><span class="menu-sub">A real-time crowd for live talks</span></span>
+            </a>
+          </div>
+        </div>
+        <a class="nav-link" href="play.html">Play</a>
+        <a class="nav-link" href="photos.html">Photos</a>
+        <div class="nav-item has-menu" data-dropdown>
+          <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Contact
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="menu menu-right" role="menu">
+            <button class="menu-item" role="menuitem" type="button" data-copy-email>
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Email</span><span class="menu-sub" data-copy-label>Copy my address</span></span>
+            </button>
+            <a class="menu-item" role="menuitem" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">LinkedIn</span><span class="menu-sub">Let's connect</span></span>
+            </a>
+            <a class="menu-item" role="menuitem" href="#" data-resume-link target="_blank" rel="noopener">
+              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="menu-text"><span class="menu-title">Resume</span><span class="menu-sub">Download PDF</span></span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="case-wrap">
+    <aside class="case-nav" aria-label="On this page">
+      <a class="cn-back" href="index.html#work">← Work</a>
+      <p class="cn-title">On this page</p>
+      <ol>
+        <li><a href="#brief">The brief</a></li>
+        <li><a href="#approach">The approach</a></li>
+        <li><a href="#system">System-driven design</a></li>
+        <li><a href="#how">How I worked</a></li>
+        <li><a href="#strategy">Strategic considerations</a></li>
+        <li><a href="#collab">Collaboration &amp; ownership</a></li>
+        <li><a href="#next">What's next</a></li>
+      </ol>
+    </aside>
+
+    <main class="case-main" id="mainContent">
+      <p class="eyebrow">KAYAK · 2024–Present · Standalone AI assistant</p>
+      <h1>KAYAK.ai</h1>
+      <p class="lede">KAYAK.ai is the company's AI travel assistant. I defined its <mark class="hl hl-blue">information architecture and interaction model</mark>, the foundation that connects natural-language prompts to KAYAK's structured metasearch results, and built it to scale.</p>
+      <dl class="context">
+        <div><dt class="ctx-k">Role</dt><dd class="ctx-v">Senior Product Designer, AI (IA & interaction model)</dd></div>
+        <div><dt class="ctx-k">Team</dt><dd class="ctx-v">Four-person founding team; product, engineering, brand</dd></div>
+        <div><dt class="ctx-k">Timeline</dt><dd class="ctx-v">2024–present</dd></div>
+        <div><dt class="ctx-k">Scope</dt><dd class="ctx-v">Information architecture, interaction model, AI design system</dd></div>
+      </dl>
+
+      <figure class="hero-media">
+        <div class="fig-img"><img src="img/kayak-ai-home.png" alt="KAYAK.ai home: a single prompt workspace asking 'What's your trip plan?' with a history of saved trips" /></div>
+        <figcaption><b>A single workspace for trip planning.</b> One natural-language entry point, with prior plans kept on hand, rather than a forest of search forms.</figcaption>
+      </figure>
+
+      <p class="metrics-head" data-reveal>Why it mattered</p>
+      <div class="metrics">
+        <div class="metric" data-reveal style="--d:0s"><div class="num">0→1</div><div class="lbl">Defined IA and interaction model from scratch</div></div>
+        <div class="metric" data-reveal style="--d:.08s"><div class="num">4-person</div><div class="lbl">Founding team, starting June 2024</div></div>
+        <div class="metric" data-reveal style="--d:.16s"><div class="num">10</div><div class="lbl">Widget variations from one structure</div></div>
+      </div>
+
+      <section id="brief">
+        <p class="label">The brief</p>
+        <h2>Turn natural language into real travel actions</h2>
+        <p class="body">The project began in June 2024 with a four-person team exploring how freeform queries could become actionable searches. I defined the IA and interaction model, designing how GPT-generated responses and KAYAK's structured data combine into one adaptable results layout. The goal was a single workspace covering <mark class="hl hl-amber">where to travel, when to travel, and what to book</mark>.</p>
+      </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/kayak-ai-concept.png" alt="A ChatGPT-style prompt translated into KAYAK filters, then rendered as KAYAK.ai results" loading="lazy" /></div>
+        <figcaption><b>How KAYAK.ai works.</b> A prompt is parsed into KAYAK's structured filters, then returned as live, bookable results, the bridge between an LLM and a metasearch engine.</figcaption>
+      </figure>
+
+      <section id="approach">
+        <p class="label">The approach</p>
+        <h2>Design for reuse before visual detail</h2>
+        <p class="body">Rather than polishing one screen, I designed for reusability and scalability. After the first launch we needed to broaden the product quickly, so I built a compact AI design set on top of KAYAK's existing design system: an <mark class="hl hl-violet">atomic UI structure</mark> that could be assembled and expanded as requirements shifted.</p>
+      </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/kayak-ai-system.png" alt="Atomic design structure: atoms (buttons, prompts) composing into molecules and a full organism" loading="lazy" /></div>
+        <figcaption><b>Atoms to organism.</b> Small, reusable pieces assemble into prompt components and full result surfaces, so new features snap together instead of being redrawn.</figcaption>
+      </figure>
+
+      <section id="system">
+        <p class="label">System-driven design</p>
+        <h2>Built to absorb change</h2>
+        <p class="body">Because components were structured for flexible adaptation, the system absorbed change cheaply. When the branding team introduced a new visual strategy, applying a full <strong>light theme</strong> was a configuration change, not a rebuild. The same structure let the live-data widgets, each with a clear header and body, expand into <mark class="hl hl-green">ten variations</mark> in a short window.</p>
+      </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/kayak-ai-theming.png" alt="The KAYAK.ai results page shown in a v1 dark theme beside a v2 light theme" loading="lazy" /></div>
+        <figcaption><b>One system, two themes.</b> The dark-to-light theme switch landed smoothly because the components were already built for adaptation.</figcaption>
+      </figure>
+
+      <section id="how">
+        <p class="label">How I worked</p>
+        <ul class="highlights">
+          <li>
+            <p class="hl-term">Defined the model, not just screens</p>
+            <p class="hl-desc">Set the IA and interaction model connecting LLM prompts to structured metasearch from the earliest stage.</p>
+          </li>
+          <li>
+            <p class="hl-term">Designed an atomic component set</p>
+            <p class="hl-desc">A compact AI design system on KAYAK's foundations so the early-stage product could scale without redrawing.</p>
+          </li>
+          <li>
+            <p class="hl-term">Structured widgets to expand</p>
+            <p class="hl-desc">A consistent header and body model let live-data widgets grow to ten variations quickly.</p>
+          </li>
+          <li>
+            <p class="hl-term">Kept the flow all-in-one</p>
+            <p class="hl-desc">A right-side detail view reused KAYAK's existing product pages so users compared without leaving the AI workflow.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="strategy">
+        <p class="label">Strategic considerations</p>
+        <h2>The trade-offs that shaped the work</h2>
+        <ul class="highlights">
+          <li>
+            <p class="hl-term">Reuse before visual polish</p>
+            <p class="hl-desc">With the product about to broaden fast, polishing one screen would have been wasted effort. I invested in an atomic structure first, so new features could be assembled rather than redrawn.</p>
+          </li>
+          <li>
+            <p class="hl-term">Build on the existing system, not net-new</p>
+            <p class="hl-desc">A compact AI design set sat on top of KAYAK's design system, so a small team could move quickly and a later rebrand applied without reconstruction.</p>
+          </li>
+          <li>
+            <p class="hl-term">What I didn't build</p>
+            <p class="hl-desc">No bespoke layout per widget. One header-and-body structure expanded into ten live-data variations, which is what let the product scale on a four-person team.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="collab">
+        <p class="label">Collaboration &amp; ownership</p>
+        <h2>Setting the foundation others build on</h2>
+        <ul class="stk"><li>Product</li><li>Engineering</li><li>Brand</li></ul>
+        <p class="body">As the design lead on a four-person founding team, I owned the IA and interaction model that connects LLM prompts to KAYAK's structured metasearch, the layer the rest of the AI product is built on. That foundation is now being carried into KAYAK's core surfaces by a dedicated embedding team.</p>
+        <ol class="timeline" data-reveal>
+          <li><p class="tl-phase">Explore, Jun 2024</p><p class="tl-desc">Joined a four-person team to turn freeform queries into actionable searches.</p></li>
+          <li><p class="tl-phase">Define</p><p class="tl-desc">Set the IA and interaction model bridging GPT responses and KAYAK's structured data.</p></li>
+          <li><p class="tl-phase">Systematize</p><p class="tl-desc">Built an atomic AI design set; absorbed a dark-to-light rebrand and expanded to ten widget variations.</p></li>
+          <li><p class="tl-phase">Hand off</p><p class="tl-desc">Patterns now feed a dedicated team embedding AI across KAYAK's core product.</p></li>
+        </ol>
+      </section>
+
+      <section id="next">
+        <p class="label">What's next</p>
+        <h2>From standalone to embedded</h2>
+        <p class="body">A year after launch, a new team formed to bring these AI capabilities into KAYAK's core product. My role now focuses on refining the early patterns into reusable components for any KAYAK surface, work that continued in <a href="kayak-ai-chat.html">KAYAK AI Chat</a>.</p>
+      </section>
+
+      <div class="cta">
+        <a href="index.html#work">← Back to work</a>
+        <span class="note">Full walkthrough and process available on request.</span>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html#work">Work</a>
+        <a href="about.html">About</a>
+        <button class="nav-link" data-copy-email type="button" style="padding:0;background:none;color:var(--muted);font-size:0.8125rem;">Email</button>
+      </div>
+      <p class="footer-meta">© 2026 Niran D. · KAYAK.ai case study</p>
+    </div>
+  </footer>
+
+  <script src="site.js"></script>
+  <script src="case.js"></script>
+</body>
+</html>
