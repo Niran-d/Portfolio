@@ -17,7 +17,7 @@
   --ink: rgba(0, 0, 0, 0.88);
   --body: rgba(0, 0, 0, 0.78);
   --muted: rgba(0, 0, 0, 0.55);
-  --faint: rgba(0, 0, 0, 0.42);
+  --faint: rgba(0, 0, 0, 0.55);
   --line: rgba(0, 0, 0, 0.10);
   --line-soft: rgba(0, 0, 0, 0.06);
   --surface: #f3f3f1;
@@ -39,7 +39,7 @@
   --dur-press: 0.13s;
 }
 
-html { font-size: 16px; scroll-behavior: smooth; scroll-padding-top: 92px; }
+html { font-size: 16px; scroll-behavior: smooth; scroll-padding-top: 92px; overflow-x: clip; }
 
 body {
   background: var(--bg);
@@ -93,7 +93,7 @@ a { color: inherit; }
   display: flex; align-items: center; gap: 1rem;
 }
 .wordmark {
-  font-size: 1.0625rem; font-weight: 500; letter-spacing: -0.01em;
+  font-size: 1.125rem; font-weight: 500; letter-spacing: -0.01em;
   text-decoration: none; white-space: nowrap; color: var(--ink);
 }
 .nav-links {
@@ -128,7 +128,7 @@ a { color: inherit; }
   position: absolute; top: calc(100% + 10px); left: 0;
   min-width: 286px; padding: 0.5rem;
   background: var(--bg); border: 1px solid var(--line-soft);
-  border-radius: 16px; box-shadow: 0 18px 48px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 8px; box-shadow: 0 18px 48px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.05);
   opacity: 0; visibility: hidden; transform: translateY(6px) scale(0.985);
   transform-origin: top left;
   transition: opacity 0.2s ease, transform var(--dur) var(--ease), visibility 0s linear var(--dur);
@@ -163,6 +163,21 @@ a { color: inherit; }
 }
 .menu-item:hover .menu-ico { background: var(--surface-2); }
 .menu-ico svg { width: 20px; height: 20px; }
+/* Work dropdown thumbnails: each item previews the case study's own poster */
+.menu-thumb {
+  flex: 0 0 auto; width: 52px; height: 52px;
+  border-radius: 8px; object-fit: cover; object-position: center;
+  display: block; background: var(--surface);
+  border: 1px solid var(--line-soft);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .menu-thumb { transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+  .menu-item:hover .menu-thumb,
+  .menu-item:focus-visible .menu-thumb {
+    transform: scale(1.06);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+  }
+}
 .menu-text { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
 .menu-title { font-size: 0.875rem; font-weight: 550; color: var(--ink); letter-spacing: -0.01em; }
 .menu-sub { font-size: 0.78rem; color: var(--muted); line-height: 1.35; }
@@ -211,7 +226,7 @@ a { color: inherit; }
   background-image: linear-gradient(var(--hl), var(--hl));
   background-repeat: no-repeat;
   background-position: left center;     /* anchor left so the sweep grows left-to-right */
-  background-size: 100% 42%;            /* default (no-JS / reduced motion): fully highlighted */
+  background-size: 100% 68%;            /* default (no-JS / reduced motion): fully highlighted */
   padding: 0.04em 0.12em;
   margin: 0 -0.02em;
   border-radius: 2px;
@@ -226,11 +241,11 @@ a { color: inherit; }
 .hl-violet{ --hl: rgba(124, 92, 196, 0.24); }
 @media (prefers-reduced-motion: no-preference) {
   html.reveal-ready .hl {
-    background-size: 0% 42%;
+    background-size: 0% 68%;
     transition: background-size 0.7s var(--ease);
     transition-delay: var(--d, 0s);
   }
-  html.reveal-ready .hl.lit { background-size: 100% 42%; }
+  html.reveal-ready .hl.lit { background-size: 100% 68%; }
 }
 
 /* =================== REDUCED MOTION =================== */
@@ -268,4 +283,56 @@ a { color: inherit; }
     padding: 0 0 0.4rem 0.4rem; transition: none;
   }
   .caret { display: none; }
+}
+
+/* =================== TOOLKIT (about page) =================== */
+/* A row of app-icon logos. Grab-and-reorder on pointer, hover/focus tooltips.
+   Sits in the left-aligned about column; wraps on narrow screens. */
+.toolkit-block { margin-top: clamp(2.5rem, 6vw, 4rem); max-width: 760px; }
+.tk-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.3rem; }
+.tk-head-title { font-size: 0.8125rem; font-weight: 550; color: var(--ink); letter-spacing: 0.01em; white-space: nowrap; }
+.tk-head .rule { flex: 1; height: 1px; background: var(--line); }
+
+.toolkit { list-style: none; display: flex; flex-wrap: wrap; gap: 0.875rem; padding: 0; margin: 0; }
+.tk { position: relative; }
+.tk-icon {
+  display: grid; place-items: center; width: 60px; height: 60px; border-radius: 14px; overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  cursor: grab; outline: none; touch-action: none;
+  -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+}
+.tk-glyph { width: 54%; height: 54%; display: block; pointer-events: none; object-fit: contain; }
+.tk-glyph--full { width: 100%; height: 100%; object-fit: cover; }
+/* white-background icons need a slightly stronger hairline so they read on the page */
+.tk-icon--light { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10), inset 0 0 0 1px rgba(0, 0, 0, 0.12); }
+.tk-icon:focus-visible { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+
+.tk-label {
+  position: absolute; left: 50%; bottom: calc(100% + 9px);
+  transform: translateX(-50%) translateY(4px);
+  background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+  border-radius: 8px; padding: 0.4rem 0.6rem;
+  font-size: 0.78rem; font-weight: 500; line-height: 1; white-space: nowrap;
+  opacity: 0; pointer-events: none; z-index: 3;
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease-out);
+}
+.tk:hover .tk-label, .tk:focus-within .tk-label { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toolkit.tk-sorting .tk-label { opacity: 0 !important; }
+
+.tk.tk-dragging { z-index: 5; }
+.tk.tk-dragging .tk-icon { cursor: grabbing; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.20), inset 0 0 0 1px rgba(0, 0, 0, 0.05); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tk:hover .tk-icon:not(.tk-dragging) {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  }
+}
+
+@media (max-width: 720px) {
+  .tk-icon { width: 54px; height: 54px; border-radius: 13px; }
+  .toolkit { gap: 0.75rem; }
 }

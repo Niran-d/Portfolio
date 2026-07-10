@@ -6,7 +6,7 @@
 (function () {
   "use strict";
 
-  var EMAIL = "you@email.com"; // TODO: replace with real address
+  var EMAIL = "dniran28@gmail.com";
   var REDUCE = window.matchMedia("(prefers-reduced-motion: reduce)");
   var reduceMotion = REDUCE.matches;
 
@@ -207,6 +207,94 @@
       entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("lit"); io.unobserve(e.target); } });
     }, { threshold: 0.9, rootMargin: "0px 0px -4% 0px" });
     els.forEach(function (el) { io.observe(el); });
+  })();
+
+  /* ---------- Toolkit: grab-to-reorder + hover/focus tooltips (about) ---------- */
+  (function toolkit() {
+    var ul = document.querySelector("[data-toolkit]");
+    if (!ul) { return; }
+    var EASE = "cubic-bezier(0.22, 0.61, 0.36, 1)";
+    var dragged = null, pointerId = null;
+    var grabX = 0, grabY = 0, homeLeft = 0, homeTop = 0;
+
+    function measureHome() {
+      var t = dragged.style.transform;
+      dragged.style.transform = "";
+      var r = dragged.getBoundingClientRect();
+      homeLeft = r.left; homeTop = r.top;
+      dragged.style.transform = t;
+    }
+    function follow(x, y) {
+      var tx = (x - grabX) - homeLeft;
+      var ty = (y - grabY) - homeTop;
+      dragged.style.transform = "translate(" + tx + "px," + ty + "px) scale(1.07)";
+    }
+    function flipSiblings(reorder) {
+      var els = Array.prototype.filter.call(ul.children, function (el) { return el !== dragged; });
+      var first = els.map(function (el) { return el.getBoundingClientRect(); });
+      reorder();
+      els.forEach(function (el, i) {
+        var last = el.getBoundingClientRect();
+        var dx = first[i].left - last.left, dy = first[i].top - last.top;
+        if (!dx && !dy) { return; }
+        el.style.transition = "none";
+        el.style.transform = "translate(" + dx + "px," + dy + "px)";
+        el.getBoundingClientRect();
+        el.style.transition = "transform 0.3s " + EASE;
+        el.style.transform = "";
+      });
+    }
+    function reorderTo(x, y) {
+      var sibs = Array.prototype.filter.call(ul.children, function (el) { return el !== dragged; });
+      for (var i = 0; i < sibs.length; i++) {
+        var r = sibs[i].getBoundingClientRect();
+        if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
+          var ref = (x < r.left + r.width / 2) ? sibs[i] : sibs[i].nextSibling;
+          if (ref === dragged) { ref = ref.nextSibling; }
+          if (dragged.nextSibling === ref) { return; }
+          flipSiblings(function () { ul.insertBefore(dragged, ref); });
+          measureHome();
+          return;
+        }
+      }
+    }
+    function onMove(e) {
+      if (!dragged) { return; }
+      reorderTo(e.clientX, e.clientY);
+      follow(e.clientX, e.clientY);
+    }
+    function onUp() {
+      if (!dragged) { return; }
+      var d = dragged;
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      d.style.transition = "transform 0.3s " + EASE;
+      d.style.transform = "";
+      d.classList.remove("tk-dragging");
+      ul.classList.remove("tk-sorting");
+      setTimeout(function () { d.style.transition = ""; }, 320);
+      dragged = null; pointerId = null;
+    }
+    Array.prototype.forEach.call(ul.querySelectorAll(".tk-icon"), function (icon) {
+      icon.addEventListener("pointerdown", function (e) {
+        if (e.button != null && e.button !== 0) { return; }
+        e.preventDefault();
+        dragged = icon.parentNode;
+        pointerId = e.pointerId;
+        var r = dragged.getBoundingClientRect();
+        grabX = e.clientX - r.left; grabY = e.clientY - r.top;
+        homeLeft = r.left; homeTop = r.top;
+        dragged.style.transition = "none";
+        dragged.classList.add("tk-dragging");
+        ul.classList.add("tk-sorting");
+        try { icon.setPointerCapture(pointerId); } catch (err) {}
+        follow(e.clientX, e.clientY);
+        window.addEventListener("pointermove", onMove);
+        window.addEventListener("pointerup", onUp);
+        window.addEventListener("pointercancel", onUp);
+      });
+    });
   })();
 
   /* ---------- Dev-only layout grid overlay (localhost only; press G to toggle) ----------

@@ -2,16 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>document.documentElement.classList.add('reveal-ready');</script>
-  <title>Niran D. · Senior Product Designer, AI</title>
-  <meta name="description" content="Senior product designer focused on AI-native experiences, shaping model behavior into clear product decisions. 7+ years across travel and enterprise SaaS." />
-  <meta property="og:title" content="Niran D. · Senior Product Designer, AI" />
-  <meta property="og:description" content="Designing AI-native product surfaces, from model behavior to interface decisions." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  <script>document.documentElement.classList.add('reveal-ready');</script>
+  <title>Niran D. · Product Designer</title>
+  <meta name="description" content="Product designer with 7+ years across travel and enterprise SaaS. I turn ambiguous, 0-to-1 problems into clear products that hold up at scale." />
+  <meta property="og:title" content="Niran D. · Product Designer" />
+  <meta property="og:description" content="Product designer turning ambiguous, 0-to-1 problems into products that hold up at scale." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="img/kayak-ai-home.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Niran D. · Senior Product Designer, AI" />
+  <meta name="twitter:title" content="Niran D. · Product Designer" />
   <meta name="twitter:image" content="img/kayak-ai-home.png" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4a6b'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -34,6 +33,7 @@
       pointer-events: none; z-index: 0;
     }
     main { position: relative; z-index: 1; }
+    #mainContent { background-color: transparent; backdrop-filter: none; }
 
     /* centered editorial column (left-aligned text inside) */
     .home-col { width: 100%; max-width: 880px; margin: 0 auto; padding: 0 var(--pad); }
@@ -41,17 +41,26 @@
     /* ---------- HERO ---------- */
     /* padding-top/bottom tuned so the block (nav -> headline -> caption) reads as a complete,
        settled unit now that it closes on the "Currently at KAYAK" caption rather than a button row */
-    .hero { padding-top: clamp(5rem, 12vw, 9rem); padding-bottom: clamp(3.5rem, 8vw, 5.5rem); }
+    .hero { padding-top: clamp(5rem, 12vw, 9rem); padding-bottom: 64px; }
     .hero h1 {
       font-weight: 500;
-      font-size: clamp(1.7rem, 1rem + 2.4vw, 2.5rem);
-      line-height: 1.3; letter-spacing: -0.02em;
+      font-size: 40px;
+      line-height: 1.4; letter-spacing: -0.02em;
       max-width: 40ch;
+    }
+    .hero h1 :is(span, p, h1, h2, h3, h4, h5, h6, a, label) {
+      font-size: 40px;
+      line-height: 1.4;
     }
     .hero-sub {
       margin-top: 2rem; max-width: 28ch;
-      font-size: 0.9375rem; color: var(--faint);
-      display: flex; align-items: center; gap: 0.45rem;
+      font-size: 15px; font-weight: 500; line-height: 1.93; color: var(--faint);
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px;
+    }
+    .hero-sub :is(span, p, h1, h2, h3, h4, h5, h6, a, label) {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.93;
     }
     .kayak-logo {
       display: inline-flex; flex: 0 0 auto; line-height: 0;
@@ -130,40 +139,81 @@
     .home-rule { height: 1px; background: var(--line); margin-bottom: clamp(2rem, 5vw, 3rem); }
 
     /* ---------- CASE STUDIES (vertical stack of framed figures) ---------- */
-    .cs-list { margin-top: clamp(1.8rem, 4vw, 2.6rem); display: flex; flex-direction: column; gap: clamp(3.5rem, 8vw, 6rem); }
+    .cs-list { margin-top: clamp(1.8rem, 4vw, 2.6rem); display: flex; flex-direction: column; gap: clamp(2.6rem, 6vw, 4.2rem); }
     .cs-frame {
-      background: linear-gradient(180deg, var(--surface) 0%, #fafafa 100%);
-      border: 1px solid var(--line-soft); border-radius: 18px;
-      padding: clamp(0.9rem, 3vw, 2.4rem);
+      position: relative;
+      background-color: #f3f3f5;
+      background-position: center; background-size: cover; background-repeat: no-repeat;
+      border: 0;
+      border-radius: 16px;
+      padding: 0;
+      overflow: hidden;
     }
+    .cs { padding: 16px; margin: 0; min-width: 0; }
+    .cs-frame.bg1 { background: linear-gradient(150deg, #f5f5f7 0%, #ececed 100%); }
+    .cs-frame.bg2 { background: linear-gradient(150deg, #f2f3f4 0%, #e8e9ec 100%); }
+    .cs-frame.bg3 { background: linear-gradient(150deg, #f4f4f4 0%, #eaeae8 100%); }
+    /* faint grain over the gray background */
+    .cs-frame::before {
+      content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 160px 160px;
+      opacity: 0.05; mix-blend-mode: multiply;
+    }
+    .cs-frame::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background: rgba(0, 0, 0, 0); transition: background var(--dur) var(--ease);
+    }
+    .cs-frame > * { position: relative; z-index: 1; }
     .cs-media {
-      display: block; border-radius: 10px; overflow: hidden;
-      background: var(--surface-2); border: 1px solid var(--line-soft);
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.10);
+      position: relative; display: block; border-radius: 0; overflow: hidden;
+      background: var(--surface-2);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.14);
+      transition: transform var(--dur) var(--ease-out);
     }
     .cs-media video, .cs-media img { width: 100%; display: block; }
-    .cs-cap { margin-top: 1.1rem; font-size: 0.8125rem; color: var(--faint); }
-    .cs-title { margin-top: 0.45rem; font-size: clamp(1.35rem, 0.9rem + 1.6vw, 1.85rem); font-weight: 500; line-height: 1.18; letter-spacing: -0.02em; }
+    /* hover "View Project (+)" label centered over the media */
+    .cs-view {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity var(--dur) var(--ease);
+    }
+    .cs-view span {
+      background: #fff; color: var(--ink);
+      font-family: var(--sans); font-size: 0.95rem; font-weight: 500;
+      padding: 0.6rem 1.15rem; border-radius: 999px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+      transform: translateY(8px) scale(0.98);
+      transition: transform var(--dur) var(--ease-out);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .cs-frame:hover::after { background: rgba(0, 0, 0, 0.025); }
+      .cs-frame:hover .cs-media { transform: translateY(-3px); }
+      .cs-frame:hover .cs-view { opacity: 1; }
+      .cs-frame:hover .cs-view span { transform: none; }
+    }
+    .cs-media:focus-visible .cs-view { opacity: 1; }
+    .cs-media:focus-visible .cs-view span { transform: none; }
+    .cs-head {
+      margin-top: 1.15rem; display: flex; align-items: baseline;
+      justify-content: space-between; gap: 1rem;
+    }
+    .cs-title { font-size: clamp(1.2rem, 0.9rem + 1vw, 1.5rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; }
     .cs-title a { text-decoration: none; color: var(--ink); transition: color var(--dur) var(--ease); }
     .cs-title a:hover { color: var(--accent); }
-    .cs-desc { margin-top: 0.7rem; max-width: 58ch; color: var(--body); font-size: 1rem; line-height: 1.62; }
-    .cs-link {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      margin-top: 1.2rem; padding: 0.62rem 1.05rem;
-      background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
-      font-family: var(--sans); font-size: 0.875rem; font-weight: 500; color: var(--ink); text-decoration: none;
-      transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur-press) var(--ease-out);
-    }
-    .cs-link svg { width: 15px; height: 15px; transition: transform var(--dur) var(--ease-out); }
-    .cs-link:hover, .cs-link:focus-visible { background: var(--surface-2); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07); }
-    .cs-link:active { transform: scale(0.98); }
-    .cs-link:focus-visible svg { transform: translateX(3px); }
-    @media (hover: hover) and (pointer: fine) {
-      .cs-link:hover svg { transform: translateX(3px); }
+    .cs-year { flex: 0 0 auto; font-size: 0.9375rem; color: var(--faint); }
+    .cs-desc { margin: 8px 0 0 0; max-width: 62ch; color: var(--body); font-size: 15px; font-weight: 500; line-height: 1.72; }
+    @media (prefers-reduced-motion: reduce) {
+      .cs-media, .cs-view span, .cs-frame { transition: opacity var(--dur) var(--ease); }
+      .cs-frame:hover .cs-media { transform: none; }
     }
 
     /* ---------- MISC. WORK (grid of tiles -> modal) ---------- */
-    .misc-grid { margin-top: clamp(1.6rem, 3.5vw, 2.2rem); display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1.1rem, 2.6vw, 1.8rem); }
+    .misc-grid {
+      margin-top: clamp(1.6rem, 3.5vw, 2.2rem);
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      justify-content: center; align-items: start; gap: 37px;
+    }
     .misc-tile { display: block; text-align: left; background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit; color: inherit; text-decoration: none; }
     .misc-thumb {
       position: relative; aspect-ratio: 16 / 10; border-radius: 13px; overflow: hidden;
@@ -251,38 +301,35 @@
       </button>
       <nav class="nav-links" aria-label="Primary">
         <a class="nav-link" href="about.html">About</a>
-        <a class="nav-link" href="process.html">Process</a>
         <div class="nav-item has-menu" data-dropdown>
           <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Work
             <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
           </button>
           <div class="menu" role="menu">
             <a class="menu-item" role="menuitem" href="kayak-ai.html">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5.1a3 3 0 0 0 1.9 1.9L20.7 12l-5.1 1.7a3 3 0 0 0-1.9 1.9L12 20.7l-1.7-5.1a3 3 0 0 0-1.9-1.9L3.3 12l5.1-1.7a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <img class="menu-thumb" src="img/kayak-ai-card.jpg" alt="" loading="lazy" decoding="async" width="52" height="52" />
               <span class="menu-text"><span class="menu-title">KAYAK.ai</span><span class="menu-sub">Standalone AI travel assistant</span></span>
             </a>
             <a class="menu-item" role="menuitem" href="kayak-ai-chat.html">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.2V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <img class="menu-thumb" src="img/kayak-aichat-cover.jpg" alt="" loading="lazy" decoding="async" width="52" height="52" />
               <span class="menu-text"><span class="menu-title">KAYAK AI Chat</span><span class="menu-sub">Embedded conversational search</span></span>
             </a>
             <a class="menu-item" role="menuitem" href="kayak-search-overview.html">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16M4 12h16M4 17.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <img class="menu-thumb" src="img/kayak-so-card.jpg" alt="" loading="lazy" decoding="async" width="52" height="52" />
               <span class="menu-text"><span class="menu-title">KAYAK Search Overview</span><span class="menu-sub">AI guidance on flight results</span></span>
             </a>
             <a class="menu-item" role="menuitem" href="highradius-collections.html">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V9.5M9.3 19.5V5.5M14.7 19.5V12M20 19.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <img class="menu-thumb" src="img/highradius/hr-cover.png" alt="" loading="lazy" decoding="async" width="52" height="52" />
               <span class="menu-text"><span class="menu-title">Autonomous Collections</span><span class="menu-sub">AI-assisted receivables, HighRadius</span></span>
             </a>
             <a class="menu-item" role="menuitem" href="come-touch-grass.html">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4M12 18c0-2.5 2-4 4.5-4s4 1.4 4 3.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <img class="menu-thumb" src="img/play-presentation-title.png" alt="" loading="lazy" decoding="async" width="52" height="52" />
               <span class="menu-text"><span class="menu-title">Come touch grass</span><span class="menu-sub">A real-time crowd for live talks</span></span>
             </a>
           </div>
         </div>
 
-        <a class="nav-link" href="play.html">Play</a>
-        <a class="nav-link" href="photos.html">Photos</a>
-
+        <a class="nav-link" href="process.html">Process</a>
         <div class="nav-item has-menu" data-dropdown>
           <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Contact
             <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
@@ -295,10 +342,6 @@
             <a class="menu-item" role="menuitem" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
               <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
               <span class="menu-text"><span class="menu-title">LinkedIn</span><span class="menu-sub">Let's connect</span></span>
-            </a>
-            <a class="menu-item" role="menuitem" href="#" data-resume-link target="_blank" rel="noopener">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
-              <span class="menu-text"><span class="menu-title">Resume</span><span class="menu-sub">Download PDF</span></span>
             </a>
           </div>
         </div>
@@ -328,43 +371,49 @@
       <div class="home-col">
         <div class="home-rule" aria-hidden="true"></div>
         <h2 class="home-h2" data-reveal>Select work</h2>
-        <p class="home-h2-sub" data-reveal>A curated selection of my recent works.</p>
+        <p class="home-h2-sub" data-reveal>A selection of recent work.</p>
 
         <div class="cs-list">
           <article class="cs" data-reveal>
-            <div class="cs-frame">
-              <a class="cs-media" href="kayak-ai.html" aria-label="KAYAK.ai case study">
-                <video src="img/kayak-ai-card.mp4" poster="img/kayak-ai-card.jpg" muted loop playsinline preload="metadata"></video>
-              </a>
-            </div>
-            <p class="cs-cap">KAYAK · 2024–present · Information architecture &amp; interaction model</p>
-            <h3 class="cs-title"><a href="kayak-ai.html">A standalone AI travel assistant, built 0 to 1</a></h3>
-            <p class="cs-desc">I defined the information architecture and interaction model that connects natural-language prompts to KAYAK's structured metasearch results, and built it to scale.</p>
-            <a class="cs-link" href="kayak-ai.html">Read case study <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          </article>
-
-          <article class="cs" data-reveal>
-            <div class="cs-frame">
+            <div class="cs-frame bg3">
               <a class="cs-media" href="kayak-ai-chat.html" aria-label="KAYAK AI Chat case study">
-                <video src="img/kayak-chat-card.mp4" poster="img/kayak-chat-card.jpg" muted loop playsinline preload="metadata"></video>
+                <video src="img/kayak-aichat-cover.mp4" poster="img/kayak-aichat-cover.jpg" muted loop playsinline preload="metadata"></video>
+                <span class="cs-view" aria-hidden="true"><span>View Project (+)</span></span>
               </a>
             </div>
-            <p class="cs-cap">KAYAK · 2024 · Embedded conversational search</p>
-            <h3 class="cs-title"><a href="kayak-ai-chat.html">Bringing conversational AI into the booking flow</a></h3>
+            <div class="cs-head">
+              <h3 class="cs-title"><a href="kayak-ai-chat.html">Bringing conversational AI into the booking flow</a></h3>
+              <span class="cs-year">2025</span>
+            </div>
             <p class="cs-desc">KAYAK's standalone AI had strong capabilities but near-zero retention. I helped move it into an embedded chat experience on KAYAK.com, then designed for the hardest part: keeping non-deterministic output coherent.</p>
-            <a class="cs-link" href="kayak-ai-chat.html">Read case study <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </article>
 
           <article class="cs" data-reveal>
-            <div class="cs-frame">
-              <a class="cs-media" href="kayak-search-overview.html" aria-label="KAYAK Search Overview case study">
-                <video src="img/kayak-so-card.mp4" poster="img/kayak-so-card.jpg" muted loop playsinline preload="metadata"></video>
+            <div class="cs-frame bg1">
+              <a class="cs-media" href="kayak-ai.html" aria-label="KAYAK.ai case study">
+                <video src="img/kayak-ai-card.mp4?v=2" poster="img/kayak-ai-card.jpg" muted loop playsinline preload="metadata"></video>
+                <span class="cs-view" aria-hidden="true"><span>View Project (+)</span></span>
               </a>
             </div>
-            <p class="cs-cap">KAYAK · 2025 · AI guidance on flight results</p>
-            <h3 class="cs-title"><a href="kayak-search-overview.html">Turning AI summaries into booking decisions</a></h3>
+            <div class="cs-head">
+              <h3 class="cs-title"><a href="kayak-ai.html">A standalone AI travel assistant, built 0 to 1</a></h3>
+              <span class="cs-year">2024</span>
+            </div>
+            <p class="cs-desc">I defined the information architecture and interaction model that connects natural-language prompts to KAYAK's structured metasearch results, and built it to scale.</p>
+          </article>
+
+          <article class="cs" data-reveal>
+            <div class="cs-frame bg2">
+              <a class="cs-media" href="kayak-search-overview.html" aria-label="KAYAK Search Overview case study">
+                <video src="img/kayak-so-card.mp4?v=2" poster="img/kayak-so-card.jpg" muted loop playsinline preload="metadata"></video>
+                <span class="cs-view" aria-hidden="true"><span>View Project (+)</span></span>
+              </a>
+            </div>
+            <div class="cs-head">
+              <h3 class="cs-title"><a href="kayak-search-overview.html">Turning AI summaries into booking decisions</a></h3>
+              <span class="cs-year">2025</span>
+            </div>
             <p class="cs-desc">KAYAK's flight results overwhelmed travelers with options and no guidance. I designed an AI overview that orients users and routes them to the filters that convert, without burying results.</p>
-            <a class="cs-link" href="kayak-search-overview.html">Read case study <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </article>
         </div>
       </div>
@@ -409,7 +458,7 @@
     <section class="home-section" id="contact">
       <div class="home-col">
         <h2 class="home-h2" data-reveal>Contact</h2>
-        <p class="contact-line" data-reveal>Reach out about senior product design roles, or connect on the platforms below.</p>
+        <p class="contact-line" data-reveal>Open to senior product design roles. I'm at my best on ambiguous, 0&#8209;to&#8209;1 problems, turning them into products that hold up at scale. Reach out or connect below.</p>
         <div class="contact-actions" data-reveal>
           <button class="btn-secondary" type="button" data-copy-email data-copied="Copied!">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l7 5 7-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -418,10 +467,6 @@
           <a class="btn-secondary" href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
             LinkedIn
-          </a>
-          <a class="btn-secondary" href="#" data-resume-link target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-            Resume
           </a>
         </div>
       </div>
@@ -432,9 +477,11 @@
     <div class="footer-inner">
       <div class="footer-links">
         <a href="about.html">About</a>
+        <a href="process.html">Process</a>
+        <a href="play.html">Play</a>
+        <a href="photos.html">Photos</a>
         <button class="nav-link" data-copy-email type="button" style="padding:0;background:none;color:var(--muted);font-size:0.8125rem;">Email</button>
         <a href="https://linkedin.com/in/niran-d/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="#" data-resume-link target="_blank" rel="noopener">Resume</a>
       </div>
       <p class="footer-meta">© 2026 Niran D. · Designed and built from scratch.</p>
     </div>
@@ -458,11 +505,11 @@
     </div>
   </div>
 
-  <script src="site.js"></script>
+  <script src="site.js" onerror="document.documentElement.classList.remove('reveal-ready')"></script>
   <script>
     /* Earlier-work modal (home only) */
     (function () {
-      var EMAIL = "you@email.com";
+      var EMAIL = "dniran28@gmail.com";
       var CASE_DATA = {
         "3": { eyebrow: "ivy · 2018 to 2020", title: "PartyPoker multi-platform launch", role: "UX Designer",
           impact: ["Onboarded 50,000 users in the first month and drove a 20% engagement increase.", "Led design across Android, iOS, web, and desktop for one core experience.", "Designed 500+ screens and reusable white-label components across brands."] }

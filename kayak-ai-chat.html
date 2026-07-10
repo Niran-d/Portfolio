@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>document.documentElement.classList.add('reveal-ready');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  <script>document.documentElement.classList.add('reveal-ready');</script>
   <title>KAYAK AI Chat · Niran D.</title>
   <meta name="description" content="Case study: moving KAYAK's AI from a standalone product into an embedded conversational experience, and designing for non-deterministic output. By Niran D." />
   <meta property="og:title" content="KAYAK AI Chat · Niran D." />
   <meta property="og:description" content="Moving AI into an embedded conversational surface on KAYAK.com and designing a stable response anatomy for non-deterministic output." />
   <meta property="og:type" content="article" />
-  <meta property="og:image" content="img/kayak-onboarding.jpg" />
+  <meta property="og:image" content="img/kayak-aichat-cover.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4a6b'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,36 +29,34 @@
       </button>
       <nav class="nav-links" aria-label="Primary">
         <a class="nav-link" href="about.html">About</a>
-        <a class="nav-link" href="process.html">Process</a>
         <div class="nav-item has-menu" data-dropdown>
           <button class="nav-link nav-trigger is-active" type="button" aria-haspopup="true" aria-expanded="false">Work
             <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
           </button>
           <div class="menu" role="menu">
             <a class="menu-item" role="menuitem" href="kayak-ai.html">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.7 5.1a3 3 0 0 0 1.9 1.9L20.7 12l-5.1 1.7a3 3 0 0 0-1.9 1.9L12 20.7l-1.7-5.1a3 3 0 0 0-1.9-1.9L3.3 12l5.1-1.7a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <img class="menu-thumb" src="img/kayak-ai-card.jpg" alt="" loading="lazy" decoding="async" width="52" height="52" />
               <span class="menu-text"><span class="menu-title">KAYAK.ai</span><span class="menu-sub">Standalone AI travel assistant</span></span>
             </a>
             <a class="menu-item" role="menuitem" href="kayak-ai-chat.html">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.2V6a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <img class="menu-thumb" src="img/kayak-aichat-cover.jpg" alt="" loading="lazy" decoding="async" width="52" height="52" />
               <span class="menu-text"><span class="menu-title">KAYAK AI Chat</span><span class="menu-sub">Embedded conversational search</span></span>
             </a>
             <a class="menu-item" role="menuitem" href="kayak-search-overview.html">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16M4 12h16M4 17.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <img class="menu-thumb" src="img/kayak-so-card.jpg" alt="" loading="lazy" decoding="async" width="52" height="52" />
               <span class="menu-text"><span class="menu-title">KAYAK Search Overview</span><span class="menu-sub">AI guidance on flight results</span></span>
             </a>
             <a class="menu-item" role="menuitem" href="highradius-collections.html">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V9.5M9.3 19.5V5.5M14.7 19.5V12M20 19.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <img class="menu-thumb" src="img/highradius/hr-cover.png" alt="" loading="lazy" decoding="async" width="52" height="52" />
               <span class="menu-text"><span class="menu-title">Autonomous Collections</span><span class="menu-sub">AI-assisted receivables, HighRadius</span></span>
             </a>
             <a class="menu-item" role="menuitem" href="come-touch-grass.html">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4M12 18c0-2.5 2-4 4.5-4s4 1.4 4 3.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              <img class="menu-thumb" src="img/play-presentation-title.png" alt="" loading="lazy" decoding="async" width="52" height="52" />
               <span class="menu-text"><span class="menu-title">Come touch grass</span><span class="menu-sub">A real-time crowd for live talks</span></span>
             </a>
           </div>
         </div>
-        <a class="nav-link" href="play.html">Play</a>
-        <a class="nav-link" href="photos.html">Photos</a>
+        <a class="nav-link" href="process.html">Process</a>
         <div class="nav-item has-menu" data-dropdown>
           <button class="nav-link nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Contact
             <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
@@ -73,10 +70,6 @@
               <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 10.5V16M7.5 7.6v.05M11 16v-3.1a1.9 1.9 0 0 1 3.8 0V16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
               <span class="menu-text"><span class="menu-title">LinkedIn</span><span class="menu-sub">Let's connect</span></span>
             </a>
-            <a class="menu-item" role="menuitem" href="#" data-resume-link target="_blank" rel="noopener">
-              <span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h6.5L18 8v11.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13.5 3.5V8H18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
-              <span class="menu-text"><span class="menu-title">Resume</span><span class="menu-sub">Download PDF</span></span>
-            </a>
           </div>
         </div>
       </nav>
@@ -88,158 +81,368 @@
       <a class="cn-back" href="index.html#work">← Work</a>
       <p class="cn-title">On this page</p>
       <ol>
-        <li><a href="#problem">The problem</a></li>
+        <li><a href="#glance">At a glance</a></li>
+        <li><a href="#problem">The ghost town</a></li>
         <li><a href="#bet">The bet</a></li>
-        <li><a href="#craft">The core craft</a></li>
-        <li><a href="#how">How I worked</a></li>
-        <li><a href="#strategy">Strategic considerations</a></li>
+        <li><a href="#prompt">Prompt engineering</a></li>
+        <li><a href="#chat">Scaling to chat</a></li>
+        <li><a href="#response">A coherent response</a></li>
+        <li><a href="#navigation">Navigation layer</a></li>
         <li><a href="#collab">Collaboration &amp; ownership</a></li>
-        <li><a href="#outcome">Outcome</a></li>
+        <li><a href="#outcome">Reflections</a></li>
       </ol>
     </aside>
 
     <main class="case-main" id="mainContent">
-      <p class="eyebrow">KAYAK · 2024 · Embedded conversational search</p>
+      <p class="eyebrow">KAYAK · 2025 · Embedded conversational search</p>
       <h1>KAYAK AI Chat</h1>
       <p class="lede">KAYAK's standalone AI had strong capabilities but near-zero retention. I helped move it into an embedded conversational experience on KAYAK.com, then designed for the hardest part: keeping non-deterministic output coherent.</p>
       <dl class="context">
         <div><dt class="ctx-k">Role</dt><dd class="ctx-v">Senior Product Designer, AI (lead designer)</dd></div>
         <div><dt class="ctx-k">Team</dt><dd class="ctx-v">Product, engineering, user research</dd></div>
-        <div><dt class="ctx-k">Timeline</dt><dd class="ctx-v">2024</dd></div>
+        <div><dt class="ctx-k">Timeline</dt><dd class="ctx-v">2025</dd></div>
         <div><dt class="ctx-k">Scope</dt><dd class="ctx-v">Embedded chat, response system, intent logic</dd></div>
       </dl>
 
       <figure class="hero-media">
-        <div class="fig-img"><img src="img/kayak-onboarding.jpg" alt="Onboarding into KAYAK AI Chat, moving from a standalone page to an embedded drawer" /></div>
-        <figcaption><b>From standalone to embedded.</b> The AI moved into a drawer inside KAYAK.com, so users never leave the flow they already trust.</figcaption>
+        <div class="fig-img"><video src="img/kayak-aichat-cover.mp4" muted loop playsinline preload="metadata" poster="img/kayak-aichat-cover.jpg"></video></div>
+        <figcaption><b>One prompt, in plain language.</b> A traveler types what they want and the chat turns it into a real KAYAK search, no forms or filters to learn first.</figcaption>
       </figure>
 
       <p class="metrics-head" data-reveal>Why it mattered</p>
       <div class="metrics">
-        <div class="metric" data-reveal style="--d:0s"><div class="num">+14%</div><div class="lbl">Booking revenue from the embedded AI test</div></div>
-        <div class="metric" data-reveal style="--d:.08s"><div class="num">+123%</div><div class="lbl">Engagement vs. the prior NLP search</div></div>
-        <div class="metric" data-reveal style="--d:.16s"><div class="num">5x</div><div class="lbl">Click-through of AI-assisted users vs. other channels</div></div>
+        <div class="metric" data-reveal style="--d:0s"><div class="num">5x</div><div class="lbl">Click-through of AI-assisted users vs. other channels</div></div>
+        <div class="metric" data-reveal style="--d:.08s"><div class="num">+14%</div><div class="lbl">Booking revenue from the embedded NLP test</div></div>
+        <div class="metric" data-reveal style="--d:.16s"><div class="num">+123%</div><div class="lbl">Chat v1 engagement vs. the NLP test</div></div>
       </div>
 
-      <section id="problem">
-        <p class="label">The problem</p>
-        <h2>A capable AI that no one came back to</h2>
-        <p class="body">KAYAK.ai launched as a separate product. Despite heavy investment, it drew little organic traffic and almost no return visits. But referral data told a different story: the few users who reached core KAYAK after using the AI <mark class="hl hl-green">converted at 5x other channels</mark>. The technology was not the problem. Asking users to go somewhere new for it was.</p>
+      <section id="glance">
+        <p class="label">At a glance</p>
+        <div class="glance-list">
+          <div class="glance-item" data-reveal style="--d:0s">
+            <p class="glance-term"><span class="gi-num">01</span><span class="gi-name">Onboarding to AI Chat</span></p>
+            <div class="fig-img"><img src="img/kayak-ba-onboarding.png" alt="Before: KAYAK.com's structured search form beside the separate KAYAK.ai page. After: the same KAYAK.com search with the Ask AI assistant embedded as a right-side drawer." loading="lazy" /></div>
+            <p class="glance-desc">Standalone page <span class="gi-arrow">&rarr;</span> embedded drawer, zero context switching.</p>
+          </div>
+          <div class="glance-item" data-reveal style="--d:.08s">
+            <p class="glance-term"><span class="gi-num">02</span><span class="gi-name">Multi-intent output</span></p>
+            <div class="fig-img"><img src="img/kayak-ba-multi-intent.png" alt="Before: AI results crammed into a narrow panel over the KAYAK homepage. After: a full flight results page with an Ask AI panel showing stacked flight and hotel widgets." loading="lazy" /></div>
+            <p class="glance-desc">Single rich-text response <span class="gi-arrow">&rarr;</span> simultaneous flight and hotel widgets with follow-ups.</p>
+          </div>
+          <div class="glance-item" data-reveal style="--d:.16s">
+            <p class="glance-term"><span class="gi-num">03</span><span class="gi-name">Responsive chat</span></p>
+            <div class="fig-img"><img src="img/kayak-ba-mobile.png" alt="Before: a congested mobile AI modal with a multi-line input. After: a streamlined mobile chat with a single-line input and curated prompt chips." loading="lazy" /></div>
+            <p class="glance-desc">Congested mobile modal <span class="gi-arrow">&rarr;</span> streamlined single-line input with curated prompts.</p>
+          </div>
+        </div>
       </section>
+
+      <section id="problem">
+        <p class="label">The ghost town</p>
+        <h2>A capable AI no one came back to</h2>
+        <p class="body">In 2024, KAYAK launched a standalone assistant, <strong>KAYAK.ai</strong>. It could answer complex travel questions, match deals to niche preferences, and check live flight status, then hand users to KAYAK.com to book. Despite heavy marketing and infrastructure spend, it drew little traffic and almost no return visits. Within a month, it was a ghost town.</p>
+      </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/kayak-ghost-town.jpg" alt="The standalone KAYAK.ai product: a full-page 'What's your trip plan?' prompt with a chat history sidebar, separate from KAYAK.com" loading="lazy" /></div>
+        <figcaption><b>A separate destination.</b> KAYAK.ai lived on its own domain, a full-page chatbot users had to leave KAYAK.com to reach.</figcaption>
+      </figure>
+
+      <p class="body">But the referral data told a different story. The small group who did cross from KAYAK.ai into core KAYAK behaved unlike anyone else: <mark class="hl hl-green">5x the click-through</mark> of any other channel. AI-assisted users showed far stronger intent. The technology wasn't the problem, asking users to go somewhere new for it was.</p>
+
+      <div class="viz chartcard" data-reveal>
+        <p class="viz-title">User volume &amp; click-through · June 2025</p>
+        <div class="chart-box">
+          <canvas id="ctrChart" role="img" aria-label="Grouped bar chart on a 0 to 100 percent scale. KAYAK.com is about 50 percent of total traffic but only about 10 percent click-through. KAYAK.ai is only about 7 percent of total traffic but about 45 percent click-through, roughly five times KAYAK.com's rate."></canvas>
+        </div>
+        <div class="chart-sr" id="ctrChartData">
+          <table>
+            <caption>User volume and click-through rate by product, June 2025</caption>
+            <thead><tr><th scope="col">Product</th><th scope="col">Total traffic</th><th scope="col">Click-through rate</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">KAYAK.com</th><td>~50%</td><td>~10%</td></tr>
+              <tr><th scope="row">KAYAK.ai</th><td>~7%</td><td>~45%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="viz-cap"><b>Signal of opportunity.</b> Tiny audience, outsized intent. KAYAK.ai users clicked through at roughly 5x KAYAK.com, the standalone model just couldn't get enough of them there.</p>
 
       <section id="bet">
         <p class="label">The bet</p>
-        <h2>De-risk before the rebuild</h2>
-        <p class="body">Rather than a costly persistent-chat build, I helped scope a cheap test first: natural-language input embedded directly in the existing search flow. One new input, same results page, clean data. It returned <mark class="hl hl-blue">+14% booking revenue</mark> and neutral impact on core metrics, enough signal to justify the full chat platform that followed.</p>
+        <h2>Test the thesis before the rebuild</h2>
+        <p class="body">If the barrier was the destination, the fix wasn't a better KAYAK.ai. It was removing the destination and reframing the goal around the traveler.</p>
       </section>
 
+      <div class="viz reframe" data-reveal>
+        <p class="rf-old">&ldquo;How can we <s>land more users</s> on KAYAK.ai?&rdquo;</p>
+        <span class="rf-arrow" aria-hidden="true">&darr;</span>
+        <p class="rf-new">&ldquo;How can we <em>integrate AI better</em> into the KAYAK ecosystem?&rdquo;</p>
+      </div>
+
+      <p class="body">That reframe turned one vague question into two things we could actually measure.</p>
+
+      <div class="viz hypo" data-reveal>
+        <p class="hypo-k">Two testable hypotheses</p>
+        <ol>
+          <li><span class="hy-n" aria-hidden="true">01</span><p class="hy-t">Users will adopt AI chat when it's <em>embedded in KAYAK.com</em>, not a standalone destination.</p></li>
+          <li><span class="hy-n" aria-hidden="true">02</span><p class="hy-t">Users who engage with AI chat will <em>lift KAYAK's core metrics</em>: conversion and revenue.</p></li>
+        </ol>
+      </div>
+
+      <p class="body">The full vision, persistent multi-turn chat, carried real dev cost and migration risk. So I pushed for the cheapest test of the thesis first. Freeform text in the existing form would have needed a new backend to constantly tell natural language apart from structured airport queries. A separate <strong>AI mode</strong> avoided that, and gave us two things: <mark class="hl hl-blue">risk isolation</mark> (if the experiment broke, only the experiment broke) and clean data to attribute any lift to AI.</p>
+
       <figure>
-        <div class="fig-img"><video src="img/kayak-nlp-search.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-nlp-search.jpg"></video></div>
-        <figcaption><b>The cheap test, in the live flow.</b> Natural language typed straight into KAYAK's existing search and routed to the same results page. One new input was enough to measure demand before committing to a full chat build.</figcaption>
+        <div class="fig-img"><img src="img/kayak-ai-mode-wireframe.png" alt="KAYAK search form with a new 'AI Mode' tab added alongside Flights, Stays, and Cars" loading="lazy" /></div>
+        <figcaption><b>One new mode, not a new backend.</b> Adding AI as a parallel search mode isolated the experiment from the primary search funnel and kept its data clean.</figcaption>
       </figure>
 
       <figure>
-        <div class="fig-img"><img src="img/kayak-response-anatomy.png" alt="Fixed response anatomy: status and acknowledgement, then a result widget, a pinned summary, and a follow-up, in a constant order" loading="lazy" /></div>
-        <figcaption><b>Designing for non-determinism.</b> A fixed response anatomy so any answer renders in a stable order. A cheap static layer holds the wait, keeping API cost flat across turns.</figcaption>
+        <div class="fig-img"><video src="img/kayak-nlp-test.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-nlp-test.jpg"></video></div>
+        <figcaption><b>NLP Search: the cheap test, in the live flow.</b> Natural language typed straight into KAYAK's core search, routed to the same results page. One new input type, enough to measure real demand before committing to a full chat build.</figcaption>
       </figure>
 
-      <section id="craft">
-        <p class="label">The core craft</p>
-        <h2>Making open-ended output coherent</h2>
-        <p class="body">Multi-turn chat made output non-deterministic: a single prompt could return a list, a comparison, a clarifying question, or a multi-vertical plan. Instead of designing one layout, I defined a response structure any answer could pour into, and shifted intent handling from a brittle fixed-scenario classifier to an <mark class="hl hl-violet">intent inference model</mark> that clarifies before answering.</p>
+      <p class="metrics-head" data-reveal>What the test returned</p>
+      <div class="metrics">
+        <div class="metric" data-reveal style="--d:0s"><div class="num">+14%</div><div class="lbl">Real booking revenue, excluding ads</div></div>
+        <div class="metric" data-reveal style="--d:.08s"><div class="num">+2%</div><div class="lbl">Lift in total conversion</div></div>
+        <div class="metric" data-reveal style="--d:.16s"><div class="num">Neutral</div><div class="lbl">Impact on core metrics, no downside</div></div>
+      </div>
+      <p class="body">The revenue confirmed the thesis: embedding AI in a familiar flow converts. But usage hit a ceiling. NLP Search was single-turn by design, so people submitted one query and stopped, no way to refine, follow up, or explore. To go further, the architecture had to change.</p>
+
+      <section id="prompt">
+        <p class="label">Prompt engineering</p>
+        <h2>Classify, or infer?</h2>
+        <p class="body">Before any visual design, the hardest problem was how the AI should <em>work</em>. We weighed two ways to turn a prompt into a response, and the choice shaped everything downstream.</p>
       </section>
 
-      <figure class="diagram">
-        <div class="flow" role="img" aria-label="Intent flow. A user prompt goes to an intent inference model, which asks one clarifying question when the request is ambiguous, then returns a structured response.">
-          <div class="flow-node" data-reveal style="--d:0s"><span class="flow-k">Input</span>User prompt</div>
-          <div class="flow-arrow" aria-hidden="true">&rarr;</div>
-          <div class="flow-node accent" data-reveal style="--d:.1s"><span class="flow-k">Model</span>Intent inference</div>
-          <div class="flow-arrow" aria-hidden="true">&rarr;</div>
-          <div class="flow-node accent" data-reveal style="--d:.2s"><span class="flow-k">When ambiguous</span>One clarifying question</div>
-          <div class="flow-arrow" aria-hidden="true">&rarr;</div>
-          <div class="flow-node done" data-reveal style="--d:.3s"><span class="flow-k">Output</span>Structured response</div>
+      <div class="viz fw discard" data-reveal>
+        <div class="fw-head"><span class="fw-name">Framework A · Parametric classifier</span><span class="fw-tag no">Discarded</span></div>
+        <div class="matrix" id="classifierMatrix" role="img" aria-label="A 3 by 3 matrix of nine fixed scenarios, mapping date certainty against destination certainty. Certain dates and certain destination equals Book now; vague equals Explore deals; none equals Inspirations, and so on down to no dates and no destination equals Not traveling.">
+          <div class="mx-corner"><span class="mx-axis">Dates &darr;<br>Dest. &rarr;</span></div>
+          <div class="mx-colh">Certain</div>
+          <div class="mx-colh">Vague</div>
+          <div class="mx-colh">None</div>
+          <div class="mx-rowh">Certain</div>
+          <div class="mx-cell"><b>Book now</b><span>1</span></div>
+          <div class="mx-cell"><b>Explore deals</b><span>2</span></div>
+          <div class="mx-cell"><b>Inspirations</b><span>3</span></div>
+          <div class="mx-rowh">Vague</div>
+          <div class="mx-cell"><b>Find best time</b><span>4</span></div>
+          <div class="mx-cell"><b>General explore</b><span>5</span></div>
+          <div class="mx-cell"><b>Daydreaming?</b><span>6</span></div>
+          <div class="mx-rowh">None</div>
+          <div class="mx-cell"><b>Price hesitant</b><span>7</span></div>
+          <div class="mx-cell"><b>Content browse</b><span>8</span></div>
+          <div class="mx-cell"><b>Not traveling</b><span>9</span></div>
         </div>
-        <figcaption><b>Clarify before answering.</b> Intent handling moved from a brittle fixed-scenario classifier to an inference model that resolves ambiguity in a single step, so a vague prompt never dead-ends.</figcaption>
-      </figure>
+        <p class="mx-note">Precise, but it assumed people think in search parameters. Add hotels, cars, activities and the grid multiplies, 3 &times; 3 &times; 3 &times; … <b>exponential complexity</b>.</p>
+      </div>
 
-      <figure>
-        <div class="fig-img"><video src="img/kayak-chat-nav.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-multi-intent.jpg"></video></div>
-        <figcaption><b>Chat as a navigation layer.</b> A mixed-intent prompt stacks one widget per vertical, each linked to its own results page and carrying its own viewed state. Quick actions route users to the page instead of rebuilding it inside chat.</figcaption>
-      </figure>
+      <div class="viz fw" data-reveal>
+        <div class="fw-head"><span class="fw-name">Framework B · Intent inference engine</span><span class="fw-tag yes">Adopted</span></div>
+        <div class="branch" id="intentBranch" role="img" aria-label="Intent inference. A user prompt is inferred into one of four intents. High-intent travel search routes to a result page and mid-intent destination search routes to an explore page, both on KAYAK.com. Low-intent general questions route to an LLM answer and power-user cross-vertical planning routes to an LLM answer plus trip plan, both on KAYAK.ai.">
+          <div class="br-group com">
+            <p class="br-group-k">Routes into KAYAK.com</p>
+            <div class="br-row" data-intent="search">
+              <div class="br-intent"><b>Travel search</b><span>High-intent</span></div>
+              <div class="br-arrow" aria-hidden="true">&rarr;</div>
+              <div class="br-dest"><b>Result page</b><span>Book flights, hotels, cars</span></div>
+            </div>
+            <div class="br-row" data-intent="explore">
+              <div class="br-intent"><b>Destination search</b><span>Mid-intent</span></div>
+              <div class="br-arrow" aria-hidden="true">&rarr;</div>
+              <div class="br-dest"><b>Explore page</b><span>Browse, get inspired</span></div>
+            </div>
+          </div>
+          <div class="br-group ai">
+            <p class="br-group-k">Routes into KAYAK.ai</p>
+            <div class="br-row" data-intent="ask">
+              <div class="br-intent"><b>General question</b><span>Low-intent</span></div>
+              <div class="br-arrow" aria-hidden="true">&rarr;</div>
+              <div class="br-dest"><b>LLM answer</b><span>Travel advice, info</span></div>
+            </div>
+            <div class="br-row" data-intent="plan">
+              <div class="br-intent"><b>Plan across verticals</b><span>Power users</span></div>
+              <div class="br-arrow" aria-hidden="true">&rarr;</div>
+              <div class="br-dest"><b>LLM answer + trip plan</b><span>In-depth tool</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="viz-cap"><b>Infer intent, then resolve ambiguity.</b> Sort a prompt into a rough bucket, then clarify within it in one step, so a vague prompt never dead-ends and new dimensions don't explode the model.</p>
+      </div>
 
-      <figure>
-        <div class="fig-img"><video src="img/kayak-aichat-demo.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-multi-intent.jpg"></video></div>
-        <figcaption><b>Chat v1 in use.</b> Opening the drawer, entering a prompt, and routing to results without leaving the page.</figcaption>
-      </figure>
+      <p class="body">To align engineering and PM on that behavior <em>before</em> a mock existed, I mapped the intent logic as a jobs-to-be-done flow, then translated it into a runnable custom GPT. Stakeholders could type real prompts and watch the system respond, so we iterated the system prompt as a shared behavioral contract, not a static spec.</p>
 
-      <section id="how">
-        <p class="label">How I worked</p>
-        <ul class="highlights">
-          <li>
-            <p class="hl-term">Prototyped the behavior, not just screens</p>
-            <p class="hl-desc">Translated a jobs-to-be-done flow into a runnable custom GPT so engineering and PM could test real prompts and agree on system behavior before any mocks.</p>
-          </li>
-          <li>
-            <p class="hl-term">Validated with users</p>
-            <p class="hl-desc">Tested widget patterns with 9 users on usertesting.com; the findings, not the scorecard, set the direction toward chat-as-wayfinder.</p>
-          </li>
-          <li>
-            <p class="hl-term">Designed for graceful failure</p>
-            <p class="hl-desc">One clarifying step over a dead-end answer; proactive follow-ups over text recaps that 7 of 9 users called noise.</p>
-          </li>
-          <li>
-            <p class="hl-term">Built to scale across verticals</p>
-            <p class="hl-desc">A predictable one widget, one page, one state mapping so the system expands to new verticals without fragmenting.</p>
-          </li>
-        </ul>
+      <div class="compare2 viz stacked" data-reveal>
+        <div class="cmp-item">
+          <div class="fig-img"><img src="img/kayak-jtbd-flow.png" alt="A dense jobs-to-be-done flow board mapping how the AI parses each prompt type into query categories and calendar states" loading="lazy" /></div>
+          <p class="cmp-cap"><b>The behavioral spec</b></p>
+          <p class="cmp-desc">A jobs-to-be-done flow mapping every input type to a query category and calendar state.</p>
+        </div>
+        <div class="cmp-item">
+          <div class="fig-img"><img src="img/kayak-custom-gpt.png" alt="System prompt drafts beside a custom GPT that returns a structured, simulated response to a real travel prompt" loading="lazy" /></div>
+          <p class="cmp-cap"><b>Run it, don't read it</b></p>
+          <p class="cmp-desc">The same logic as a custom GPT, so the team could test prompts live instead of reviewing a doc.</p>
+        </div>
+      </div>
+
+      <section id="chat">
+        <p class="label">Scaling up</p>
+        <h2>From one input to a conversation</h2>
+        <p class="body">With the revenue signal in hand, we built what we'd envisioned from the start: an omnipresent chat. The <strong>Chat v1 drawer</strong> launched site-wide, reachable from the front door, results, and detail pages. For the first time, users could have a conversation with KAYAK, not just search it.</p>
       </section>
 
       <figure>
-        <div class="fig-img"><video src="img/kayak-widget-library.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-widget-library.jpg"></video></div>
-        <figcaption><b>A component library behind the widgets.</b> Each vertical widget shipped as one component with explicit state variants (unviewed, loading, viewing, viewed), so the system scaled to new verticals without fragmenting.</figcaption>
+        <div class="fig-img"><video src="img/kayak-chat-drawer.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-chat-drawer.jpg"></video></div>
+        <figcaption><b>Chat v1, live across the site.</b> Opening the drawer, asking in plain language, and routing to results without leaving the page.</figcaption>
       </figure>
 
-      <section id="strategy">
-        <p class="label">Strategic considerations</p>
-        <h2>The trade-offs that shaped the work</h2>
-        <ul class="highlights">
-          <li>
-            <p class="hl-term">Test cheaply before committing capital</p>
-            <p class="hl-desc">A full persistent-chat platform was the obvious build. I pushed to validate demand first with a low-cost embedded input in the existing flow, turning a large bet into a measured one (+14% booking revenue) before engineering committed.</p>
-          </li>
-          <li>
-            <p class="hl-term">A fixed response anatomy over bespoke layouts</p>
-            <p class="hl-desc">Designing a unique layout per answer would not scale and would tie cost to every turn. One response structure kept output coherent and held API cost flat as conversations grew.</p>
-          </li>
-          <li>
-            <p class="hl-term">What I didn't build</p>
-            <p class="hl-desc">I dropped text recaps that 7 of 9 users called noise, and held multi-vertical complexity until the one-widget, one-page, one-state model proved itself. Scope discipline kept v1 shippable.</p>
-          </li>
-        </ul>
+      <p class="body">Panel placement isn't cosmetic, it signals the AI's role. Left panels frame AI as a creative partner you co-create with; right panels frame it as a contextual assistant that stays out of the way. KAYAK Chat is the latter, so it belonged on the right.</p>
+
+      <div class="compare2 viz" data-reveal>
+        <div class="cmp-item">
+          <div class="fig-img"><img src="img/kayak-panel-left.png" alt="Wireframe with the chat panel docked on the left and results filling the right" loading="lazy" /></div>
+          <p class="cmp-cap"><b>Left panel</b></p>
+          <p class="cmp-desc">Reads as a creative partner, co-create over many rounds (Lovable, ChatGPT Canvas).</p>
+        </div>
+        <div class="cmp-item pick">
+          <div class="fig-img"><img src="img/kayak-panel-right.png" alt="Wireframe with results on the left and the chat panel docked on the right" loading="lazy" /></div>
+          <p class="cmp-cap"><b>Right panel</b><span class="cmp-badge">Chosen</span></p>
+          <p class="cmp-desc">Reads as a contextual assistant, users stay on results, chat assists on demand.</p>
+        </div>
+      </div>
+
+      <p class="body">KAYAK already had a right-side drawer for Trips. Reusing it meant <mark class="hl hl-amber">zero new interaction model</mark> and a natural handoff: plan in chat, save to Trips in one motion.</p>
+
+      <figure>
+        <div class="fig-img"><video src="img/kayak-trips-integration.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-trips-integration.jpg"></video></div>
+        <figcaption><b>Built on what already existed.</b> Chat shares the Trips drawer, so it inherits a familiar surface and a one-motion save.</figcaption>
+      </figure>
+
+      <section id="response">
+        <p class="label">The core craft</p>
+        <h2>When the AI can say anything</h2>
+        <p class="body">Chat v1 was live. Then a single flight reply showed everything still wrong with it, three problems in one response.</p>
       </section>
+
+      <figure>
+        <div class="fig-img"><img src="img/kayak-three-problems.png" alt="An annotated mobile chat reply flagging three problems: the text response shifts after loading, saving is disconnected from the booking flow, and the hierarchy breaks under complex results" loading="lazy" /></div>
+        <figcaption><b>Three problems in one reply.</b> The summary generated last but rendered on top, so the answer reflowed; results were crammed into the narrow column; and saving was orphaned from the Trips flow.</figcaption>
+      </figure>
+
+      <p class="body">Saving was the easy call, handed back to the Trips drawer. The other two were real design problems. Multi-turn chat made output <strong>non-deterministic</strong>: one prompt could return a list, a comparison, a clarifying question, or a multi-vertical plan. So instead of designing one layout, I defined a <mark class="hl hl-violet">fixed response anatomy</mark>, a constant order any answer pours into.</p>
+
+      <div class="viz anatomy" data-reveal role="img" aria-label="Fixed response anatomy. A user message is followed by transient thinking and acknowledgement that hold the wait, then a persistent block in fixed order: result widgets, a pinned summary, and follow-up actions.">
+        <div class="an-chat">
+          <div class="an-msg">Search flights BOS&ndash;LAX May 2&ndash;9, and hotels with free breakfast</div>
+          <div class="an-part an-transient"><span class="an-lbl">Thinking</span>Assessing your request…</div>
+          <div class="an-part an-transient"><span class="an-lbl">Acknowledgement</span>Sure, searching KAYAK for deals that match…</div>
+          <div class="an-part an-widget"><span class="an-lbl">Result widget(s) · variable</span>Flights BOS&ndash;LAX &nbsp;·&nbsp; Hotels near LA</div>
+          <div class="an-part an-summary"><span class="an-lbl">Summary · generated last</span>Flights run $257&ndash;$483 economy; hotels $119&ndash;$276 a night…</div>
+          <div class="an-part an-follow"><span class="an-lbl">Follow-up actions</span><div>&#8627; Nonstop only &nbsp; &#8627; 4-star hotels &nbsp; &#8627; Best neighborhood?</div></div>
+        </div>
+        <div class="an-legend">
+          <div class="an-leg"><span class="an-dot" style="background:#c9c9c9"></span><div><b>Transient <span class="an-life t">holds the wait</span></b><span>Static, generic strings with no per-turn model call, so API cost stays flat across turns.</span></div></div>
+          <div class="an-leg"><span class="an-dot" style="background:var(--accent)"></span><div><b>Result widgets <span class="an-life p">persistent</span></b><span>The one loose slot: zero, one, or several, depending on intent.</span></div></div>
+          <div class="an-leg"><span class="an-dot" style="background:#b9b9b9"></span><div><b>Summary <span class="an-life p">persistent</span></b><span>Still generates last, but renders in its reserved slot, so the response stops jumping.</span></div></div>
+          <div class="an-leg"><span class="an-dot" style="background:var(--pos)"></span><div><b>Follow-up <span class="an-life p">interactive</span></b><span>Proactive actions in place of text recaps 7 of 9 users called noise.</span></div></div>
+        </div>
+      </div>
+
+      <section id="navigation">
+        <p class="label">Navigation</p>
+        <h2>A wayfinder, not a destination</h2>
+        <p class="body">That loose widget slot was the next problem, made sharper by three forces landing on the drawer at once.</p>
+      </section>
+
+      <div class="viz forces" data-reveal role="img" aria-label="Three forces converge on the widget: the backend now offers multi-vertical and mixed-intent search; product wants higher chat engagement; and UX needs clear navigation, lower cognitive load, and a protected core search. Together they point to one vertical widget.">
+        <div class="fc-groups">
+          <div class="fc-group"><p class="fc-k">From the backend</p><div class="fc-pills"><span class="fc-pill">Multi-vertical search</span><span class="fc-pill">Mixed-intent search</span></div></div>
+          <div class="fc-group"><p class="fc-k">Product KPI</p><div class="fc-pills"><span class="fc-pill">Increase AI Chat engagement</span></div></div>
+          <div class="fc-group"><p class="fc-k">UX requirements</p><div class="fc-pills"><span class="fc-pill">Clear navigation</span><span class="fc-pill">Reduce cognitive load</span><span class="fc-pill">Protect core search</span></div></div>
+        </div>
+        <div class="fc-arrow" aria-hidden="true">&rarr;</div>
+        <div class="fc-result"><b>One vertical widget</b><span>A scannable anchor in chat, linked to a full results page.</span></div>
+      </div>
+
+      <p class="body">To decide how much of a result belongs in chat versus the page, I tested three widget patterns with nine users, unmoderated. Pattern B, a condensed summary with thumbnails, won. But the scorecard was the small result. The real finding was how differently people framed the panel.</p>
+
+      <div class="viz quadrant" data-reveal role="img" aria-label="A 2 by 2 map of user personas by chat engagement and information-density preference. Chat-as-Wayfinder, high engagement and low density, won with 5 of 9 users. Chat-as-Destination scored 2 of 9, Results-Page Purist 2 of 9, and Reference Builder was theoretical.">
+        <span class="qd-axis top">High info density</span>
+        <span class="qd-axis bottom">Low info density</span>
+        <span class="qd-axis left">Low chat engagement</span>
+        <span class="qd-axis right">High chat engagement</span>
+        <div class="qd-grid">
+          <div class="qd-cell"><div class="qd-card dim"><p class="qd-role">Persona 4 · theoretical</p><p class="qd-name">Reference Builder</p><p class="qd-score">N/A</p></div></div>
+          <div class="qd-cell"><div class="qd-card"><p class="qd-role">Persona 1</p><p class="qd-name">Chat-as-Destination</p><p class="qd-score">2 / 9</p></div></div>
+          <div class="qd-cell"><div class="qd-card dim"><p class="qd-role">Persona 3</p><p class="qd-name">Results-Page Purist</p><p class="qd-score">2 / 9</p></div></div>
+          <div class="qd-cell"><div class="qd-card win"><p class="qd-role">Persona 2</p><p class="qd-name">Chat-as-Wayfinder</p><p class="qd-score">5 / 9 · won</p></div></div>
+        </div>
+      </div>
+      <p class="viz-cap"><b>The majority read chat as a wayfinder.</b> Not a place to act, but the fastest route to the right page. That settled the direction: chat orients and routes, it doesn't replace the results page.</p>
+
+      <p class="body">So each response generates a <strong>vertical widget</strong>: a compact anchor in the panel, linked to a full results page in KAYAK's production layout where people already know how to act. The relationship stays predictable, <mark class="hl hl-amber">one widget, one page, one state</mark>: apply a filter, a new URL spins up a new widget.</p>
+
+      <figure class="fig-narrow">
+        <div class="fig-img"><img src="img/kayak-condensed-widget.png" alt="A condensed flight widget inside the chat panel, showing three airlines with times and prices and a 'See all 879 flights' link" loading="lazy" /></div>
+        <figcaption><b>Pattern B: a scannable anchor, not a wall of text.</b> Enough to orient, with a clear link out to the full results page.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="fig-img"><video src="img/kayak-multi-intent-demo.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-multi-intent-demo.jpg"></video></div>
+        <figcaption><b>Multi-query, without losing the thread.</b> A mixed-intent prompt like &ldquo;flights and hotels in Tokyo next week&rdquo; stacks a widget per vertical, each with its own viewed state, so users move between result sets without losing context. The strongest delight signal in testing: &ldquo;I don't think all chatbots would offer that.&rdquo;</figcaption>
+      </figure>
+
+      <figure>
+        <div class="fig-img"><video src="img/kayak-widget-lib.mp4" muted loop playsinline controls preload="metadata" poster="img/kayak-widget-lib.jpg"></video></div>
+        <figcaption><b>A component library behind the widgets.</b> Each vertical shipped as one component with explicit state variants, so the system scaled to new verticals without fragmenting.</figcaption>
+      </figure>
 
       <section id="collab">
         <p class="label">Collaboration &amp; ownership</p>
         <h2>Owning behavior, not just screens</h2>
         <ul class="stk"><li>Product</li><li>Engineering</li><li>User research</li></ul>
-        <p class="body">The highest-leverage work here lived upstream of the UI: the behavioral specs, intent logic, and research that engineering and PM aligned on before mocks existed. I owned the experience from de-risking the test scope through the shipped drawer and its measured impact.</p>
+        <p class="body">The highest-leverage work lived upstream of the UI: the intent logic, the behavioral contract, and the research that engineering and PM aligned on before mocks existed. I owned the experience from de-risking the test scope through the shipped drawer and its measured impact.</p>
         <ol class="timeline" data-reveal>
-          <li><p class="tl-phase">De-risk</p><p class="tl-desc">Scoped a cheap embedded natural-language test instead of a full rebuild, at +14% booking revenue with neutral impact on core metrics.</p></li>
-          <li><p class="tl-phase">Define</p><p class="tl-desc">Set the response anatomy and moved intent handling to an inference model that clarifies before answering.</p></li>
-          <li><p class="tl-phase">Validate</p><p class="tl-desc">Tested widget patterns with 9 users; the findings, not the scorecard, steered chat toward a wayfinding layer.</p></li>
-          <li><p class="tl-phase">Ship &amp; measure</p><p class="tl-desc">Launched Chat v1 site-wide, lifting engagement +123% over the prior NLP search with about 80% more messages per user.</p></li>
+          <li><p class="tl-phase">Reframe</p><p class="tl-desc">Turned "make KAYAK.ai better" into a testable thesis: AI embedded in the flow people already use.</p></li>
+          <li><p class="tl-phase">De-risk</p><p class="tl-desc">Shipped NLP Search as a single-turn tracer bullet, at +14% booking revenue with neutral impact on core metrics.</p></li>
+          <li><p class="tl-phase">Define</p><p class="tl-desc">Set the intent inference model and a fixed response anatomy, prototyped as a runnable custom GPT.</p></li>
+          <li><p class="tl-phase">Validate</p><p class="tl-desc">Tested widget patterns with nine users; the framing, not the scorecard, steered chat toward a wayfinding layer.</p></li>
+          <li><p class="tl-phase">Ship &amp; measure</p><p class="tl-desc">Launched Chat v1 site-wide, lifting engagement +123% over NLP Search with about 80% more messages per user.</p></li>
         </ol>
       </section>
 
       <section id="outcome">
-        <p class="label">Outcome</p>
+        <p class="label">Reflections</p>
         <h2>An embedded AI people actually use</h2>
-        <p class="body">After launching the Chat v1 drawer site-wide, engagement rose <mark class="hl hl-amber">+123%</mark> over the earlier NLP search, with about <mark class="hl hl-pink">80% more messages per user</mark>. The most valuable work was not the UI; it was the behavioral specs, intent logic, and research that made the UI possible.</p>
+        <p class="body">Launched as an embedded drawer on KAYAK.com, Chat v1 lifted engagement <mark class="hl hl-amber">+123%</mark> over NLP Search, with <mark class="hl hl-pink">80% more messages per user</mark>, a sign that people found enough value to keep the conversation going.</p>
+        <ul class="highlights">
+          <li>
+            <p class="hl-term">Ask before answering</p>
+            <p class="hl-desc">One clarifying step costs seconds and saves users from dead-end sessions.</p>
+          </li>
+          <li>
+            <p class="hl-term">Classify intent, not query</p>
+            <p class="hl-desc">A deal-hunter and a trip-planner can type the same words and need completely different responses.</p>
+          </li>
+          <li>
+            <p class="hl-term">Replace recaps with actions</p>
+            <p class="hl-desc">7 of 9 users called text summaries "noise"; proactive follow-ups outperformed them every time.</p>
+          </li>
+          <li>
+            <p class="hl-term">Prototype with real data</p>
+            <p class="hl-desc">Static mocks can't test an intent-driven system. Design for unknown outputs, not known inputs.</p>
+          </li>
+          <li>
+            <p class="hl-term">The most valuable work wasn't the UI</p>
+            <p class="hl-desc">It was the behavioral specs, classifier logic, and research that made the UI possible. When those clicked, the pixels followed.</p>
+          </li>
+        </ul>
       </section>
 
       <div class="cta">
         <a href="index.html#work">← Back to work</a>
-        <span class="note">Full walkthrough and process available on request.</span>
       </div>
     </main>
   </div>
@@ -249,13 +452,17 @@
       <div class="footer-links">
         <a href="index.html#work">Work</a>
         <a href="about.html">About</a>
+        <a href="process.html">Process</a>
+        <a href="play.html">Play</a>
+        <a href="photos.html">Photos</a>
         <button class="nav-link" data-copy-email type="button" style="padding:0;background:none;color:var(--muted);font-size:0.8125rem;">Email</button>
       </div>
       <p class="footer-meta">© 2026 Niran D. · KAYAK AI Chat case study</p>
     </div>
   </footer>
 
-  <script src="site.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="site.js" onerror="document.documentElement.classList.remove('reveal-ready')"></script>
   <script src="case.js"></script>
 </body>
 </html>
